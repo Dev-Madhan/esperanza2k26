@@ -6,6 +6,8 @@ import { motion, useInView } from 'framer-motion';
 const Footer = () => {
   const footerRef = useRef(null);
   const isInView = useInView(footerRef, { once: true, amount: 0.3 });
+  
+
 
   const socialAssets = [
     {
@@ -36,21 +38,21 @@ const Footer = () => {
           initial={{ scaleX: 0 }}
           animate={isInView ? { scaleX: 1 } : {}}
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="w-full h-[1px] bg-white opacity-20 mb-10 md:mb-16 origin-left"
+          className="w-full h-[1px] bg-white opacity-20 mb-10 md:mb-16 origin-left relative z-10"
         />
 
         <motion.div 
           initial={{ opacity: 0, y: 60, filter: "blur(20px)" }}
           animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
           transition={{ duration: 1, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-          className="relative mb-10 md:mb-16"
+          className="relative mb-10 md:mb-16 z-10"
         >
           <h2 className="text-[15vw] md:text-[14vw] lg:text-[160px] font-black tracking-tighter leading-none text-center select-none bg-gradient-to-r from-[#FF5733] via-[#FFC300] to-[#29B463] bg-clip-text text-transparent uppercase font-power">
             Vibrance&apos;25
           </h2>
         </motion.div>
 
-        <div className="container mx-auto">
+        <div className="container mx-auto relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8 md:gap-8">
             
             <motion.div 
@@ -123,7 +125,7 @@ const Footer = () => {
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 0.5 } : {}}
         transition={{ duration: 0.5, delay: 1 }}
-        className="absolute bottom-4 right-4 md:right-10 text-[10px] sm:text-xs"
+        className="absolute bottom-4 right-4 md:right-10 text-[10px] sm:text-xs z-10"
       >
         <motion.a 
           href="#" 
@@ -136,5 +138,6 @@ const Footer = () => {
     </footer>
   );
 };
+
 
 export default Footer;

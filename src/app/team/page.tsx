@@ -1,160 +1,640 @@
 "use client";
 
-import React, { useRef, useState } from 'react';
-import Image from 'next/image';
-import { motion, useInView } from 'framer-motion';
-import Header from '@/components/sections/header';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence, useAnimationFrame } from 'framer-motion';
 import Footer from '@/components/sections/footer';
 
-const departments = ["All", "Core", "Creative", "Technical", "Marketing", "Operations", "Finance"];
+// Data structure for three sections
+const teamSections = {
+  faculty: {
+    title: "Faculty Coordinators",
+    groups: [
+      {
+        category: "Core Team",
+        members: [
+          { name: "Dr. Rajasekaran V", role: "Director, Student Welfare" },
+          { name: "Dr. Sathiya Narayanan S", role: "Convenor, Assistant Director" },
+          { name: "Dr. Sofana Reka S", role: "Co-Convenor" },
+          { name: "Dr. Santosh G", role: "Co-Convenor" },
+        ]
+      },
+      {
+        category: "Registration",
+        members: [
+          { name: "Dr. Bharathi Raja S" },
+          { name: "Dr. Christy Jackson J" },
+          { name: "Dr. Sandhya P" },
+          { name: "Dr. Dhivya M" },
+          { name: "Dr. S. Rajkumar" },
+          { name: "Dr. B. Jayaram" },
+          { name: "Dr. V. Pandiyaraju" },
+          { name: "Dr. Balakrishnan R" },
+          { name: "Dr. Rahul N" },
+          { name: "Dr. Nawin R A" },
+          { name: "Dr. Indira B" },
+          { name: "Dr. Sivakami R" },
+          { name: "Dr. Kanthimathi S" },
+          { name: "Mr. P Harris" },
+          { name: "Mr. Ashraf K" },
+          { name: "Mr. Prabhu S" },
+          { name: "Mr. Parthasarathy S" },
+        ]
+      },
+      {
+        category: "Website",
+        members: [
+          { name: "Dr. Premalatha M" },
+          { name: "Dr. Thomas Abraham J V" },
+          { name: "Dr. Jeetashree Aparajeeta" },
+          { name: "Dr. Modigari Narendra" },
+        ]
+      },
+      {
+        category: "Budget & Finance",
+        members: [
+          { name: "Dr. Vasugi K" },
+          { name: "Dr. Mohana N" },
+          { name: "Dr. Chanthini Baskar" },
+        ]
+      },
+      {
+        category: "Sponsorship",
+        members: [
+          { name: "Dr. Anusha K" },
+          { name: "Dr. Muthumanikandan V" },
+          { name: "Dr. Padmavathy C" },
+          { name: "Dr. Praveen Joe" },
+        ]
+      },
+      {
+        category: "Merchandise",
+        members: [
+          { name: "Dr. Nagajayanthi B" },
+          { name: "Dr. Jesica Roshima" },
+        ]
+      },
+      {
+        category: "Design & Printing",
+        members: [
+          { name: "Dr. Dhavakumar P" },
+          { name: "Dr. Suganya R" },
+        ]
+      },
+      {
+        category: "Pro-Shows",
+        members: [
+          { name: "Dr. Prakash V" },
+          { name: "Dr. Abraham Sudharson Ponraj" },
+          { name: "Dr. Arshiya Fathima M.S" },
+        ]
+      },
+      {
+        category: "Artists Transportation",
+        members: [
+          { name: "Dr. Abhishek Kumar Singh" },
+          { name: "Dr. Sandosh S" },
+          { name: "Dr. Rajesh R" },
+        ]
+      },
+      {
+        category: "Artist Guest Care",
+        members: [
+          { name: "Dr. V Berlin Hency" },
+          { name: "Dr. Sanjit Das" },
+          { name: "Dr. Sritama Roy" },
+        ]
+      },
+      {
+        category: "Marketing",
+        members: [
+          { name: "Dr. T. Christo Michael" },
+          { name: "Dr. Abdul Quadir MD" },
+          { name: "Dr. Gopinath Mudhana" },
+          { name: "Mr. Naveen" },
+        ]
+      },
+      {
+        category: "Ambience",
+        members: [
+          { name: "Dr. Sriramalaksmi P" },
+          { name: "Dr. Sunil Kumar Pradhan" },
+        ]
+      },
+      {
+        category: "Stage Arrangements",
+        members: [
+          { name: "Dr. Anjali Gopakumar" },
+          { name: "Dr. Balamurugan P" },
+          { name: "Dr. Braveen M" },
+          { name: "Dr. Biswajit Jena" },
+          { name: "Dr. Kiran Kumar M" },
+          { name: "Dr. Chandramauleshwar Roy" },
+          { name: "Dr. Soumya Ranjan Mahapatro" },
+        ]
+      },
+      {
+        category: "Event Management",
+        members: [
+          { name: "Dr. Vinitha G" },
+          { name: "Dr. Sri Revathi B" },
+        ]
+      },
+      {
+        category: "Photography & Videography",
+        members: [
+          { name: "Dr. Ramesh R" },
+          { name: "Dr. Sakthivel V" },
+          { name: "Dr. Subbulakshmi P" },
+        ]
+      },
+      {
+        category: "Food Stalls",
+        members: [
+          { name: "Dr. Jagannath M" },
+          { name: "Dr. Durgaprasad P" },
+          { name: "Dr. Vijayakumar P" },
+          { name: "Dr. Rajakumar Arul" },
+        ]
+      },
+      {
+        category: "Press & Media",
+        members: [
+          { name: "Dr. Umadevi S" },
+          { name: "Dr. Sivakumar" },
+          { name: "Dr. Alli P" },
+          { name: "Mr. Yuvaraj M" },
+        ]
+      },
+      {
+        category: "Master of Ceremony",
+        members: [
+          { name: "Dr. Reena Monica" },
+          { name: "Dr. Maheswari S" },
+          { name: "Dr. M Saranya Nair" },
+        ]
+      },
+      {
+        category: "Discipline",
+        members: [
+          { name: "Dr. Manoj Kumar Rajagopal" },
+          { name: "Dr. Rajavenkatesan P R L" },
+          { name: "Dr. Velmathi G" },
+          { name: "Dr. Balamurugan M S" },
+          { name: "Dr. Fateh Veer Singh" },
+          { name: "Dr. David Raj M" },
+          { name: "Dr. Brintha Therese A" },
+          { name: "Dr. Ravi Prakash Dwivedi" },
+          { name: "Dr. Tiwari Mahalaxmi Shivshankar" },
+          { name: "Dr. Jayanthi R" },
+          { name: "Dr. Jani Anbarasi L" },
+          { name: "Dr. Rishikeshan C A" },
+          { name: "Dr. Ajitha B" },
+          { name: "Dr. Manoj Kumar R" },
+          { name: "Dr. Gajanand Gupta" },
+          { name: "Mr. Praveen Kakada" },
+          { name: "Dr. Malay Bhattacharjee" },
+          { name: "Dr. Kalaipriyan T" },
+          { name: "Dr. Rajivganthi C" },
+          { name: "Dr. Sowndarrajan P T" },
+          { name: "Dr. Ganesh Nagorao Chilkhe" },
+          { name: "Dr. Shalini M G" },
+          { name: "Dr. Pulak Konar" },
+          { name: "Mr. Abhishek Raj" },
+          { name: "Dr. Prema E" },
+          { name: "Prof. Santhi Krishna" },
+          { name: "Prof. Vijeyendra Kumar M" },
+        ]
+      },
+      {
+        category: "Reception",
+        members: [
+          { name: "Dr. Suganthi K" },
+          { name: "Dr. Nathiya N" },
+          { name: "Dr. Gugapriya G" },
+        ]
+      },
+      {
+        category: "VIP Guest Care",
+        members: [
+          { name: "Dr. Manivannan A" },
+          { name: "Dr. Vijayalakshmi V" },
+          { name: "Dr. Vijay Kumar P" },
+        ]
+      },
+    ]
+  },
+  students: {
+    title: "Student Coordinators",
+    groups: [
+      {
+        category: "Core Team",
+        members: [
+          { name: "Aarav Sharma", role: "President" },
+          { name: "Priya Patel", role: "Vice President" },
+          { name: "Rohan Kumar", role: "Secretary" },
+          { name: "Ananya Singh", role: "Treasurer" },
+        ]
+      },
+      {
+        category: "Events",
+        members: [
+          { name: "Vikram Reddy" },
+          { name: "Sneha Desai" },
+          { name: "Arjun Mehta" },
+          { name: "Divya Iyer" },
+          { name: "Karan Malhotra" },
+          { name: "Nisha Gupta" },
+          { name: "Aditya Rao" },
+          { name: "Pooja Nair" },
+        ]
+      },
+      {
+        category: "Marketing",
+        members: [
+          { name: "Rahul Verma" },
+          { name: "Meera Krishnan" },
+          { name: "Siddharth Jain" },
+          { name: "Ishita Kapoor" },
+        ]
+      },
+      {
+        category: "Design",
+        members: [
+          { name: "Tanvi Shah" },
+          { name: "Nikhil Agarwal" },
+          { name: "Riya Bansal" },
+        ]
+      },
+      {
+        category: "Technical",
+        members: [
+          { name: "Aryan Khanna" },
+          { name: "Kavya Menon" },
+          { name: "Varun Shetty" },
+          { name: "Shreya Pillai" },
+        ]
+      },
+    ]
+  },
+  website: {
+    title: "Website Team",
+    groups: [
+      {
+        category: "Development",
+        members: [
+          { name: "Dr. Premalatha M", role: "Lead" },
+          { name: "Dr. Thomas Abraham J V", role: "Backend Architect" },
+          { name: "Dr. Jeetashree Aparajeeta", role: "Frontend Lead" },
+          { name: "Dr. Modigari Narendra", role: "DevOps" },
+        ]
+      },
+      {
+        category: "Student Developers",
+        members: [
+          { name: "Arjun Nair" },
+          { name: "Priya Menon" },
+          { name: "Rohan Patel" },
+          { name: "Sneha Reddy" },
+          { name: "Vikram Singh" },
+        ]
+      },
+      {
+        category: "Design & UX",
+        members: [
+          { name: "Ananya Kumar" },
+          { name: "Karan Shah" },
+        ]
+      },
+    ]
+  },
+};
 
-const teamMembers = [
-  { name: "Aditya Kumar", role: "President", department: "Core", color: "#29B463" },
-  { name: "Priya Sharma", role: "Vice President", department: "Core", color: "#29B463" },
-  { name: "Rahul Menon", role: "General Secretary", department: "Core", color: "#29B463" },
-  { name: "Sneha Reddy", role: "Treasurer", department: "Finance", color: "#FFC300" },
-  { name: "Arjun Nair", role: "Creative Head", department: "Creative", color: "#FF5733" },
-  { name: "Divya Krishnan", role: "Design Lead", department: "Creative", color: "#FF5733" },
-  { name: "Vikram Singh", role: "Tech Lead", department: "Technical", color: "#DAF7A5" },
-  { name: "Anjali Gupta", role: "Web Developer", department: "Technical", color: "#DAF7A5" },
-  { name: "Karthik Iyer", role: "Marketing Head", department: "Marketing", color: "#9B59B6" },
-  { name: "Meera Patel", role: "Social Media", department: "Marketing", color: "#9B59B6" },
-  { name: "Sanjay Rao", role: "Operations Head", department: "Operations", color: "#3498DB" },
-  { name: "Lakshmi Devi", role: "Logistics", department: "Operations", color: "#3498DB" },
-  { name: "Ravi Shankar", role: "Cultural Head", department: "Core", color: "#29B463" },
-  { name: "Pooja Nambiar", role: "Sports Head", department: "Core", color: "#29B463" },
-  { name: "Deepak Verma", role: "Events Coordinator", department: "Operations", color: "#3498DB" },
-  { name: "Shreya Joshi", role: "PR Head", department: "Marketing", color: "#9B59B6" },
-];
+type SectionKey = 'faculty' | 'students' | 'website';
 
 export default function TeamPage() {
-  const [activeDept, setActiveDept] = useState("All");
-  const heroRef = useRef(null);
-  const teamRef = useRef(null);
-  const isHeroInView = useInView(heroRef, { once: true, amount: 0.3 });
-  const isTeamInView = useInView(teamRef, { once: true, amount: 0.1 });
+  const [activeSection, setActiveSection] = useState<SectionKey>('faculty');
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const resumeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const filteredMembers = activeDept === "All" 
-    ? teamMembers 
-    : teamMembers.filter(m => m.department === activeDept);
+
+
+  // Smooth auto-scroll using Framer Motion's useAnimationFrame
+  useAnimationFrame((time, delta) => {
+    const container = scrollContainerRef.current;
+    if (!container || !isAutoScrolling) return;
+    
+    const speed = 0.08; 
+    const moveBy = speed * delta;
+    
+    if (container.scrollTop + container.clientHeight < container.scrollHeight) {
+      container.scrollTop += moveBy;
+    } else {
+      setIsAutoScrolling(false); 
+    }
+  });
+
+  // Start scrolling after delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAutoScrolling(true);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [activeSection]);
+
+  // Reset scroll to top when section changes
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }, [activeSection]);
+
+  // Handle manual interaction: Pause, then Auto-Resume
+  const handleInteraction = () => {
+    if (isAutoScrolling) {
+      setIsAutoScrolling(false);
+    }
+
+    if (resumeTimerRef.current) {
+      clearTimeout(resumeTimerRef.current);
+    }
+
+    resumeTimerRef.current = setTimeout(() => {
+      setIsAutoScrolling(true);
+    }, 2000);
+  };
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (resumeTimerRef.current) {
+        clearTimeout(resumeTimerRef.current);
+      }
+    };
+  }, []);
+
+
+
+  const currentSection = teamSections[activeSection];
 
   return (
-    <main className="relative min-h-screen bg-background text-foreground">
-      <div className="grainy-overlay" />
-      <Header />
-      
-      <section className="pt-32 pb-20 px-4 md:px-10 lg:px-20">
-        <div ref={heroRef} className="mx-auto max-w-7xl">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <motion.h1 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="font-power text-[15vw] md:text-[12vw] lg:text-[180px] font-black tracking-tighter leading-none text-festival-green"
-            >
-              TEAM
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-6 text-xl md:text-2xl text-white/80 font-light max-w-2xl mx-auto"
-            >
-              The passionate minds behind Vibrance&apos;25
-            </motion.p>
-          </motion.div>
+    <div className="relative min-h-screen bg-black text-white overflow-hidden">
+      {/* Background gradients */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div 
+          className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[80px]" 
+          style={{ willChange: 'transform' }} 
+        />
+        <div 
+          className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-green-500/5 rounded-full blur-[80px]"
+          style={{ willChange: 'transform' }}
+        />
+      </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-wrap justify-center gap-3 mb-16"
-          >
-            {departments.map((dept) => (
-              <motion.button
-                key={dept}
-                onClick={() => setActiveDept(dept)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`px-6 py-3 rounded-full font-bold transition-all duration-300 ${
-                  activeDept === dept
-                    ? 'bg-festival-green text-black'
-                    : 'bg-white/10 text-white hover:bg-white/20'
-                }`}
-              >
-                {dept}
-              </motion.button>
-            ))}
-          </motion.div>
-
-          <div ref={teamRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredMembers.map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                animate={isTeamInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                whileHover={{ y: -10, scale: 1.03 }}
-                className="group relative bg-[#1a1a1a] rounded-[1.5rem] overflow-hidden border border-white/10"
-              >
-                <div 
-                  className="aspect-square relative overflow-hidden"
-                  style={{ backgroundColor: `${member.color}30` }}
-                >
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div 
-                      className="w-24 h-24 rounded-full flex items-center justify-center text-4xl font-black text-black"
-                      style={{ backgroundColor: member.color }}
-                    >
-                      {member.name.split(' ').map(n => n[0]).join('')}
-                    </div>
-                  </div>
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                </div>
-                <div className="p-4 text-center">
-                  <h3 className="text-lg font-bold text-white mb-1">{member.name}</h3>
-                  <p className="text-sm" style={{ color: member.color }}>{member.role}</p>
-                  <p className="text-xs text-white/50 mt-1">{member.department}</p>
-                </div>
-              </motion.div>
-            ))}
+      {/* Fixed Header with Section Buttons */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-xl border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-center justify-center mb-6">
+            <h1 className="text-2xl md:text-3xl font-black tracking-tighter">
+              VIBRANCE <span className="text-orange-500">'25</span>
+            </h1>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mt-24 bg-[#1a1a1a] rounded-[2rem] p-8 md:p-12 border border-white/10"
-          >
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Join Our Team</h2>
-                <p className="text-white/70 max-w-xl">
-                  Want to be part of the Vibrance&apos;25 organizing committee? We&apos;re always looking for passionate individuals to join our team.
-                </p>
-              </div>
-              <motion.a
-                href="mailto:vibrance@vit.ac.in"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex-shrink-0 px-8 py-4 rounded-xl bg-festival-green text-black font-bold hover:bg-festival-green/90 transition-colors"
-              >
-                Get in Touch
-              </motion.a>
-            </div>
-          </motion.div>
+          
+          {/* Section Switch Buttons */}
+          <div className="flex justify-center gap-3 overflow-x-auto pb-2 no-scrollbar">
+            <SectionButton
+              active={activeSection === 'faculty'}
+              onClick={() => setActiveSection('faculty')}
+            >
+              Faculty Coordinators
+            </SectionButton>
+            <SectionButton
+              active={activeSection === 'students'}
+              onClick={() => setActiveSection('students')}
+            >
+              Student Coordinators
+            </SectionButton>
+            <SectionButton
+              active={activeSection === 'website'}
+              onClick={() => setActiveSection('website')}
+            >
+              Website
+            </SectionButton>
+          </div>
         </div>
-      </section>
+      </div>
 
-      <Footer />
-    </main>
+      {/* Scrollable Container */}
+      <div
+        ref={scrollContainerRef}
+        onWheel={handleInteraction}
+        onTouchStart={handleInteraction}
+        className="relative z-10 h-screen overflow-y-scroll overflow-x-hidden"
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(255,255,255,0.2) transparent',
+          willChange: 'scrollTop'
+        }}
+      >
+        {/* Controls Overlay */}
+        <AnimatePresence>
+          {!isAutoScrolling && (
+             <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              onClick={() => setIsAutoScrolling(true)}
+              className="fixed bottom-8 right-8 z-50 px-6 py-3 bg-white text-black font-bold rounded-full hover:bg-white/90 transition-colors shadow-lg flex items-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
+              </svg>
+              Resume Scroll
+            </motion.button>
+          )}
+        </AnimatePresence>
+        
+        {/* Helper Text */}
+        <AnimatePresence>
+          {isAutoScrolling && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-white/5 backdrop-blur-md rounded-full border border-white/10"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                <p className="text-sm text-white/60 font-medium">Auto-scrolling • Scroll manually to pause</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Spacer */}
+        <div className="h-[240px]" />
+
+        {/* Content */}
+        <motion.div
+          ref={contentRef}
+          className="relative"
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeSection}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="w-full relative"
+            >
+              <div className="px-6 md:px-12 max-w-5xl mx-auto relative">
+              {/* Main Title */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.5, delay: 0.3 }}
+                className="text-center mb-32 relative"
+              >
+                <h2 className="relative z-10 text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none mb-4 uppercase">
+                  {currentSection.title.split(' ').map((word, i) => (
+                    <span
+                      key={i}
+                      className={i === currentSection.title.split(' ').length - 1 
+                        ? "block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-500"
+                        : "block"
+                      }
+                    >
+                      {word}
+                    </span>
+                  ))}
+                </h2>
+              </motion.div>
+              
+
+
+              {/* Credits Roll */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.8 }}
+                className="space-y-32 font-bricolage"
+              >
+                {currentSection.groups.map((group, gIndex) => (
+                  <CreditSection key={`${activeSection}-${gIndex}`} group={group} index={gIndex} />
+                ))}
+              </motion.div>
+
+              </div>
+
+              {/* Attached Footer */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="relative z-10"
+              >
+                <Footer />
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+
+
+      </div>
+
+      {/* Grainy overlay */}
+      <div 
+        className="fixed inset-0 z-[100] pointer-events-none opacity-[0.15] mix-blend-overlay"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+        }}
+      />
+    </div>
+  );
+}
+
+
+
+// Section Button Component
+function SectionButton({ 
+  active, 
+  onClick, 
+  children 
+}: { 
+  active: boolean; 
+  onClick: () => void; 
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`
+        relative px-6 py-3 rounded-full font-semibold text-sm md:text-base tracking-wide
+        transition-all duration-300 whitespace-nowrap flex-shrink-0
+        ${active 
+          ? 'bg-white text-black' 
+          : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white/90'
+        }
+      `}
+    >
+      {children}
+      {active && (
+        <motion.div
+          layoutId="activeSection"
+          className="absolute inset-0 bg-white rounded-full -z-10"
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        />
+      )}
+    </button>
+  );
+}
+
+// Credit Section Component (Sticky Header Style)
+function CreditSection({ 
+  group, 
+  index 
+}: { 
+  group: { category: string; members: Array<{ name: string; role?: string }> };
+  index: number;
+}) {
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8, delay: index * 0.1 }}
+      className="relative"
+    >
+      {/* Sticky Category Header */}
+      <div className="sticky top-[240px] z-20 py-6 mb-12 mix-blend-difference">
+        <h3 className="text-3xl md:text-4xl font-bold text-white/90 uppercase tracking-wider text-center md:text-left">
+          {group.category}
+        </h3>
+        <div className="h-px bg-gradient-to-r from-white/20 to-transparent mt-4" />
+      </div>
+
+      {/* Member Names - Continuous Flow */}
+      <div className="space-y-6 md:space-y-8">
+        {group.members.map((member, mIndex) => (
+          <motion.div
+            key={`${member.name}-${mIndex}`}
+            className="text-center opacity-90 hover:opacity-100 transition-opacity"
+            whileHover={{ scale: 1.05, color: "#fff" }}
+          >
+            <p className="text-2xl md:text-3xl font-bricolage font-semibold text-white/80 tracking-wide">
+              {member.name}
+            </p>
+            {member.role && (
+              <p className="text-base md:text-lg font-bricolage text-white/60 mt-1 tracking-wider uppercase">
+                {member.role}
+              </p>
+            )}
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
   );
 }
