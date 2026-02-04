@@ -4,7 +4,11 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
-const Header = () => {
+interface HeaderProps {
+  isOpaque?: boolean;
+}
+
+const Header = ({ isOpaque = false }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -33,7 +37,7 @@ const Header = () => {
   return (
     <header 
       className={`fixed left-0 top-0 z-50 w-full transition-all duration-300 font-display uppercase tracking-tight ${
-        scrolled ? "bg-black/80 backdrop-blur-md" : "bg-gradient-to-b from-black via-black/40 to-transparent"
+        scrolled || isOpaque ? "bg-black/80 backdrop-blur-md" : "bg-gradient-to-b from-black via-black/40 to-transparent"
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">

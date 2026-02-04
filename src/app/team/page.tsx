@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useAnimationFrame } from 'framer-motion';
 import Footer from '@/components/sections/footer';
+import Header from '@/components/sections/header';
 
 // Data structure for three sections
 const teamSections = {
@@ -393,37 +394,8 @@ export default function TeamPage() {
       </div>
 
       {/* Fixed Header with Section Buttons */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-center mb-6">
-            <h1 className="text-2xl md:text-3xl font-black tracking-tighter">
-              VIBRANCE <span className="text-orange-500">'25</span>
-            </h1>
-          </div>
-          
-          {/* Section Switch Buttons */}
-          <div className="flex justify-center gap-3 overflow-x-auto pb-2 no-scrollbar">
-            <SectionButton
-              active={activeSection === 'faculty'}
-              onClick={() => setActiveSection('faculty')}
-            >
-              Faculty Coordinators
-            </SectionButton>
-            <SectionButton
-              active={activeSection === 'students'}
-              onClick={() => setActiveSection('students')}
-            >
-              Student Coordinators
-            </SectionButton>
-            <SectionButton
-              active={activeSection === 'website'}
-              onClick={() => setActiveSection('website')}
-            >
-              Website
-            </SectionButton>
-          </div>
-        </div>
-      </div>
+      <Header isOpaque={true} />
+
 
       {/* Scrollable Container */}
       <div
@@ -455,25 +427,36 @@ export default function TeamPage() {
           )}
         </AnimatePresence>
         
-        {/* Helper Text */}
-        <AnimatePresence>
-          {isAutoScrolling && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-white/5 backdrop-blur-md rounded-full border border-white/10"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
-                <p className="text-sm text-white/60 font-medium">Auto-scrolling • Scroll manually to pause</p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+
+
+
+        <div className="relative z-40 w-full pt-32 pb-8 flex justify-center">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex justify-center gap-3 overflow-x-auto pb-2 no-scrollbar">
+              <SectionButton
+                active={activeSection === 'faculty'}
+                onClick={() => setActiveSection('faculty')}
+              >
+                Faculty Coordinators
+              </SectionButton>
+              <SectionButton
+                active={activeSection === 'students'}
+                onClick={() => setActiveSection('students')}
+              >
+                Student Coordinators
+              </SectionButton>
+              <SectionButton
+                active={activeSection === 'website'}
+                onClick={() => setActiveSection('website')}
+              >
+                Website
+              </SectionButton>
+            </div>
+          </div>
+        </div>
 
         {/* Spacer */}
-        <div className="h-[240px]" />
+        <div className="h-[50px]" />
 
         {/* Content */}
         <motion.div
@@ -609,7 +592,7 @@ function CreditSection({
       className="relative"
     >
       {/* Sticky Category Header */}
-      <div className="sticky top-[240px] z-20 py-6 mb-12 mix-blend-difference">
+      <div className="sticky top-[200px] z-20 py-6 mb-12 mix-blend-difference">
         <h3 className="text-3xl md:text-4xl font-bold text-white/90 uppercase tracking-wider text-center md:text-left">
           {group.category}
         </h3>
@@ -624,11 +607,11 @@ function CreditSection({
             className="text-center opacity-90 hover:opacity-100 transition-opacity"
             whileHover={{ scale: 1.05, color: "#fff" }}
           >
-            <p className="text-2xl md:text-3xl font-bricolage font-semibold text-white/80 tracking-wide">
+            <p className="text-2xl md:text-3xl font-secondary font-semibold text-white/80 tracking-wide" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
               {member.name}
             </p>
             {member.role && (
-              <p className="text-base md:text-lg font-bricolage text-white/60 mt-1 tracking-wider uppercase">
+              <p className="text-base md:text-lg font-secondary text-white/60 mt-1 tracking-wider uppercase" style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}>
                 {member.role}
               </p>
             )}
