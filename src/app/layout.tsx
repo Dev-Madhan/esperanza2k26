@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Bricolage_Grotesque, Manrope, Anton } from "next/font/google";
+import { Inter, Bricolage_Grotesque, Manrope, Anton, Poppins } from "next/font/google";
 import "./globals.css";
 import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
 import ErrorReporter from "@/components/ErrorReporter";
@@ -30,6 +30,13 @@ const anton = Anton({
   display: "swap",
 });
 
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Vibrance'25 - VIT Chennai Cultural Festival",
   description: "Experience the vibrance of VIT Chennai's annual cultural festival - 26 FEB - 1 MAR",
@@ -42,7 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${bricolage.variable} ${manrope.variable} ${anton.variable} antialiased`}>
+      <body className={`${inter.variable} ${bricolage.variable} ${manrope.variable} ${anton.variable} ${poppins.variable} antialiased`}>
         <Script
           id="orchids-browser-logs"
           src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts/orchids-browser-logs.js"
