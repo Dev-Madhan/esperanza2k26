@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useAnimationFrame } from 'framer-motion';
 import Footer from '@/components/sections/footer';
 import Header from '@/components/sections/header';
+import TeamHero from '@/components/sections/TeamHero';
 
 // Data structure for three sections
 const teamSections = {
@@ -417,7 +418,7 @@ export default function TeamPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               onClick={() => setIsAutoScrolling(true)}
-              className="fixed bottom-8 right-8 z-50 px-6 py-3 bg-white text-black font-bold rounded-full hover:bg-white/90 transition-colors shadow-lg flex items-center gap-2"
+              className="fixed bottom-8 right-8 z-50 px-6 py-3 bg-white text-black font-medium font-poppins rounded-full hover:bg-white/90 transition-colors shadow-lg flex items-center gap-2"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                 <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
@@ -430,9 +431,12 @@ export default function TeamPage() {
 
 
 
-        <div className="relative z-40 w-full pt-32 pb-8 flex justify-center">
+
+        <div className="relative z-40 w-full pt-16 pb-8 flex justify-center">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="flex justify-center gap-3 overflow-x-auto pb-2 no-scrollbar">
+             <TeamHero />
+             
+            <div className="flex justify-center gap-3 overflow-x-auto pb-2 no-scrollbar mt-8">
               <SectionButton
                 active={activeSection === 'faculty'}
                 onClick={() => setActiveSection('faculty')}
@@ -472,28 +476,15 @@ export default function TeamPage() {
               transition={{ duration: 0.5, ease: "easeInOut" }}
               className="w-full relative"
             >
+
               <div className="px-6 md:px-12 max-w-5xl mx-auto relative">
-              {/* Main Title */}
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1.5, delay: 0.3 }}
-                className="text-center mb-32 relative"
-              >
-                <h2 className="relative z-10 text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none mb-4 uppercase">
-                  {currentSection.title.split(' ').map((word, i) => (
-                    <span
-                      key={i}
-                      className={i === currentSection.title.split(' ').length - 1 
-                        ? "block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-500"
-                        : "block"
-                      }
-                    >
-                      {word}
-                    </span>
-                  ))}
-                </h2>
-              </motion.div>
+              
+              {/* Team Hero Section */}
+
+
+
+              {/* Main Title Removed as per request */}
+
               
 
 
@@ -555,19 +546,21 @@ function SectionButton({
     <button
       onClick={onClick}
       className={`
-        relative px-6 py-3 rounded-full font-semibold text-sm md:text-base tracking-wide
-        transition-all duration-300 whitespace-nowrap flex-shrink-0
+        relative px-8 py-3 rounded-full font-medium text-sm md:text-base tracking-wide font-poppins
+        transition-all duration-300 whitespace-nowrap flex-shrink-0 cursor-pointer
+        border-2 outline-none focus:outline-none focus:ring-0 select-none
         ${active 
-          ? 'bg-white text-black' 
-          : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white/90'
+          ? 'border-white text-white bg-transparent' 
+          : 'border-white/20 text-white/50 hover:border-white/60 hover:text-white'
         }
       `}
     >
       {children}
+      
       {active && (
         <motion.div
           layoutId="activeSection"
-          className="absolute inset-0 bg-white rounded-full -z-10"
+          className="absolute inset-0 rounded-full border border-white -z-10"
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         />
       )}
@@ -591,12 +584,11 @@ function CreditSection({
       transition={{ duration: 0.8, delay: index * 0.1 }}
       className="relative"
     >
-      {/* Sticky Category Header */}
-      <div className="sticky top-[200px] z-20 py-6 mb-12 mix-blend-difference">
-        <h3 className="text-3xl md:text-4xl font-bold text-white/90 uppercase tracking-wider text-center md:text-left">
+      {/* Category Header (No longer sticky) */}
+      <div className="relative z-20 py-6 mb-12 mix-blend-difference">
+        <h3 className="text-3xl md:text-4xl font-bold text-white/90 uppercase tracking-wider text-center">
           {group.category}
         </h3>
-        <div className="h-px bg-gradient-to-r from-white/20 to-transparent mt-4" />
       </div>
 
       {/* Member Names - Continuous Flow */}
