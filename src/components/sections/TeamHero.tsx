@@ -17,18 +17,17 @@ import {
 
 export default function TeamHero() {
   return (
-    <div className="relative w-full h-[75vh] flex items-center justify-center overflow-hidden mb-12">
+    <div className="relative w-full min-h-[50vh] md:h-[75vh] flex items-center justify-center overflow-hidden mb-8 md:mb-12 py-10 md:py-0">
       {/* Central Text */}
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 text-center"
+        className="relative z-10 text-center px-4"
       >
         <h1 
-          className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight font-bricolage bg-clip-text text-transparent" 
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight font-bricolage text-white" 
           style={{ 
-            backgroundImage: 'linear-gradient(180deg, #B1BCEA 0%, #133EE8 50%, #063188 75%, #0F1C37 100%)',
             fontFamily: '"Bricolage Grotesque", sans-serif' 
           }}
         >
@@ -45,7 +44,8 @@ export default function TeamHero() {
         Icon={Puzzle} 
         initialX={-100} initialY={-100} 
         delay={0} 
-        className="hidden md:block absolute left-[20%] top-[15%] text-white/40" 
+        className="absolute left-[10%] md:left-[20%] top-[10%] md:top-[15%] text-white/40" 
+        size={32}
       />
 
       {/* Top Left-Center - Gamepad */}
@@ -53,7 +53,8 @@ export default function TeamHero() {
         Icon={Gamepad2} 
         initialX={-50} initialY={-120} 
         delay={1.2} 
-        className="hidden md:block absolute left-[35%] top-[5%] text-white/40" 
+        className="absolute left-[25%] md:left-[35%] top-[5%] text-white/40" 
+        size={32}
       />
 
       {/* Top Right-Center - Hash */}
@@ -61,7 +62,8 @@ export default function TeamHero() {
         Icon={Hash} 
         initialX={50} initialY={-120} 
         delay={0.8} 
-        className="hidden md:block absolute right-[35%] top-[5%] text-white/40" 
+        className="absolute right-[25%] md:right-[35%] top-[5%] text-white/40" 
+        size={32}
       />
 
       {/* Top Right - Smile */}
@@ -69,7 +71,8 @@ export default function TeamHero() {
         Icon={Smile} 
         initialX={100} initialY={-100} 
         delay={0.5} 
-        className="hidden md:block absolute right-[20%] top-[15%] text-white/40" 
+        className="absolute right-[10%] md:right-[20%] top-[10%] md:top-[15%] text-white/40" 
+        size={32}
       />
       
       {/* Right - Gem */}
@@ -77,7 +80,8 @@ export default function TeamHero() {
         Icon={LayoutGrid} 
         initialX={150} initialY={0} 
         delay={1} 
-        className="hidden md:block absolute right-[10%] top-1/2 -translate-y-1/2 text-white/40" 
+        className="absolute right-[5%] md:right-[10%] top-1/2 -translate-y-1/2 text-white/40" 
+        size={32}
       />
       
        {/* Bottom Right - Door/Box */}
@@ -85,15 +89,17 @@ export default function TeamHero() {
         Icon={Box} 
         initialX={100} initialY={100} 
         delay={1.5} 
-        className="hidden md:block absolute right-[20%] bottom-[15%] text-white/40" 
+        className="absolute right-[10%] md:right-[20%] bottom-[10%] md:bottom-[15%] text-white/40" 
+        size={32}
       />
 
-      {/* Bottom Center - Trophy? No, looks like stairs/gem in ref image at bottom, let's use Gem */}
+      {/* Bottom Center - Gem */}
       <FloatingIcon 
         Icon={Gem} 
         initialX={0} initialY={150} 
         delay={2} 
-        className="hidden md:block absolute bottom-[10%] left-[55%] -translate-x-1/2 text-white/40" 
+        className="absolute bottom-[20%] md:bottom-[10%] left-[55%] -translate-x-1/2 text-white/40" 
+        size={32}
       />
 
        {/* Bottom Left - Trophy */}
@@ -101,15 +107,17 @@ export default function TeamHero() {
         Icon={Trophy} 
         initialX={-100} initialY={100} 
         delay={2.5} 
-        className="hidden md:block absolute left-[20%] bottom-[15%] text-white/40" 
+        className="absolute left-[10%] md:left-[20%] bottom-[10%] md:bottom-[15%] text-white/40" 
+        size={32}
       />
 
-      {/* Left - DoorOpen/Arrow thing */}
+      {/* Left - DoorOpen */}
       <FloatingIcon 
         Icon={DoorOpen} 
         initialX={-150} initialY={0} 
         delay={3} 
-        className="hidden md:block absolute left-[10%] top-1/2 -translate-y-1/2 text-white/40" 
+        className="absolute left-[5%] md:left-[10%] top-1/2 -translate-y-1/2 text-white/40" 
+        size={32}
       />
       
     </div>
@@ -121,13 +129,15 @@ function FloatingIcon({
   initialX, 
   initialY, 
   delay, 
-  className 
+  className,
+  size = 48
 }: { 
   Icon: React.ElementType; 
   initialX: number; 
   initialY: number; 
   delay: number;
   className?: string;
+  size?: number;
 }) {
   return (
     <motion.div
@@ -153,7 +163,7 @@ function FloatingIcon({
           delay: Math.random() * 2 
         }}
       >
-        <Icon size={48} strokeWidth={1} />
+        <Icon size={size} strokeWidth={1} className="w-8 h-8 md:w-12 md:h-12" />
       </motion.div>
     </motion.div>
   );
