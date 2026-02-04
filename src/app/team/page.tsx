@@ -5,6 +5,18 @@ import { motion, AnimatePresence, useAnimationFrame } from 'framer-motion';
 import Footer from '@/components/sections/footer';
 import Header from '@/components/sections/header';
 import TeamHero from '@/components/sections/TeamHero';
+import { 
+  Puzzle, 
+  Trophy, 
+  Smile, 
+  Gamepad2, 
+  DoorOpen, 
+  Box, 
+  LayoutGrid, 
+  Hash, 
+  Gem 
+} from 'lucide-react';
+
 
 // Data structure for three sections
 const teamSections = {
@@ -327,7 +339,7 @@ export default function TeamPage() {
     const container = scrollContainerRef.current;
     if (!container || !isAutoScrolling) return;
     
-    const speed = 0.08; 
+    const speed = 0.15; 
     const moveBy = speed * delta;
     
     if (container.scrollTop + container.clientHeight < container.scrollHeight) {
@@ -381,7 +393,7 @@ export default function TeamPage() {
   const currentSection = teamSections[activeSection];
 
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-hidden">
+    <div className="relative min-h-screen bg-black text-white overflow-hidden caret-transparent">
       {/* Background gradients */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div 
@@ -393,6 +405,10 @@ export default function TeamPage() {
           style={{ willChange: 'transform' }}
         />
       </div>
+
+
+
+
 
       {/* Fixed Header with Section Buttons */}
       <Header isOpaque={true} />
@@ -547,8 +563,8 @@ function SectionButton({
       onClick={onClick}
       className={`
         relative px-8 py-3 rounded-full font-medium text-sm md:text-base tracking-wide font-poppins
-        transition-all duration-300 whitespace-nowrap flex-shrink-0 cursor-pointer
-        border-2 outline-none focus:outline-none focus:ring-0 select-none
+        transition-all duration-300 whitespace-nowrap flex-shrink-0
+        border-2
         ${active 
           ? 'border-white text-white bg-transparent' 
           : 'border-white/20 text-white/50 hover:border-white/60 hover:text-white'
@@ -576,6 +592,10 @@ function CreditSection({
   group: { category: string; members: Array<{ name: string; role?: string }> };
   index: number;
 }) {
+  const icons = [Puzzle, Trophy, Smile, Gamepad2, DoorOpen, Box, LayoutGrid, Hash, Gem];
+  const Icon = icons[index % icons.length];
+  const isLeft = index % 2 === 0;
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -584,6 +604,14 @@ function CreditSection({
       transition={{ duration: 0.8, delay: index * 0.1 }}
       className="relative"
     >
+      {/* Background Floating Icon for this section */}
+      <FloatingIcon 
+        Icon={Icon}
+        initialX={isLeft ? -200 : 200}
+        initialY={0}
+        delay={0.2}
+        className={`hidden md:block absolute ${isLeft ? 'left-[-10%]' : 'right-[-10%]'} top-0 text-white/60 -z-10`}
+      />
       {/* Category Header (No longer sticky) */}
       <div className="relative z-20 py-6 mb-12 mix-blend-difference">
         <h3 className="text-3xl md:text-4xl font-bold text-white/90 uppercase tracking-wider text-center">
@@ -613,3 +641,47 @@ function CreditSection({
     </motion.div>
   );
 }
+
+function FloatingIcon({ 
+  Icon, 
+  initialX, 
+  initialY, 
+  delay, 
+  className 
+}: { 
+  Icon: React.ElementType; 
+  initialX: number; 
+  initialY: number; 
+  delay: number;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ x: initialX, y: initialY, opacity: 0, rotate: -20 }}
+      animate={{ 
+        x: 0, 
+        y: 0, 
+        opacity: 1, 
+        rotate: 0,
+        transition: { duration: 1.5, delay, ease: "easeOut" }
+      }}
+      className={className}
+    >
+      <motion.div
+        animate={{ 
+          y: [-10, 10, -10],
+          rotate: [-5, 5, -5]
+        }}
+        transition={{ 
+          duration: 4, 
+          repeat: Infinity, 
+          ease: "easeInOut",
+          delay: Math.random() * 2 
+        }}
+      >
+        <Icon size={96} strokeWidth={1} />
+      </motion.div>
+    </motion.div>
+  );
+}
+
