@@ -90,7 +90,7 @@ const Footer = ({ onBackToTop }: { onBackToTop?: () => void }) => {
           
           {/* Address Section */}
           <motion.div variants={itemVariants} className="flex-1 w-full md:w-auto space-y-4 md:space-y-6">
-            <h3 className="text-white/40 text-xs md:text-sm font-medium tracking-[0.2em] uppercase">Location</h3>
+            <h3 className="text-white/40 text-xs md:text-sm font-poppins font-medium tracking-[0.2em] uppercase">Location</h3>
             <div 
               className="text-lg md:text-xl font-light leading-relaxed text-white/90 tracking-wide space-y-1 font-bricolage"
               style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
@@ -104,7 +104,7 @@ const Footer = ({ onBackToTop }: { onBackToTop?: () => void }) => {
 
           {/* Social Icons */}
           <motion.div variants={itemVariants} className="flex-1 w-full md:w-auto flex flex-col items-center space-y-4 md:space-y-6">
-            <h3 className="text-white/40 text-xs md:text-sm font-medium tracking-[0.2em] uppercase">Connect</h3>
+            <h3 className="text-white/40 text-xs md:text-sm font-poppins font-medium tracking-[0.2em] uppercase">Connect</h3>
             <div className="flex items-center gap-6 md:gap-8">
               {socialAssets.map((social, index) => (
                 <motion.a
@@ -129,7 +129,7 @@ const Footer = ({ onBackToTop }: { onBackToTop?: () => void }) => {
 
           {/* Contact Section */}
           <motion.div variants={itemVariants} className="flex-1 w-full md:w-auto space-y-4 md:space-y-6 md:text-right">
-            <h3 className="text-white/40 text-xs md:text-sm font-medium tracking-[0.2em] uppercase">Contact</h3>
+            <h3 className="text-white/40 text-xs md:text-sm font-poppins font-medium tracking-[0.2em] uppercase">Contact</h3>
             <div className="flex flex-col items-center md:items-end space-y-2">
               <motion.a 
                 href="mailto:esperanza@veltechmultitech.org" 
@@ -156,7 +156,9 @@ const Footer = ({ onBackToTop }: { onBackToTop?: () => void }) => {
           className="mt-16 md:mt-24 flex flex-col items-center gap-6 pt-8 border-t border-white/5 text-white/30 text-xs md:text-sm uppercase tracking-widest font-medium font-bricolage"
           style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
         >
-          <p>&copy; Copyright 2026 Vistara</p>
+          <p>&copy; Copyright 2026 Vistara
+        
+          </p>
         </motion.div>
 
         {/* Back to Top - Bottom Right */}
