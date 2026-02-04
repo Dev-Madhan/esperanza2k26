@@ -21,24 +21,21 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "/", weight: "font-black" },
-    { name: "Merch", href: "/merch", weight: "font-normal" },
-    { name: "Pro Shows", href: "/proshows", weight: "font-normal", extraClasses: "text-glow [word-spacing:3px]" },
+    { name: "Home", href: "/", weight: "font-normal" },
+    { name: "Events", href: "/events", weight: "font-normal", extraClasses: "" },
   ];
 
   const navLinksRight = [
-      { name: "Events", href: "/events", weight: "font-normal", extraClasses: "" },
-      { name: "Sponsors", href: "/#sponsors", weight: "font-normal", extraClasses: "" },
-      { name: "Team", href: "/team", weight: "font-normal", extraClasses: "" },
-    ];
+    { name: "Sponsors", href: "/#sponsors", weight: "font-normal", extraClasses: "" },
+    { name: "Team", href: "/team", weight: "font-normal", extraClasses: "" },
+  ];
 
-  const logoUrl = "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/logo_low_fe195da3-opt-640-1.webp";
+  const logoUrl = "/logo.svg";
 
   return (
-    <header 
-      className={`fixed left-0 top-0 z-50 w-full transition-all duration-300 font-display uppercase tracking-tight ${
-        scrolled || isOpaque ? "bg-black/80 backdrop-blur-md" : "bg-gradient-to-b from-black via-black/40 to-transparent"
-      }`}
+    <header
+      className={`fixed left-0 top-0 z-50 w-full transition-all duration-300 font-display uppercase tracking-tight ${scrolled || isOpaque ? "bg-black/80 backdrop-blur-md" : "bg-gradient-to-b from-black via-black/40 to-transparent"
+        }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
         {/* Mobile Logo */}
@@ -48,7 +45,7 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
             alt="Vibrance Logo"
             width={100}
             height={100}
-            className="-ml-[5px] h-auto w-[80px]"
+            className="-ml-[5px] h-auto w-[150px]"
             priority
           />
         </a>
@@ -76,7 +73,7 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
                 alt="Vibrance Logo"
                 width={200}
                 height={200}
-                className="relative h-auto w-[80px] lg:w-[100px]"
+                className="relative h-auto w-[120px] lg:w-[150px]"
                 priority
               />
             </div>
@@ -107,11 +104,10 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed left-0 top-0 z-40 flex h-screen w-full flex-col items-center justify-evenly bg-black/95 py-[10vh] transition-all duration-500 ease-in-out md:hidden ${
-          isMenuOpen 
-            ? "translate-y-0 opacity-100 pointer-events-auto" 
-            : "-translate-y-full opacity-0 pointer-events-none"
-        }`}
+        className={`fixed left-0 top-0 z-40 flex h-screen w-full flex-col items-center justify-evenly bg-black/95 py-[10vh] transition-all duration-500 ease-in-out md:hidden ${isMenuOpen
+          ? "translate-y-0 opacity-100 pointer-events-auto"
+          : "-translate-y-full opacity-0 pointer-events-none"
+          }`}
       >
         {[...navLinks, ...navLinksRight].map((link) => (
           <a

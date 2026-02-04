@@ -42,7 +42,7 @@
   --font-secondary: var(--font-bricolage);
   --font-title: var(--font-manrope);
   --font-display: var(--font-anton);
-  
+
   --font-body: var(--font-inter);
   --font-sans: var(--font-inter);
   --font-bricolage: var(--font-bricolage);
@@ -60,24 +60,48 @@
   --animate-shimmer: shimmer 2.5s linear infinite;
 
   @keyframes accordion-down {
-    from { height: 0; }
-    to { height: var(--radix-accordion-content-height); }
+    from {
+      height: 0;
+    }
+
+    to {
+      height: var(--radix-accordion-content-height);
+    }
   }
+
   @keyframes accordion-up {
-    from { height: var(--radix-accordion-content-height); }
-    to { height: 0; }
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+
+    to {
+      height: 0;
+    }
   }
+
   @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
   }
+
   @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
   }
 }
 
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -121,7 +145,12 @@
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     font-weight: 900;
     text-transform: uppercase;
@@ -173,7 +202,7 @@
   }
 
   .shimmer-effect {
-    background: linear-gradient(110deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+    background: linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, 0.2) 50%, transparent 60%);
     background-size: 200% 100%;
     animation: shimmer 3s infinite;
   }
@@ -209,7 +238,8 @@
   }
 
 
-  .font-bricolage, .font-secondary {
+  .font-bricolage,
+  .font-secondary {
     font-family: "Bricolage Grotesque", sans-serif !important;
   }
 
@@ -243,9 +273,12 @@
   }
 
   @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translateY(0) rotate(var(--tw-rotate));
     }
+
     50% {
       transform: translateY(-15px) rotate(var(--tw-rotate));
     }
