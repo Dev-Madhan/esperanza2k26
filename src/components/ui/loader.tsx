@@ -2,104 +2,74 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 interface LoaderProps {
   onLoadingComplete?: () => void;
 }
 
-const Star = ({ fillPercentage, isFlashing }: { fillPercentage: number; isFlashing: boolean }) => {
+const Star = ({ filled }: { filled: boolean }) => {
   return (
-    <div className="relative w-10 h-10 md:w-16 md:h-16 mx-0.5">
-      {/* Star Shape */}
+    <div className="relative w-8 h-8 md:w-12 md:h-12 mx-1">
+      {/* Star SVG */}
       <svg
         viewBox="0 0 24 24"
-        className={`w-full h-full drop-shadow-lg transition-colors duration-200 ${isFlashing ? 'text-blue-500' : 'text-gray-900/50'
-          }`}
+        className="w-full h-full overflow-visible"
         style={{
-          filter: isFlashing ? 'drop-shadow(0 0 8px rgba(0,0,255,0.8))' : 'none'
+          // Subtle bloom peak only when filled
+          filter: filled ? 'drop-shadow(0 0 8px rgba(255,255,255,0.4))' : 'none',
+          transition: 'filter 0.12s ease-out'
         }}
       >
         <path
-          d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-          fill="currentColor"
-          stroke={isFlashing ? "white" : "none"} // White outline when flashing
-          strokeWidth="0.5"
+          d="M12 1.5L14.5 9.5H22.5L16 14.5L18.5 22.5L12 17.5L5.5 22.5L8 14.5L1.5 9.5H9.5L12 1.5Z" /* Sharp 5-point star path */
+          fill={filled ? "white" : "transparent"}
+          stroke="white"
+          strokeWidth="1.5"
+          strokeLinejoin="miter"
+          style={{ transition: 'fill 0.22s cubic-bezier(0, 0, 0.2, 1)' }} // Fast start, smooth settle
         />
       </svg>
-
-      {/* Filled Star Overlay (White/Solid) */}
-      <div
-        className="absolute inset-0 overflow-hidden mix-blend-normal"
-        style={{ width: `${Math.max(0, Math.min(100, fillPercentage))}%` }}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          className={`w-full h-full ${isFlashing ? 'text-red-500' : 'text-white'}`}
-          style={{
-            width: '100%',
-            height: '100%',
-            minWidth: '100%',
-            filter: isFlashing ? 'drop-shadow(0 0 10px rgba(255,0,0,0.8))' : 'none'
-          }}
-        >
-          <path
-            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-            fill="currentColor"
-          />
-        </svg>
-      </div>
     </div>
   );
 };
 
 const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
-  const [progress, setProgress] = useState(0);
+  const [filledStars, setFilledStars] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-  const [isFlashing, setIsFlashing] = useState(false);
 
   useEffect(() => {
-    // Load the font
-    const link = document.createElement('link');
-    link.href = 'https://fonts.cdnfonts.com/css/pricedown';
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
+    // Exact GTA V Timing Sequence
+    // Start delay: 300ms
+    // Fill duration: ~240ms (using CSS transition)
+    // Pause: 90ms
+    // Total per step: 330ms
 
-    return () => {
-      document.head.removeChild(link);
-    };
-  }, []);
+    const startDelay = 300;
+    const stepInterval = 330;
 
-  useEffect(() => {
-    const duration = 3000;
-    const interval = 20;
-    const increment = 100 / (duration / interval);
+    let currentStep = 0;
 
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        const randomIncrement = Math.random() * 2.5;
-        const next = Math.min(prev + increment + randomIncrement, 100);
+    // Initial start delay
+    const startTimer = setTimeout(() => {
+      const interval = setInterval(() => {
+        currentStep++;
+        setFilledStars(currentStep);
 
-        if (next >= 100) {
-          clearInterval(timer);
+        if (currentStep >= 5) {
+          clearInterval(interval);
+          // Final hold: 1.5s
           setTimeout(() => {
             setIsComplete(true);
             onLoadingComplete?.();
-          }, 800);
-          return 100;
+          }, 1500);
         }
-        return next;
-      });
-    }, interval);
+      }, stepInterval);
 
-    // Flashing effect (Police Sirens visual)
-    const flashTimer = setInterval(() => {
-      setIsFlashing(prev => !prev);
-    }, 400); // Fast flash
+      return () => clearInterval(interval);
+    }, startDelay);
 
-    return () => {
-      clearInterval(timer);
-      clearInterval(flashTimer);
-    };
+    return () => clearTimeout(startTimer);
   }, [onLoadingComplete]);
 
   return (
@@ -108,70 +78,48 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="fixed inset-0 z-[9999] bg-black/95 flex flex-col items-center justify-center overflow-hidden"
-          style={{ fontFamily: "'Pricedown', sans-serif" }}
+          transition={{ duration: 0.8 }}
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#101010] overflow-hidden"
         >
-          {/* Main Container */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="relative flex flex-col items-center gap-2 p-8"
-          >
-            {/* WANTED TEXT */}
-            <h1
-              className="text-[80px] md:text-[120px] leading-none tracking-widest text-[#d5d5d5] drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]"
-              style={{
-                textShadow: '0 0 20px rgba(0,0,0,0.5)',
-                transform: 'scaleY(1.1)' // Pricedown looks better slightly stretched
-              }}
+          {/* Very Subtle Vignette & Grain */}
+          <div className="absolute inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
+          <div className="absolute inset-0 opacity-[0.02] pointer-events-none z-0"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+              backgroundRepeat: 'repeat',
+            }}
+          />
+
+          {/* Content Container - Compact & Centered */}
+          <div className="relative z-10 flex flex-col items-center gap-6">
+
+            {/* Logo - Fades in strictly after Star 2 starts filling */}
+            {/* GTA logic: Intro -> Star 1 -> Star 2 -> (Logo Fade) */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: filledStars >= 2 ? 1 : 0 }}
+              transition={{ duration: 0.3, ease: "linear" }}
+              className="w-48 md:w-64 lg:w-72 h-auto mb-2"
             >
-              ESPERANZA
-            </h1>
+              <Image
+                src="/logo.svg"
+                alt="Logo"
+                width={300}
+                height={100}
+                className="w-full h-auto object-contain"
+                priority
+              />
+            </motion.div>
 
-            {/* Stars Container - HUD Style */}
-            <div className="flex items-center justify-center gap-1 md:gap-2 mt-2 bg-gradient-to-r from-transparent via-black/20 to-transparent px-8 py-2 rounded-full">
-              {[0, 1, 2, 3, 4].map((index) => {
-                const starStart = index * 20;
-                const starEnd = (index + 1) * 20;
-
-                let starFill = 0;
-                if (progress >= starEnd) {
-                  starFill = 100;
-                } else if (progress > starStart) {
-                  starFill = ((progress - starStart) / 20) * 100;
-                }
-
-                return (
-                  <motion.div
-                    key={index}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 15,
-                      delay: index * 0.1
-                    }}
-                  >
-                    <Star
-                      fillPercentage={starFill}
-                      isFlashing={isFlashing && starFill < 100 && starFill > 0} // Flash only active/filling stars
-                    />
-                  </motion.div>
-                );
-              })}
+            {/* Stars Container - Tight Spacing */}
+            <div className="flex items-center justify-center gap-0">
+              {[1, 2, 3, 4, 5].map((index) => (
+                <Star key={index} filled={filledStars >= index} />
+              ))}
             </div>
 
-            {/* Loading Text */}
-            <motion.p
-              className="mt-6 text-white/40 text-sm md:text-lg font-sans uppercase tracking-[0.5em] font-bold"
-              animate={{ opacity: [0.3, 0.7, 0.3] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-            >
-              Loading Assets... {Math.round(progress)}%
-            </motion.p>
-          </motion.div>
+          </div>
+
         </motion.div>
       )}
     </AnimatePresence>
