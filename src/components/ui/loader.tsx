@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,28 +10,46 @@ interface LoaderProps {
 const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const [currentWord, setCurrentWord] = useState(0);
+  const [isFadingOut, setIsFadingOut] = useState(false);
+
+  const loadingPhrases = [
+    "TURNING UP THE BASS",
+    "ENTERING THE ARENA",
+    "UNLEASHING THE CHAOS"
+  ];
 
   useEffect(() => {
-    const duration = 2500;
+    const duration = 4000;
     const interval = 30;
     const increment = 100 / (duration / interval);
 
     const timer = setInterval(() => {
       setProgress((prev) => {
-        const next = prev + increment + Math.random() * 2;
+        const randomIncrement = Math.random() * 1.5;
+        const next = Math.min(prev + increment + randomIncrement, 100);
+        
         if (next >= 100) {
           clearInterval(timer);
+          setIsFadingOut(true);
           setTimeout(() => {
             setIsComplete(true);
             onLoadingComplete?.();
-          }, 300);
+          }, 800);
           return 100;
         }
         return next;
       });
     }, interval);
 
-    return () => clearInterval(timer);
+    const phraseInterval = setInterval(() => {
+      setCurrentWord((prev) => (prev + 1) % loadingPhrases.length);
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+      clearInterval(phraseInterval);
+    };
   }, [onLoadingComplete]);
 
   return (
@@ -40,120 +58,232 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black px-4"
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black text-purple-500 overflow-hidden font-bricolage"
         >
-          <div className="relative flex flex-col items-center w-full max-w-4xl">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-              className="mb-4 sm:mb-6 md:mb-8"
-            >
-              <motion.h1 
-                className="font-power text-[14vw] sm:text-[12vw] md:text-[10vw] lg:text-[140px] font-black tracking-tighter leading-none text-center"
-                style={{
-                  background: 'linear-gradient(90deg, #FF5733, #FFC300, #29B463, #DAF7A5)',
-                  backgroundSize: '300% 100%',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-                animate={{
-                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: 'linear',
-                }}
-              >
-                ESPERANZA
-              </motion.h1>
-            </motion.div>
-
-            <motion.div
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
-              className="relative h-[2px] sm:h-[3px] w-[60%] sm:w-[200px] md:w-[280px] bg-white/20 rounded-full overflow-hidden origin-center"
-            >
-              <motion.div
-                className="absolute top-0 left-0 h-full rounded-full"
-                style={{
-                  background: 'linear-gradient(90deg, #FF5733, #FFC300, #29B463)',
-                  width: `${progress}%`,
-                }}
-                transition={{ duration: 0.1 }}
-              />
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.4 }}
-              className="mt-3 sm:mt-4 md:mt-6 text-white/60 font-power text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] uppercase"
-            >
-              {Math.round(progress)}%
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.6 }}
-              className="mt-4 sm:mt-6 md:mt-8 flex items-center gap-1 sm:gap-2"
-            >
-              {['ENGAGE', 'ENTHRAL', 'ENTERTAIN'].map((word, index) => (
-                <React.Fragment key={word}>
-                  <motion.span
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.7 + index * 0.15 }}
-                    className="text-white/50 font-display text-[10px] sm:text-xs md:text-sm tracking-wider sm:tracking-widest"
-                  >
-                    {word}
-                  </motion.span>
-                  {index < 2 && (
-                    <span className="text-white/30 text-[8px] sm:text-xs">•</span>
-                  )}
-                </React.Fragment>
-              ))}
-            </motion.div>
-          </div>
-
-          <motion.div
-            className="absolute bottom-4 sm:bottom-6 md:bottom-8 text-white/30 text-[10px] sm:text-xs font-display tracking-wider"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
+          {/* ---------------- STICKERS ---------------- */}
+          
+          {/* Top Right Sticker */}
+          <motion.div 
+            initial={{ opacity: 0, y: -20, rotate: 0 }}
+            animate={{ 
+              opacity: isFadingOut ? 0 : 1, 
+              y: 0, 
+              rotate: -8,
+              scale: isFadingOut ? 0.9 : 1
+            }}
+            transition={{ 
+              delay: 0.3, 
+              duration: isFadingOut ? 0.4 : 2,
+              ease: isFadingOut ? "easeOut" : "easeInOut"
+            }}
+            className="absolute top-8 right-8 md:top-12 md:right-12 bg-black border border-white-800/50 p-6 md:p-8 shadow-lg z-0 w-48 h-22 md:w-50 md:h-30 rounded-2xl"
           >
-            5 MAR 2026
+            <p className="text-[14px] md:text-[17px] font-bold uppercase leading-relaxed text-center text-purple-400">
+              With luv From <br /> Vistara
+            </p>
           </motion.div>
 
-          <div className="absolute inset-0 pointer-events-none overflow-hidden hidden sm:block">
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full"
-                style={{
-                  background: ['#FF5733', '#FFC300', '#29B463', '#DAF7A5', '#FF5733', '#FFC300'][i],
-                  left: `${15 + i * 15}%`,
-                  top: '50%',
+          {/* Bottom Left Sticker */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20, rotate: 0 }}
+            animate={{ 
+              opacity: isFadingOut ? 0 : 1, 
+              y: 0, 
+              rotate: 8,
+              scale: isFadingOut ? 0.9 : 1
+            }}
+            transition={{ 
+              delay: 0.4, 
+              duration: isFadingOut ? 0.4 : 2,
+              ease: isFadingOut ? "easeOut" : "easeInOut"
+            }}
+            className="absolute bottom-24 left-8 md:bottom-16 md:left-12 bg-black border border-white-800/50 p-5 md:p-6 shadow-lg z-0 min-h-32 md:min-h-40 rounded-2xl"
+          >
+            <p className="text-[10px] md:text-[16px] font-bold uppercase leading-relaxed text-purple-400">
+              CREATE, <br /> COLLIDE, <br /> CELEBRATE <br /> REVERSE
+            </p>
+          </motion.div>
+
+          {/* ---------------- CENTER CARD ---------------- */}
+          
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ 
+              scale: isFadingOut ? 0.95 : 1, 
+              opacity: isFadingOut ? 0 : 1,
+              y: isFadingOut ? -10 : 0
+            }}
+            transition={{ 
+              duration: isFadingOut ? 0.5 : 0.6,
+              ease: isFadingOut ? "easeOut" : "easeInOut"
+            }}
+            className="relative w-full max-w-[350px] md:max-w-md bg-black p-4 md:p-6 rounded-3xl shadow-2xl z-10 mx-6 border-2 border-white-800/50"
+          >
+            <div className="flex gap-1.5 mb-6">
+              <motion.div 
+                initial={{ scale: 0 }}
+                animate={{ 
+                  scale: isFadingOut ? 0 : 1,
+                  opacity: isFadingOut ? 0 : 1
                 }}
-                animate={{
-                  y: [0, -30, 0],
-                  opacity: [0.3, 0.8, 0.3],
-                  scale: [1, 1.5, 1],
+                transition={{ 
+                  delay: 0.1,
+                  duration: isFadingOut ? 0.3 : 0.5
                 }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                  ease: 'easeInOut',
-                }}
+                className="w-2.5 h-2.5 bg-purple-700 rounded-full"
               />
-            ))}
-          </div>
+              <motion.div 
+                initial={{ scale: 0 }}
+                animate={{ 
+                  scale: isFadingOut ? 0 : 1,
+                  opacity: isFadingOut ? 0 : 1
+                }}
+                transition={{ 
+                  delay: 0.15,
+                  duration: isFadingOut ? 0.3 : 0.5
+                }}
+                className="w-2.5 h-2.5 bg-purple-700 rounded-full"
+              />
+            </div>
+
+            {/* Loading Phrase */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentWord}
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ 
+                  opacity: isFadingOut ? 0 : 1, 
+                  y: 0,
+                  scale: isFadingOut ? 0.95 : 1
+                }}
+                exit={{ opacity: 0, y: -5 }}
+                transition={{ duration: 0.3 }}
+                className="mb-6"
+              >
+                <p className="text-xs md:text-sm font-medium text-purple-400 text-center">
+                  {loadingPhrases[currentWord]}
+                </p>
+                <div className="flex justify-center gap-1 mt-2">
+                  {[...Array(3)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="w-1 h-1 bg-purple-600 rounded-full"
+                      animate={{ 
+                        opacity: isFadingOut ? 0 : [0.3, 1, 0.3],
+                        scale: isFadingOut ? 0 : 1
+                      }}
+                      transition={{ 
+                        duration: isFadingOut ? 0.3 : 1.5, 
+                        repeat: isFadingOut ? 0 : Infinity, 
+                        delay: i * 0.2 
+                      }}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Progress Grid */}
+            <div className="grid grid-cols-10 gap-2 md:gap-3 mb-8">
+              {[...Array(10)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ scaleY: 0 }}
+                  animate={{ 
+                    scaleY: isFadingOut ? 0 : 1,
+                    opacity: isFadingOut ? 0 : 1
+                  }}
+                  transition={{ 
+                    delay: i * 0.05, 
+                    duration: isFadingOut ? 0.2 : 0.3 
+                  }}
+                  className="origin-bottom"
+                >
+                  <motion.div
+                    className={`h-7 md:h-9 w-6 md:w-8 rounded md:rounded-sm transition-colors duration-300 ${
+                      (progress / 10) > i ? 'bg-purple-600' : 'bg-purple-900/50'
+                    }`}
+                    animate={{
+                      y: isFadingOut ? 0 : ((progress / 10) > i ? [0, -2, 0] : 0),
+                      opacity: isFadingOut ? 0 : 1
+                    }}
+                    transition={{
+                      duration: isFadingOut ? 0.3 : 0.5,
+                      repeat: isFadingOut ? 0 : Infinity,
+                      delay: i * 0.1
+                    }}
+                  />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Progress Bar */}
+            <div className="mb-6">
+              <div className="relative h-1 bg-purple-900/50 rounded-full overflow-hidden">
+                <motion.div
+                  className="absolute left-0 top-0 h-full bg-purple-600 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ 
+                    width: `${progress}%`,
+                    opacity: isFadingOut ? 0 : 1
+                  }}
+                  transition={{ 
+                    duration: isFadingOut ? 0.3 : 0.1 
+                  }}
+                />
+              </div>
+              <motion.div 
+                animate={{ opacity: isFadingOut ? 0 : 1 }}
+                transition={{ duration: 0.3 }}
+                className="flex justify-between text-xs text-purple-400 mt-1"
+              >
+                <span>0%</span>
+                <span>100%</span>
+              </motion.div>
+            </div>
+
+            {/* Percentage Display */}
+            <motion.div 
+              className="text-right font-bold text-xl md:text-2xl tabular-nums text-purple-500"
+              animate={{ 
+                scale: isFadingOut ? 0.9 : [1, 1.05, 1],
+                opacity: isFadingOut ? 0 : 1
+              }}
+              transition={{ 
+                duration: isFadingOut ? 0.4 : 2, 
+                repeat: isFadingOut ? 0 : Infinity 
+              }}
+            >
+              {Math.round(progress)}%
+            </motion.div>
+          </motion.div>
+
+          {/* Bottom signature */}
+          <motion.div
+            className="absolute bottom-4 text-purple-600/70 text-xs font-mono tracking-widest"
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: isFadingOut ? 0 : 1,
+              y: isFadingOut ? 10 : 0
+            }}
+            transition={{ 
+              delay: 1,
+              duration: isFadingOut ? 0.4 : 0.6 
+            }}
+          >
+            ◉ 6th MAR 2k26
+          </motion.div>
+
+          {isFadingOut && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.3 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="absolute inset-0 bg-purple-900/20 pointer-events-none"
+            />
+          )}
         </motion.div>
       )}
     </AnimatePresence>
