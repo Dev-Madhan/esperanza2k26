@@ -145,10 +145,12 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
           >
-            MAR 5 2026        </motion.div>
+            MAR 5 2026
+          </motion.div>
+        </motion.div>
       )}
-        </AnimatePresence>
-      );
+    </AnimatePresence>
+  );
 };
 
-      export default Loader;
+export default Loader;
