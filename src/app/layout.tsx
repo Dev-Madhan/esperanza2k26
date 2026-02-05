@@ -41,14 +41,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-<<<<<<< HEAD
   title: "Esperanza 2k26 - VTMT Cultural Festival",
   description: "Experience the energy of VTMT's annual cultural festival - MAR 5",
   viewport: "width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes",
-=======
-  title: "Esperanza 2k26",
-  description: "Feel the vibrance of Esperanza — Vistara Cultural Club's signature event on March 6",
->>>>>>> 3d23873db609f55acf60864e7d60deb70fdb4ff7
 };
 
 export default function RootLayout({

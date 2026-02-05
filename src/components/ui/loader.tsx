@@ -7,48 +7,81 @@ interface LoaderProps {
   onLoadingComplete?: () => void;
 }
 
+const Star = ({ fillPercentage }: { fillPercentage: number }) => {
+  return (
+    <div className="relative w-8 h-8 md:w-12 md:h-12 mx-1">
+      {/* Empty Star Background */}
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full h-full text-gray-800"
+      >
+        <path
+          d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+          fill="currentColor"
+          stroke="currentColor"
+          strokeWidth="1"
+        />
+      </svg>
+
+      {/* Filled Star Overlay */}
+      <div
+        className="absolute inset-0 overflow-hidden"
+        style={{ width: `${Math.max(0, Math.min(100, fillPercentage))}%` }}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-full text-white"
+          style={{ width: '100%', height: '100%', minWidth: '100%' }} /* Ensure SVG doesn't shrink */
+        >
+          <path
+            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+            fill="currentColor"
+            stroke="currentColor"
+            strokeWidth="1"
+          />
+        </svg>
+      </div>
+    </div>
+  );
+};
+
 const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-  const [currentWord, setCurrentWord] = useState(0);
   const [isFadingOut, setIsFadingOut] = useState(false);
 
-  const loadingPhrases = [
-    "TURNING UP THE BASS",
-    "ENTERING THE ARENA",
-    "UNLEASHING THE CHAOS"
-  ];
-
   useEffect(() => {
-    const duration = 4000;
-    const interval = 30;
+    const duration = 3500; // Slightly faster for that "chase" feel
+    const interval = 20;
     const increment = 100 / (duration / interval);
 
     const timer = setInterval(() => {
       setProgress((prev) => {
-        const randomIncrement = Math.random() * 1.5;
+        const randomIncrement = Math.random() * 2.0; // More erratic progress
         const next = Math.min(prev + increment + randomIncrement, 100);
 
         if (next >= 100) {
           clearInterval(timer);
-          setIsFadingOut(true);
+          // Short delay at 100% just like when the stars flash before fading
           setTimeout(() => {
-            setIsComplete(true);
-            onLoadingComplete?.();
-          }, 800);
+            setIsFadingOut(true);
+            setTimeout(() => {
+              setIsComplete(true);
+              onLoadingComplete?.();
+            }, 500);
+          }, 500);
           return 100;
         }
         return next;
       });
     }, interval);
 
-    const phraseInterval = setInterval(() => {
-      setCurrentWord((prev) => (prev + 1) % loadingPhrases.length);
-    }, 1000);
-
     return () => {
       clearInterval(timer);
-      clearInterval(phraseInterval);
     };
   }, [onLoadingComplete]);
 
@@ -58,95 +91,83 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black text-purple-500 overflow-hidden font-bricolage"
+          transition={{ duration: 0.5 }}
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black overflow-hidden font-anton"
         >
-          <div className="relative flex flex-col items-center w-full max-w-4xl">
+          {/* Main Content Container */}
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col items-center gap-6"
+          >
+            {/* WANTED / ESPERANZA Text */}
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-              className="mb-4 sm:mb-6 md:mb-8"
+              className="relative"
+              animate={{
+                scale: isFadingOut ? [1, 1.1, 1] : 1, // Pulse when done
+              }}
             >
-              <motion.h1
-                className="font-power text-[14vw] sm:text-[12vw] md:text-[10vw] lg:text-[140px] font-black tracking-tighter leading-none text-center"
+              <h1
+                className="text-6xl md:text-8xl lg:text-9xl text-white tracking-wider uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
                 style={{
-                  background: 'linear-gradient(90deg, #FF5733, #FFC300, #29B463, #DAF7A5)',
-                  backgroundSize: '300% 100%',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-                animate={{
-                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: 'linear',
+                  fontStyle: 'italic', // Mimic the urgency
                 }}
               >
                 ESPERANZA
-              </motion.h1>
+              </h1>
+              {/* Glitch/Shadow effect duplication */}
+              <span className="absolute top-0 left-1 text-6xl md:text-8xl lg:text-9xl text-blue-500/30 tracking-wider uppercase -z-10 mix-blend-screen animate-pulse" style={{ fontStyle: 'italic' }}>
+                ESPERANZA
+              </span>
+              <span className="absolute top-0 -left-1 text-6xl md:text-8xl lg:text-9xl text-red-500/30 tracking-wider uppercase -z-10 mix-blend-screen animate-pulse" style={{ fontStyle: 'italic', animationDelay: '0.1s' }}>
+                ESPERANZA
+              </span>
             </motion.div>
 
-            <motion.div
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
-              className="relative h-[2px] sm:h-[3px] w-[60%] sm:w-[200px] md:w-[280px] bg-white/20 rounded-full overflow-hidden origin-center"
-            >
-              <motion.div
-                className="absolute top-0 left-0 h-full rounded-full"
-                style={{
-                  background: 'linear-gradient(90deg, #FF5733, #FFC300, #29B463)',
-                  width: `${progress}%`,
-                }}
-                transition={{ duration: 0.1 }}
-              />
-            </motion.div>
+            {/* Stars Container */}
+            <div className="flex items-center justify-center mt-4">
+              {[0, 1, 2, 3, 4].map((index) => {
+                // Calculate fill for this specific star
+                // Star 0: 0-20%
+                // Star 1: 20-40%
+                // etc.
+                const starStart = index * 20;
+                const starEnd = (index + 1) * 20;
 
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.4 }}
-              className="mt-3 sm:mt-4 md:mt-6 text-white/60 font-power text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] uppercase"
-            >
-              {Math.round(progress)}%
-            </motion.p>
+                // Calculate percentage of THIS star that is filled (0 to 100)
+                let starFill = 0;
+                if (progress >= starEnd) {
+                  starFill = 100;
+                } else if (progress > starStart) {
+                  starFill = ((progress - starStart) / 20) * 100;
+                }
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.6 }}
-              className="mt-4 sm:mt-6 md:mt-8 flex items-center gap-1 sm:gap-2"
-            >
-              {['ENGAGE', 'ENTHRAL', 'ENTERTAIN'].map((word, index) => (
-                <React.Fragment key={word}>
-                  <motion.span
+                return (
+                  <motion.div
+                    key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.7 + index * 0.15 }}
-                    className="text-white/50 font-display text-[10px] sm:text-xs md:text-sm tracking-wider sm:tracking-widest"
+                    transition={{ delay: 0.1 * index }}
                   >
-                    {word}
-                  </motion.span>
-                  {index < 2 && (
-                    <span className="text-white/30 text-[8px] sm:text-xs">•</span>
-                  )}
-                </React.Fragment>
-              ))}
-            </motion.div>
-          </div>
+                    <Star fillPercentage={starFill} />
+                  </motion.div>
+                );
+              })}
+            </div>
 
-          <motion.div
-            className="absolute bottom-4 sm:bottom-6 md:bottom-8 text-white/30 text-[10px] sm:text-xs font-display tracking-wider"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-          >
-            MAR 5 2026
+            {/* Loading Percentage Text */}
+            <motion.p
+              className="mt-4 text-white/50 text-xl font-mono tracking-widest"
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+            >
+              LOADING STYLES... {Math.round(progress)}%
+            </motion.p>
           </motion.div>
+
+          {/* Vignette Effect */}
+          <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]" />
         </motion.div>
       )}
     </AnimatePresence>
