@@ -21,8 +21,8 @@ const galleryImages = [
   { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/shreya-27.webp", category: "Pro Shows", title: "Shreya Ghoshal Finale" },
   { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/pepsi-4.webp", category: "Events", title: "Title Sponsor" },
   { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/thehindudark-5.webp", category: "Events", title: "Media Coverage" },
-  { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/logo_low_fe195da3-opt-640-1.webp", category: "Campus", title: "Vibrance Logo" },
-  { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/vitlogo_633cc466-opt-640-2.webp", category: "Campus", title: "VIT Chennai" },
+  { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/logo_low_fe195da3-opt-640-1.webp", category: "Campus", title: "Esperanza Logo" },
+  { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/vitlogo_633cc466-opt-640-2.webp", category: "Campus", title: "VTMT" },
   { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/SWC_4a94b9cc-opt-750-3.webp", category: "Campus", title: "Student Welfare Council" },
 ];
 
@@ -34,14 +34,13 @@ export default function GalleryPage() {
   
   const galleryRef = useRef(null);
 
-  const filteredImages = activeCategory === "All" 
-    ? galleryImages 
+  const filteredImages = activeCategory === "All"
+    ? galleryImages
     : galleryImages.filter(img => img.category === activeCategory);
 
   return (
     <main className="relative min-h-screen bg-background text-foreground">
       <Header />
-      
       {/* ---------------- GALLERY INTRO SECTION ---------------- */}
       <GalleryIntro />
 

@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+
 
 interface HeaderProps {
   isOpaque?: boolean;
 }
 
 const Header = ({ isOpaque = false }: HeaderProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
 
   return (
     <header
-      className={`fixed left-0 top-0 z-50 w-full transition-all duration-300 font-display uppercase tracking-tight ${scrolled || isOpaque ? "bg-black/80 backdrop-blur-md" : "bg-gradient-to-b from-black via-black/40 to-transparent"
+      className={`fixed left-0 top-0 z-50 w-full transition-all duration-300 font-display uppercase tracking-tight ${scrolled ? "sm:block" : "hidden sm:block"} ${scrolled || isOpaque ? "bg-black/80 backdrop-blur-md" : "bg-gradient-to-b from-black via-black/40 to-transparent"
         }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
@@ -92,34 +92,10 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
           </div>
         </nav>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="relative z-50 rounded-md border-2 border-white/20 bg-black p-2 text-white md:hidden lg:hidden active:scale-95 transition-transform"
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <div
-        className={`fixed left-0 top-0 z-40 flex h-screen w-full flex-col items-center justify-evenly bg-black/95 py-[10vh] transition-all duration-500 ease-in-out md:hidden ${isMenuOpen
-          ? "translate-y-0 opacity-100 pointer-events-auto"
-          : "-translate-y-full opacity-0 pointer-events-none"
-          }`}
-      >
-        {[...navLinks, ...navLinksRight].map((link) => (
-          <a
-            key={link.name}
-            href={link.href}
-            onClick={() => setIsMenuOpen(false)}
-            className={`whitespace-nowrap px-4 py-2 text-[5vh] transition-all duration-200 ease-in-out text-white ${link.weight} ${link.extraClasses || ""}`}
-          >
-            {link.name}
-          </a>
-        ))}
-      </div>
+
     </header>
   );
 };

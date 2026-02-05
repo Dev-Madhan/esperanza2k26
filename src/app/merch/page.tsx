@@ -8,13 +8,13 @@ import Footer from '@/components/sections/footer';
 
 const merchItems = [
   {
-    name: "Vibrance Oversized Tee",
+    name: "Esperanza Oversized Tee",
     price: "₹599",
     image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/logo_low_fe195da3-opt-640-1.webp",
     color: "#29B463"
   },
   {
-    name: "Vibrance Hoodie",
+    name: "Esperanza Hoodie",
     price: "₹999",
     image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/logo_low_fe195da3-opt-640-1.webp",
     color: "#FFC300"
@@ -32,7 +32,7 @@ const merchItems = [
     color: "#DAF7A5"
   },
   {
-    name: "Vibrance Tote Bag",
+    name: "Esperanza Tote Bag",
     price: "₹299",
     image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/logo_low_fe195da3-opt-640-1.webp",
     color: "#29B463"
@@ -55,7 +55,7 @@ export default function MerchPage() {
     <main className="relative min-h-screen bg-background text-foreground">
       <div className="grainy-overlay" />
       <Header />
-      
+
       <section className="pt-32 pb-20 px-4 md:px-10 lg:px-20">
         <div ref={heroRef} className="mx-auto max-w-7xl">
           <motion.div
@@ -64,7 +64,7 @@ export default function MerchPage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -78,7 +78,7 @@ export default function MerchPage() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="mt-6 text-xl md:text-2xl text-white/80 font-light max-w-2xl mx-auto"
             >
-              Exclusive Vibrance&apos;25 merchandise. Wear your festival spirit!
+              Exclusive Esperanza 2k26 merchandise. Wear your festival spirit!
             </motion.p>
           </motion.div>
 
@@ -92,7 +92,7 @@ export default function MerchPage() {
                 whileHover={{ y: -10, scale: 1.02 }}
                 className="group relative bg-[#1a1a1a] rounded-[2rem] overflow-hidden border border-white/10 cursor-pointer"
               >
-                <div 
+                <div
                   className="aspect-square relative overflow-hidden"
                   style={{ backgroundColor: `${item.color}20` }}
                 >
@@ -105,7 +105,7 @@ export default function MerchPage() {
                       className="w-full h-full object-contain opacity-80 group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
-                  <div 
+                  <div
                     className="absolute top-4 right-4 px-4 py-2 rounded-full font-bold text-black text-sm"
                     style={{ backgroundColor: item.color }}
                   >

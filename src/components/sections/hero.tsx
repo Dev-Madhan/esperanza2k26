@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { gsap } from "gsap";
+import { useMenu } from "@/context/MenuContext";
 
 const HeroSection: React.FC = () => {
     const [isMounted, setIsMounted] = useState(false);
@@ -11,6 +12,7 @@ const HeroSection: React.FC = () => {
     const [nextVideoIndex, setNextVideoIndex] = useState(1);
     const [isHovering, setIsHovering] = useState(false);
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const { isMenuOpen, toggleMenu } = useMenu();
 
     const currentVideoRef = useRef<HTMLVideoElement>(null);
     const nextVideoRef = useRef<HTMLVideoElement>(null);
@@ -260,8 +262,26 @@ const HeroSection: React.FC = () => {
 
     return (
         <section className="relative h-dvh w-full overflow-hidden select-none bg-black">
-            {/* Black background for mobile */}
-            <div className="absolute inset-0 bg-black sm:hidden z-0"></div>
+            {/* Animated Gradient + Noise Background for Mobile */}
+            <div className="absolute inset-0 sm:hidden z-0 overflow-hidden bg-black">
+                {/* Purple Gradient Blobs */}
+                <div className="absolute top-[-10%] left-[-20%] w-[70vw] h-[70vw] bg-purple-600 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob"></div>
+                <div className="absolute top-[20%] right-[-20%] w-[70vw] h-[70vw] bg-violet-600 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob animation-delay-2000"></div>
+                <div className="absolute bottom-[-10%] left-[20%] w-[70vw] h-[70vw] bg-fuchsia-600 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob animation-delay-4000"></div>
+
+                {/* Noise Overlay */}
+                <div
+                    className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none"
+                    style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                        backgroundRepeat: "repeat",
+                        backgroundSize: "100px 100px",
+                    }}
+                ></div>
+
+                {/* Dark Overlay to ensure text readability */}
+                <div className="absolute inset-0 bg-black/40"></div>
+            </div>
 
             <div id="video-frame" className="relative z-10 h-dvh w-full overflow-hidden">
                 <div className="relative h-full w-full">
@@ -302,21 +322,14 @@ const HeroSection: React.FC = () => {
                         />
                     </div>
 
-                    {/* Mobile - Menu Icon Top Right */}
-                    <div className="sm:hidden absolute top-6 right-4 z-50">
-                        <button className="p-2 rounded-md border border-white/20 bg-transparent">
-                            <Menu className="size-6 text-white" />
-                        </button>
-                    </div>
-
                     {/* Mobile Layout - Text Above and Below Center Video */}
-                    <div className="sm:hidden absolute inset-0 z-30 flex flex-col items-center justify-center gap-6 px-4 pointer-events-none">
+                    <div className="sm:hidden absolute inset-0 z-30 flex flex-col items-center justify-center gap-0 px-4 pointer-events-none">
                         {/* ESPERANZA Text Above Video */}
                         <h1
-                            className="text-white font-extrabold uppercase text-[3.2rem] leading-[0.9] tracking-tight text-center"
+                            className="font-black uppercase text-[4rem] leading-[0.85] tracking-tighter text-center bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent -mb-1 relative z-0"
                             style={{
-                                fontFamily: "var(--font-display)",
-                                letterSpacing: "0.05em"
+                                fontFamily: "var(--font-bricolage)",
+                                letterSpacing: "-0.02em",
                             }}
                         >
                             ESPERANZA
@@ -324,9 +337,9 @@ const HeroSection: React.FC = () => {
 
                         {/* Center Video with Rotation */}
                         <div
-                            className="relative w-[300px] h-[180px] pointer-events-none"
+                            className="relative w-[300px] h-[160px] pointer-events-none z-10"
                             style={{
-                                transform: "perspective(1000px) rotateY(-15deg) rotateX(5deg) rotateZ(8deg)",
+                                transform: "perspective(800px) rotateY(-8deg) rotateX(3deg) rotateZ(5deg)",
                                 transformOrigin: "center center"
                             }}
                         >
@@ -336,9 +349,9 @@ const HeroSection: React.FC = () => {
                                 muted
                                 playsInline
                                 preload="auto"
-                                className="w-full h-full object-cover rounded-lg shadow-2xl"
+                                className="w-full h-full object-cover rounded-sm shadow-2xl"
                                 style={{
-                                    boxShadow: "0 20px 60px rgba(0,0,0,0.8)"
+                                    boxShadow: "0 25px 50px rgba(0,0,0,0.9)"
                                 }}
                             >
                                 <source src={videos[currentVideoIndex]} type="video/mp4" />
@@ -347,21 +360,44 @@ const HeroSection: React.FC = () => {
 
                         {/* 2K26 Text Below Video */}
                         <h2
-                            className="text-white font-extrabold text-[5rem] leading-[0.85] tracking-tight text-center"
+                            className="font-black text-[7rem] leading-[0.8] tracking-tighter text-center bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent -mt-12 relative z-20"
                             style={{
-                                fontFamily: "var(--font-display)",
-                                letterSpacing: "0.05em"
+                                fontFamily: "var(--font-bricolage)",
+                                letterSpacing: "-0.05em",
                             }}
                         >
                             2K26
                         </h2>
                     </div>
 
+                    {/* Mobile - Date Section Bottom Left */}
+                    <div className="sm:hidden absolute bottom-10 left-6 z-40 pointer-events-none">
+                        <p className="text-white text-xl font-medium leading-none" style={{ fontFamily: "var(--font-bricolage)" }}>
+                            This
+                        </p>
+                        <h3 className="text-white text-4xl font-black leading-none" style={{ fontFamily: "var(--font-bricolage)" }}>
+                            MARCH 5
+                        </h3>
+                    </div>
+
+                    {/* Mobile - CTA Buttons Bottom Right */}
+                    <div className="sm:hidden absolute bottom-24 right-4 z-40 flex flex-col gap-3 pointer-events-auto">
+                        <button className="px-6 py-2.5 rounded-full border-2 border-white text-white text-xs font-bold uppercase tracking-wider bg-transparent active:scale-95 transition-transform whitespace-nowrap">
+                            EXPLORE EVENTS
+                        </button>
+                        <button className="px-6 py-2.5 rounded-full border-2 border-white text-white text-xs font-bold uppercase tracking-wider bg-transparent active:scale-95 transition-transform whitespace-nowrap">
+                            Register Now
+                        </button>
+                    </div>
+
+
+
+
                     {/* Mobile - #VISTARA Bottom Right */}
                     <h1
-                        className="sm:hidden absolute bottom-24 right-4 z-40 text-white font-extrabold italic select-none text-sm"
+                        className="sm:hidden absolute bottom-6 right-4 z-40 text-white font-extrabold italic select-none text-xs"
                         style={{
-                            letterSpacing: "0.05em",
+                            letterSpacing: "0.1em",
                             lineHeight: "0.8"
                         }}
                     >
@@ -500,12 +536,9 @@ const HeroSection: React.FC = () => {
                 </div>
             </div>
 
-            {/* Mobile - Menu Button (Bottom Center) */}
-            <div className="absolute z-30 bottom-8 left-1/2 -translate-x-1/2 sm:hidden">
-                <button className="flex items-center gap-2 bg-black/80 backdrop-blur-md px-6 py-3 rounded-full text-white text-base font-medium border border-white/20 hover:bg-white/10 transition-all duration-300 shadow-lg">
-                    Menu <Menu className="size-5" />
-                </button>
-            </div>
+
+
+
 
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/20 via-transparent to-background z-[1]"></div>
         </section >
