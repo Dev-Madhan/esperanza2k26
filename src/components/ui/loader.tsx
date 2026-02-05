@@ -11,6 +11,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [currentWord, setCurrentWord] = useState(0);
+  const [isFadingOut, setIsFadingOut] = useState(false);
 
   const loadingPhrases = [
     "TURNING UP THE BASS",
@@ -30,10 +31,11 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
         
         if (next >= 100) {
           clearInterval(timer);
+          setIsFadingOut(true);
           setTimeout(() => {
             setIsComplete(true);
             onLoadingComplete?.();
-          }, 600);
+          }, 800);
           return 100;
         }
         return next;
@@ -64,21 +66,39 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
           {/* Top Right Sticker */}
           <motion.div 
             initial={{ opacity: 0, y: -20, rotate: 0 }}
-            animate={{ opacity: 1, y: 0, rotate: -8 }}
-            transition={{ delay: 0.3, duration: 2 }}
-            className="absolute top-8 right-8 md:top-12 md:right-12 bg-black border border-purple-800/50 p-6 md:p-8 shadow-lg z-0 w-48 h-22 md:w-50 md:h-30 rounded-2xl"
+            animate={{ 
+              opacity: isFadingOut ? 0 : 1, 
+              y: 0, 
+              rotate: -8,
+              scale: isFadingOut ? 0.9 : 1
+            }}
+            transition={{ 
+              delay: 0.3, 
+              duration: isFadingOut ? 0.4 : 2,
+              ease: isFadingOut ? "easeOut" : "easeInOut"
+            }}
+            className="absolute top-8 right-8 md:top-12 md:right-12 bg-black border border-white-800/50 p-6 md:p-8 shadow-lg z-0 w-48 h-22 md:w-50 md:h-30 rounded-2xl"
           >
             <p className="text-[14px] md:text-[17px] font-bold uppercase leading-relaxed text-center text-purple-400">
-              With ❤️ From <br /> Vistara
+              With luv From <br /> Vistara
             </p>
           </motion.div>
 
           {/* Bottom Left Sticker */}
           <motion.div 
             initial={{ opacity: 0, y: 20, rotate: 0 }}
-            animate={{ opacity: 1, y: 0, rotate: 8 }}
-            transition={{ delay: 0.4, duration: 2 }}
-            className="absolute bottom-24 left-8 md:bottom-16 md:left-12 bg-black border border-purple-800/50 p-5 md:p-6 shadow-lg z-0 min-h-32 md:min-h-40 rounded-2xl"
+            animate={{ 
+              opacity: isFadingOut ? 0 : 1, 
+              y: 0, 
+              rotate: 8,
+              scale: isFadingOut ? 0.9 : 1
+            }}
+            transition={{ 
+              delay: 0.4, 
+              duration: isFadingOut ? 0.4 : 2,
+              ease: isFadingOut ? "easeOut" : "easeInOut"
+            }}
+            className="absolute bottom-24 left-8 md:bottom-16 md:left-12 bg-black border border-white-800/50 p-5 md:p-6 shadow-lg z-0 min-h-32 md:min-h-40 rounded-2xl"
           >
             <p className="text-[10px] md:text-[16px] font-bold uppercase leading-relaxed text-purple-400">
               CREATE, <br /> COLLIDE, <br /> CELEBRATE <br /> REVERSE
@@ -89,21 +109,40 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
           
           <motion.div 
             initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full max-w-[350px] md:max-w-md bg-black p-4 md:p-6 rounded-3xl shadow-2xl z-10 mx-6 border border-purple-800/50"
+            animate={{ 
+              scale: isFadingOut ? 0.95 : 1, 
+              opacity: isFadingOut ? 0 : 1,
+              y: isFadingOut ? -10 : 0
+            }}
+            transition={{ 
+              duration: isFadingOut ? 0.5 : 0.6,
+              ease: isFadingOut ? "easeOut" : "easeInOut"
+            }}
+            className="relative w-full max-w-[350px] md:max-w-md bg-black p-4 md:p-6 rounded-3xl shadow-2xl z-10 mx-6 border-2 border-white-800/50"
           >
             <div className="flex gap-1.5 mb-6">
               <motion.div 
                 initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.1 }}
+                animate={{ 
+                  scale: isFadingOut ? 0 : 1,
+                  opacity: isFadingOut ? 0 : 1
+                }}
+                transition={{ 
+                  delay: 0.1,
+                  duration: isFadingOut ? 0.3 : 0.5
+                }}
                 className="w-2.5 h-2.5 bg-purple-700 rounded-full"
               />
               <motion.div 
                 initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.15 }}
+                animate={{ 
+                  scale: isFadingOut ? 0 : 1,
+                  opacity: isFadingOut ? 0 : 1
+                }}
+                transition={{ 
+                  delay: 0.15,
+                  duration: isFadingOut ? 0.3 : 0.5
+                }}
                 className="w-2.5 h-2.5 bg-purple-700 rounded-full"
               />
             </div>
@@ -113,7 +152,11 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
               <motion.div
                 key={currentWord}
                 initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ 
+                  opacity: isFadingOut ? 0 : 1, 
+                  y: 0,
+                  scale: isFadingOut ? 0.95 : 1
+                }}
                 exit={{ opacity: 0, y: -5 }}
                 transition={{ duration: 0.3 }}
                 className="mb-6"
@@ -126,8 +169,15 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                     <motion.div
                       key={i}
                       className="w-1 h-1 bg-purple-600 rounded-full"
-                      animate={{ opacity: [0.3, 1, 0.3] }}
-                      transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+                      animate={{ 
+                        opacity: isFadingOut ? 0 : [0.3, 1, 0.3],
+                        scale: isFadingOut ? 0 : 1
+                      }}
+                      transition={{ 
+                        duration: isFadingOut ? 0.3 : 1.5, 
+                        repeat: isFadingOut ? 0 : Infinity, 
+                        delay: i * 0.2 
+                      }}
                     />
                   ))}
                 </div>
@@ -140,8 +190,14 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                 <motion.div
                   key={i}
                   initial={{ scaleY: 0 }}
-                  animate={{ scaleY: 1 }}
-                  transition={{ delay: i * 0.05, duration: 0.3 }}
+                  animate={{ 
+                    scaleY: isFadingOut ? 0 : 1,
+                    opacity: isFadingOut ? 0 : 1
+                  }}
+                  transition={{ 
+                    delay: i * 0.05, 
+                    duration: isFadingOut ? 0.2 : 0.3 
+                  }}
                   className="origin-bottom"
                 >
                   <motion.div
@@ -149,11 +205,12 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                       (progress / 10) > i ? 'bg-purple-600' : 'bg-purple-900/50'
                     }`}
                     animate={{
-                      y: (progress / 10) > i ? [0, -2, 0] : 0
+                      y: isFadingOut ? 0 : ((progress / 10) > i ? [0, -2, 0] : 0),
+                      opacity: isFadingOut ? 0 : 1
                     }}
                     transition={{
-                      duration: 0.5,
-                      repeat: Infinity,
+                      duration: isFadingOut ? 0.3 : 0.5,
+                      repeat: isFadingOut ? 0 : Infinity,
                       delay: i * 0.1
                     }}
                   />
@@ -167,57 +224,66 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                 <motion.div
                   className="absolute left-0 top-0 h-full bg-purple-600 rounded-full"
                   initial={{ width: 0 }}
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.1 }}
+                  animate={{ 
+                    width: `${progress}%`,
+                    opacity: isFadingOut ? 0 : 1
+                  }}
+                  transition={{ 
+                    duration: isFadingOut ? 0.3 : 0.1 
+                  }}
                 />
               </div>
-              <div className="flex justify-between text-xs text-purple-400 mt-1">
+              <motion.div 
+                animate={{ opacity: isFadingOut ? 0 : 1 }}
+                transition={{ duration: 0.3 }}
+                className="flex justify-between text-xs text-purple-400 mt-1"
+              >
                 <span>0%</span>
                 <span>100%</span>
-              </div>
+              </motion.div>
             </div>
 
             {/* Percentage Display */}
             <motion.div 
               className="text-right font-bold text-xl md:text-2xl tabular-nums text-purple-500"
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              animate={{ 
+                scale: isFadingOut ? 0.9 : [1, 1.05, 1],
+                opacity: isFadingOut ? 0 : 1
+              }}
+              transition={{ 
+                duration: isFadingOut ? 0.4 : 2, 
+                repeat: isFadingOut ? 0 : Infinity 
+              }}
             >
               {Math.round(progress)}%
             </motion.div>
           </motion.div>
 
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(8)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-48 h-48 border border-purple-900/30 rounded-full"
-                style={{
-                  left: `${(i * 20) % 100}%`,
-                  top: `${(i * 15) % 100}%`,
-                }}
-                animate={{
-                  scale: [1, 1.05, 1],
-                  opacity: [0.02, 0.04, 0.02],
-                }}
-                transition={{
-                  duration: 3 + i * 0.5,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                }}
-              />
-            ))}
-          </div>
-
           {/* Bottom signature */}
           <motion.div
             className="absolute bottom-4 text-purple-600/70 text-xs font-mono tracking-widest"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
+            animate={{ 
+              opacity: isFadingOut ? 0 : 1,
+              y: isFadingOut ? 10 : 0
+            }}
+            transition={{ 
+              delay: 1,
+              duration: isFadingOut ? 0.4 : 0.6 
+            }}
           >
             ◉ 6th MAR 2k26
           </motion.div>
+
+          {isFadingOut && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.3 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="absolute inset-0 bg-purple-900/20 pointer-events-none"
+            />
+          )}
         </motion.div>
       )}
     </AnimatePresence>
