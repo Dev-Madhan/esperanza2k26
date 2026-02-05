@@ -68,7 +68,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                   ease: 'linear',
                 }}
               >
-                VIBRANCE
+                ESPERANZA
               </motion.h1>
             </motion.div>
 
@@ -127,7 +127,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
           >
-            26 FEB - 1 MAR 2025
+            5 MAR 2026
           </motion.div>
 
           <div className="absolute inset-0 pointer-events-none overflow-hidden hidden sm:block">
