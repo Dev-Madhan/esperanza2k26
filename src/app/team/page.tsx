@@ -256,7 +256,7 @@ const teamSections = {
       {
         category: "Dance Club Secretary",
         members: [
-          { name: "JERVIN. JV" },
+          { name: "Jervin J V" },
           { name: "Srimathi S" },
         ]
       },
@@ -264,7 +264,7 @@ const teamSections = {
         category: "Tech Club Secretary",
         members: [
           { name: "Kathir Vel S" },
-          { name: "Yuva shree M" },
+          { name: "Yuvashree M" },
         ]
       },
       {
@@ -379,6 +379,7 @@ const teamSections = {
           { name: "Kebin", role: "MECH (3rd Year)" },
           { name: "Abishek Sidharth", role: "MECH (3rd Year)" },
           { name: "Akash B", role: "AIDS (2nd Year)" },
+          { name: "Vijaya Shanthosh", role: "ECE (2nd Year)" },
           { name: "Harini Priya R", role: "CSBS (2nd Year)" },
           { name: "Dinesh V", role: "IT (2nd Year)" },
         ]
@@ -391,7 +392,7 @@ const teamSections = {
           { name: "Santhosh", role: "CSBS (Final Year)" }, 
           { name: "Jeevith K", role: "CSBS (3rd Year)" },
           { name: "Madhan Kumar V", role: "CSBS (3rd Year)" },
-          { name: "Aadhira", role: "CSE (3rd Year)" },
+          { name: "Aadhira D", role: "CSE (3rd Year)" },
           { name: "Ranjith", role: "AIDS (3rd Year)" },
           { name: "Jerlin Jaspher", role: "CSE (3rd Year)" },
           { name: "Nandha Kumar V", role: "CSBS (3rd Year)" },

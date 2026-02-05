@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,28 +10,46 @@ interface LoaderProps {
 const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const [currentWord, setCurrentWord] = useState(0);
+  const [isFadingOut, setIsFadingOut] = useState(false);
+
+  const loadingPhrases = [
+    "TURNING UP THE BASS",
+    "ENTERING THE ARENA",
+    "UNLEASHING THE CHAOS"
+  ];
 
   useEffect(() => {
-    const duration = 2500;
+    const duration = 4000;
     const interval = 30;
     const increment = 100 / (duration / interval);
 
     const timer = setInterval(() => {
       setProgress((prev) => {
-        const next = prev + increment + Math.random() * 2;
+        const randomIncrement = Math.random() * 1.5;
+        const next = Math.min(prev + increment + randomIncrement, 100);
+
         if (next >= 100) {
           clearInterval(timer);
+          setIsFadingOut(true);
           setTimeout(() => {
             setIsComplete(true);
             onLoadingComplete?.();
-          }, 300);
+          }, 800);
           return 100;
         }
         return next;
       });
     }, interval);
 
-    return () => clearInterval(timer);
+    const phraseInterval = setInterval(() => {
+      setCurrentWord((prev) => (prev + 1) % loadingPhrases.length);
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+      clearInterval(phraseInterval);
+    };
   }, [onLoadingComplete]);
 
   return (
@@ -40,8 +58,8 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black px-4"
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black text-purple-500 overflow-hidden font-bricolage"
         >
           <div className="relative flex flex-col items-center w-full max-w-4xl">
             <motion.div
@@ -127,37 +145,10 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
           >
-            MAR 5 2026
-          </motion.div>
-
-          <div className="absolute inset-0 pointer-events-none overflow-hidden hidden sm:block">
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full"
-                style={{
-                  background: ['#FF5733', '#FFC300', '#29B463', '#DAF7A5', '#FF5733', '#FFC300'][i],
-                  left: `${15 + i * 15}%`,
-                  top: '50%',
-                }}
-                animate={{
-                  y: [0, -30, 0],
-                  opacity: [0.3, 0.8, 0.3],
-                  scale: [1, 1.5, 1],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                  ease: 'easeInOut',
-                }}
-              />
-            ))}
-          </div>
-        </motion.div>
+            MAR 5 2026        </motion.div>
       )}
-    </AnimatePresence>
-  );
+        </AnimatePresence>
+      );
 };
 
-export default Loader;
+      export default Loader;
