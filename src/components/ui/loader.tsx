@@ -63,7 +63,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
         >
           {/* ---------------- STICKERS ---------------- */}
           
-          {/* Top Right Sticker */}
+            {/* Top Right Sticker */}
           <motion.div 
             initial={{ opacity: 0, y: -20, rotate: 0 }}
             animate={{ 
@@ -77,11 +77,13 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
               duration: isFadingOut ? 0.4 : 2,
               ease: isFadingOut ? "easeOut" : "easeInOut"
             }}
-            className="absolute top-8 right-8 md:top-12 md:right-12 bg-black border border-white-800/50 p-6 md:p-8 shadow-lg z-0 w-48 h-22 md:w-50 md:h-30 rounded-2xl"
+            className="absolute top-8 right-8 md:top-12 md:right-12 bg-gradient-to-b from-[#E9D5FF] via-[#A855F7] to-[#581C87] p-[2px] shadow-lg z-0 w-48 h-22 md:w-50 md:h-30 rounded-2xl"
           >
-            <p className="text-[14px] md:text-[17px] font-bold uppercase leading-relaxed text-center text-purple-400">
-              With luv From <br /> Vistara
-            </p>
+            <div className="h-full w-full bg-black rounded-[14px] p-6 md:p-8 flex items-center justify-center">
+              <p className="text-[14px] md:text-[17px] font-bold uppercase leading-relaxed text-center bg-gradient-to-b from-[#E9D5FF] via-[#A855F7] to-[#581C87] bg-clip-text text-transparent">
+                With luv From <br /> Vistara
+              </p>
+            </div>
           </motion.div>
 
           {/* Bottom Left Sticker */}
@@ -98,11 +100,13 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
               duration: isFadingOut ? 0.4 : 2,
               ease: isFadingOut ? "easeOut" : "easeInOut"
             }}
-            className="absolute bottom-24 left-8 md:bottom-16 md:left-12 bg-black border border-white-800/50 p-5 md:p-6 shadow-lg z-0 min-h-32 md:min-h-40 rounded-2xl"
+            className="absolute bottom-24 left-8 md:bottom-16 md:left-12 bg-gradient-to-b from-[#E9D5FF] via-[#A855F7] to-[#581C87] p-[2px] shadow-lg z-0 min-h-32 md:min-h-40 rounded-2xl"
           >
-            <p className="text-[10px] md:text-[16px] font-bold uppercase leading-relaxed text-purple-400">
-              CREATE, <br /> COLLIDE, <br /> CELEBRATE <br /> REVERSE
-            </p>
+            <div className="h-full w-full bg-black rounded-[14px] p-5 md:p-6 flex items-center">
+              <p className="text-[10px] md:text-[16px] font-bold uppercase leading-relaxed bg-gradient-to-b from-[#E9D5FF] via-[#A855F7] to-[#581C87] bg-clip-text text-transparent">
+                CREATE, <br /> COLLIDE, <br /> CELEBRATE <br /> REVERSE
+              </p>
+            </div>
           </motion.div>
 
           {/* ---------------- CENTER CARD ---------------- */}
@@ -118,9 +122,10 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
               duration: isFadingOut ? 0.5 : 0.6,
               ease: isFadingOut ? "easeOut" : "easeInOut"
             }}
-            className="relative w-full max-w-[350px] md:max-w-md bg-black p-4 md:p-6 rounded-3xl shadow-2xl z-10 mx-6 border-2 border-white-800/50"
+            className="relative w-full max-w-[350px] md:max-w-md bg-gradient-to-b from-[#E9D5FF] via-[#A855F7] to-[#581C87] p-[2px] rounded-3xl shadow-2xl z-10 mx-6"
           >
-            <div className="flex gap-1.5 mb-6">
+            <div className="h-full w-full bg-black rounded-[22px] p-4 md:p-6 relative overflow-hidden">
+              <div className="flex gap-1.5 mb-6">
               <motion.div 
                 initial={{ scale: 0 }}
                 animate={{ 
@@ -131,7 +136,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                   delay: 0.1,
                   duration: isFadingOut ? 0.3 : 0.5
                 }}
-                className="w-2.5 h-2.5 bg-purple-700 rounded-full"
+                className="w-2.5 h-2.5 bg-gradient-to-b from-[#A855F7] to-[#581C87] rounded-full"
               />
               <motion.div 
                 initial={{ scale: 0 }}
@@ -143,7 +148,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                   delay: 0.15,
                   duration: isFadingOut ? 0.3 : 0.5
                 }}
-                className="w-2.5 h-2.5 bg-purple-700 rounded-full"
+                className="w-2.5 h-2.5 bg-gradient-to-b from-[#A855F7] to-[#581C87] rounded-full"
               />
             </div>
 
@@ -161,14 +166,14 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                 transition={{ duration: 0.3 }}
                 className="mb-6"
               >
-                <p className="text-xs md:text-sm font-medium text-purple-400 text-center">
+                <p className="text-xs md:text-sm font-medium text-center bg-gradient-to-b from-[#E9D5FF] via-[#A855F7] to-[#581C87] bg-clip-text text-transparent">
                   {loadingPhrases[currentWord]}
                 </p>
                 <div className="flex justify-center gap-1 mt-2">
                   {[...Array(3)].map((_, i) => (
                     <motion.div
                       key={i}
-                      className="w-1 h-1 bg-purple-600 rounded-full"
+                      className="w-1 h-1 bg-[#A855F7] rounded-full"
                       animate={{ 
                         opacity: isFadingOut ? 0 : [0.3, 1, 0.3],
                         scale: isFadingOut ? 0 : 1
@@ -202,7 +207,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                 >
                   <motion.div
                     className={`h-7 md:h-9 w-6 md:w-8 rounded md:rounded-sm transition-colors duration-300 ${
-                      (progress / 10) > i ? 'bg-purple-600' : 'bg-purple-900/50'
+                      (progress / 10) > i ? 'bg-gradient-to-b from-[#A855F7] to-[#581C87]' : 'bg-purple-900/30'
                     }`}
                     animate={{
                       y: isFadingOut ? 0 : ((progress / 10) > i ? [0, -2, 0] : 0),
@@ -220,9 +225,9 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
 
             {/* Progress Bar */}
             <div className="mb-6">
-              <div className="relative h-1 bg-purple-900/50 rounded-full overflow-hidden">
+              <div className="relative h-1 bg-purple-900/30 rounded-full overflow-hidden">
                 <motion.div
-                  className="absolute left-0 top-0 h-full bg-purple-600 rounded-full"
+                  className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#A855F7] to-[#581C87] rounded-full"
                   initial={{ width: 0 }}
                   animate={{ 
                     width: `${progress}%`,
@@ -236,7 +241,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
               <motion.div 
                 animate={{ opacity: isFadingOut ? 0 : 1 }}
                 transition={{ duration: 0.3 }}
-                className="flex justify-between text-xs text-purple-400 mt-1"
+                className="flex justify-between text-xs text-purple-400/70 mt-1 cursor-default select-none"
               >
                 <span>0%</span>
                 <span>100%</span>
@@ -245,7 +250,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
 
             {/* Percentage Display */}
             <motion.div 
-              className="text-right font-bold text-xl md:text-2xl tabular-nums text-purple-500"
+              className="text-right font-bold text-xl md:text-2xl tabular-nums bg-gradient-to-b from-[#E9D5FF] via-[#A855F7] to-[#581C87] bg-clip-text text-transparent"
               animate={{ 
                 scale: isFadingOut ? 0.9 : [1, 1.05, 1],
                 opacity: isFadingOut ? 0 : 1
@@ -257,6 +262,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
             >
               {Math.round(progress)}%
             </motion.div>
+            </div>
           </motion.div>
 
           {/* Bottom signature */}
