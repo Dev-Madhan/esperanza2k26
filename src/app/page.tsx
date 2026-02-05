@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <Loader onLoadingComplete={() => setIsLoading(false)} />
-      <main 
+      <main
         className="relative min-h-screen bg-background text-foreground"
         style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.3s ease' }}
       >
@@ -29,8 +29,6 @@ export default function Home() {
         <TeaserVideo />
         <VitStatement />
         <Sponsors />
-        <Inauguration />
-        <Valedictory />
         <Footer />
       </main>
     </>
