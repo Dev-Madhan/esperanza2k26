@@ -202,22 +202,20 @@ export default function CardFlip({
                 "group/start relative",
                 "flex items-center justify-between",
                 "-m-3 rounded-xl p-3",
-                "transition-all duration-300",
-                "bg-gradient-to-r from-zinc-100 via-zinc-100 to-zinc-100",
-                "dark:from-zinc-800 dark:via-zinc-800 dark:to-zinc-800",
-                "hover:from-0% hover:from-orange-500/10 hover:via-100% hover:via-orange-500/5 hover:to-100% hover:to-transparent",
-                "dark:hover:from-0% dark:hover:from-orange-500/20 dark:hover:via-100% dark:hover:via-orange-500/10 dark:hover:to-100% dark:hover:to-transparent",
-                "hover:scale-[1.02] hover:cursor-pointer"
+                "overflow-hidden",
+                "bg-zinc-100 dark:bg-zinc-800",
+                "hover:cursor-pointer"
               )}
             >
+              <div className="absolute inset-0 opacity-0 group-hover/start:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-orange-500/20 to-transparent" />
               <span 
-                className="font-medium text-base text-zinc-900 transition-colors duration-300 group-hover/start:text-orange-600 dark:text-white dark:group-hover/start:text-orange-400 font-bricolage"
+                className="relative z-10 font-medium text-base text-zinc-900 transition-colors duration-300 group-hover/start:text-orange-600 dark:text-white dark:group-hover/start:text-orange-400 font-bricolage"
                 style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
               >
                 {actionLabel}
               </span>
-              <div className="group/icon relative">
-                <ArrowRight className="relative z-10 h-4 w-4 text-orange-500 transition-all duration-300 group-hover/start:translate-x-0.5 group-hover/start:scale-110" />
+              <div className="group/icon relative z-10">
+                <ArrowRight className="h-4 w-4 text-orange-500 transition-all duration-300 group-hover/start:translate-x-0.5 group-hover/start:scale-110" />
               </div>
             </div>
           </div>
