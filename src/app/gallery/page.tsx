@@ -18,8 +18,8 @@ const galleryImages = [
   { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/shreya-27.webp", category: "Pro Shows", title: "Shreya Ghoshal Finale" },
   { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/pepsi-4.webp", category: "Events", title: "Title Sponsor" },
   { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/thehindudark-5.webp", category: "Events", title: "Media Coverage" },
-  { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/logo_low_fe195da3-opt-640-1.webp", category: "Campus", title: "Vibrance Logo" },
-  { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/vitlogo_633cc466-opt-640-2.webp", category: "Campus", title: "VIT Chennai" },
+  { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/logo_low_fe195da3-opt-640-1.webp", category: "Campus", title: "Esperanza Logo" },
+  { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/vitlogo_633cc466-opt-640-2.webp", category: "Campus", title: "VTMT" },
   { src: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/images/SWC_4a94b9cc-opt-750-3.webp", category: "Campus", title: "Student Welfare Council" },
 ];
 
@@ -31,15 +31,15 @@ export default function GalleryPage() {
   const isHeroInView = useInView(heroRef, { once: true, amount: 0.3 });
   const isGalleryInView = useInView(galleryRef, { once: true, amount: 0.1 });
 
-  const filteredImages = activeCategory === "All" 
-    ? galleryImages 
+  const filteredImages = activeCategory === "All"
+    ? galleryImages
     : galleryImages.filter(img => img.category === activeCategory);
 
   return (
     <main className="relative min-h-screen bg-background text-foreground">
       <div className="grainy-overlay" />
       <Header />
-      
+
       <section className="pt-32 pb-20 px-4 md:px-10 lg:px-20">
         <div ref={heroRef} className="mx-auto max-w-7xl">
           <motion.div
@@ -48,7 +48,7 @@ export default function GalleryPage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isHeroInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -62,7 +62,7 @@ export default function GalleryPage() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="mt-6 text-xl md:text-2xl text-white/80 font-light max-w-2xl mx-auto"
             >
-              Relive the unforgettable moments of Vibrance
+              Relive the unforgettable moments of Esperanza
             </motion.p>
           </motion.div>
 
@@ -78,11 +78,10 @@ export default function GalleryPage() {
                 onClick={() => setActiveCategory(category)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`px-6 py-3 rounded-full font-bold transition-all duration-300 ${
-                  activeCategory === category
-                    ? 'bg-festival-yellow text-black'
-                    : 'bg-white/10 text-white hover:bg-white/20'
-                }`}
+                className={`px-6 py-3 rounded-full font-bold transition-all duration-300 ${activeCategory === category
+                  ? 'bg-festival-yellow text-black'
+                  : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
               >
                 {category}
               </motion.button>
@@ -113,7 +112,7 @@ export default function GalleryPage() {
                       height={400}
                       className="w-full h-auto object-cover"
                     />
-                    <motion.div 
+                    <motion.div
                       className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6"
                     >
                       <div>

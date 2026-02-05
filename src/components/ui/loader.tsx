@@ -50,7 +50,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
               transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
               className="mb-4 sm:mb-6 md:mb-8"
             >
-              <motion.h1 
+              <motion.h1
                 className="font-power text-[14vw] sm:text-[12vw] md:text-[10vw] lg:text-[140px] font-black tracking-tighter leading-none text-center"
                 style={{
                   background: 'linear-gradient(90deg, #FF5733, #FFC300, #29B463, #DAF7A5)',
@@ -68,7 +68,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                   ease: 'linear',
                 }}
               >
-                VIBRANCE
+                ESPERANZA
               </motion.h1>
             </motion.div>
 
@@ -127,7 +127,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
           >
-            26 FEB - 1 MAR 2025
+            MAR 5 2026
           </motion.div>
 
           <div className="absolute inset-0 pointer-events-none overflow-hidden hidden sm:block">
