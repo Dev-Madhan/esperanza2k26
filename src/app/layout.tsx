@@ -38,8 +38,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Vibrance'25 - VIT Chennai Cultural Festival",
-  description: "Experience the vibrance of VIT Chennai's annual cultural festival - 26 FEB - 1 MAR",
+  title: "Esperanza 2k26",
+  description: "Feel the vibrance of Esperanza — Vistara Cultural Club's signature event on March 6",
 };
 
 export default function RootLayout({

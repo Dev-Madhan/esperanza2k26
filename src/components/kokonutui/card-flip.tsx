@@ -11,8 +11,9 @@
  */
 
 import { ArrowRight, Repeat2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { useInView } from "framer-motion";
 
 export interface CardFlipProps {
   title?: string;
@@ -34,12 +35,16 @@ export default function CardFlip({
   videoSrc,
 }: CardFlipProps) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, margin: "100px" });
 
   return (
     <div
+      ref={containerRef}
       className="group relative h-[380px] w-full [perspective:2000px]"
       onMouseEnter={() => setIsFlipped(true)}
       onMouseLeave={() => setIsFlipped(false)}
+      onClick={() => setIsFlipped(true)}
     >
       <div
         className={cn(
@@ -66,7 +71,7 @@ export default function CardFlip({
         >
           <div className="relative h-full w-full rounded-[14px] overflow-hidden bg-black">
           <div className="relative h-full overflow-hidden bg-gradient-to-b from-zinc-100 to-white dark:from-zinc-900 dark:to-black">
-            {videoSrc ? (
+            {videoSrc && isInView ? (
               <>
                 <video
                   autoPlay
@@ -107,13 +112,13 @@ export default function CardFlip({
             <div className="flex items-center justify-between gap-3">
               <div className="space-y-1.5">
                 <h3 className={cn(
-                  "font-medium text-lg leading-snug tracking-tighter transition-all duration-500 ease-out-expo group-hover:translate-y-[-4px]",
-                  videoSrc ? "text-white" : "text-zinc-900 dark:text-white"
+                  "font-bold text-xl lg:text-2xl leading-snug tracking-tighter transition-all duration-500 ease-out-expo group-hover:translate-y-[-4px]",
+                  "bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent"
                 )}>
                   {title}
                 </h3>
                 <p className={cn(
-                  "line-clamp-2 text-sm tracking-tight transition-all delay-[50ms] duration-500 ease-out-expo group-hover:translate-y-[-4px]",
+                  "line-clamp-2 text-base lg:text-lg tracking-tight transition-all delay-[50ms] duration-500 ease-out-expo group-hover:translate-y-[-4px]",
                   videoSrc ? "text-white/80" : "text-zinc-600 dark:text-zinc-200",
                   "font-bricolage"
                 )}
@@ -153,11 +158,11 @@ export default function CardFlip({
           <div className="relative h-full w-full rounded-[14px] bg-[#0c0c0c] p-6 flex flex-col">
           <div className="flex-1 space-y-6">
             <div className="space-y-2">
-              <h3 className="font-medium text-lg text-white leading-snug tracking-tight transition-all duration-500 ease-out-expo group-hover:translate-y-[-2px]">
+              <h3 className="font-bold text-xl lg:text-2xl leading-snug tracking-tight transition-all duration-500 ease-out-expo group-hover:translate-y-[-2px] bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent">
                 {title}
               </h3>
               <p 
-                className="line-clamp-2 text-sm text-zinc-300 tracking-tight transition-all duration-500 ease-out-expo group-hover:translate-y-[-2px]"
+                className="line-clamp-2 text-sm lg:text-base text-zinc-300 tracking-tight transition-all duration-500 ease-out-expo group-hover:translate-y-[-2px]"
                 style={{ fontFamily: '"Inter", sans-serif' }}
               >
                 {description}
@@ -167,7 +172,7 @@ export default function CardFlip({
             <div className="space-y-2 overflow-y-auto max-h-[160px] pr-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20 scrollbar-thumb-rounded-full" style={{ fontFamily: '"Inter", sans-serif' }}>
               {features.map((feature, index) => (
                 <div
-                  className="flex items-start gap-2 text-sm text-zinc-300 transition-all duration-500"
+                  className="flex items-start gap-2 text-sm lg:text-base text-zinc-300 transition-all duration-500"
                   key={feature}
                   style={{
                     transform: isFlipped
@@ -191,6 +196,7 @@ export default function CardFlip({
               onClick={(e) => {
                 e.stopPropagation();
                 onAction?.();
+                setIsFlipped(false);
               }}
               className={cn(
                 "group/start relative",
@@ -204,7 +210,10 @@ export default function CardFlip({
                 "hover:scale-[1.02] hover:cursor-pointer"
               )}
             >
-              <span className="font-medium text-sm text-zinc-900 transition-colors duration-300 group-hover/start:text-orange-600 dark:text-white dark:group-hover/start:text-orange-400">
+              <span 
+                className="font-medium text-base text-zinc-900 transition-colors duration-300 group-hover/start:text-orange-600 dark:text-white dark:group-hover/start:text-orange-400 font-bricolage"
+                style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
+              >
                 {actionLabel}
               </span>
               <div className="group/icon relative">
