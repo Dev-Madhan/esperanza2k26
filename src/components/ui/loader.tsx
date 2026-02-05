@@ -7,41 +7,44 @@ interface LoaderProps {
   onLoadingComplete?: () => void;
 }
 
-const Star = ({ fillPercentage }: { fillPercentage: number }) => {
+const Star = ({ fillPercentage, isFlashing }: { fillPercentage: number; isFlashing: boolean }) => {
   return (
-    <div className="relative w-8 h-8 md:w-12 md:h-12 mx-1">
-      {/* Empty Star Background */}
+    <div className="relative w-10 h-10 md:w-16 md:h-16 mx-0.5">
+      {/* Star Shape */}
       <svg
         viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full text-gray-800"
+        className={`w-full h-full drop-shadow-lg transition-colors duration-200 ${isFlashing ? 'text-blue-500' : 'text-gray-900/50'
+          }`}
+        style={{
+          filter: isFlashing ? 'drop-shadow(0 0 8px rgba(0,0,255,0.8))' : 'none'
+        }}
       >
         <path
           d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
           fill="currentColor"
-          stroke="currentColor"
-          strokeWidth="1"
+          stroke={isFlashing ? "white" : "none"} // White outline when flashing
+          strokeWidth="0.5"
         />
       </svg>
 
-      {/* Filled Star Overlay */}
+      {/* Filled Star Overlay (White/Solid) */}
       <div
-        className="absolute inset-0 overflow-hidden"
+        className="absolute inset-0 overflow-hidden mix-blend-normal"
         style={{ width: `${Math.max(0, Math.min(100, fillPercentage))}%` }}
       >
         <svg
           viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full text-white"
-          style={{ width: '100%', height: '100%', minWidth: '100%' }} /* Ensure SVG doesn't shrink */
+          className={`w-full h-full ${isFlashing ? 'text-red-500' : 'text-white'}`}
+          style={{
+            width: '100%',
+            height: '100%',
+            minWidth: '100%',
+            filter: isFlashing ? 'drop-shadow(0 0 10px rgba(255,0,0,0.8))' : 'none'
+          }}
         >
           <path
             d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
             fill="currentColor"
-            stroke="currentColor"
-            strokeWidth="1"
           />
         </svg>
       </div>
@@ -52,36 +55,50 @@ const Star = ({ fillPercentage }: { fillPercentage: number }) => {
 const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-  const [isFadingOut, setIsFadingOut] = useState(false);
+  const [isFlashing, setIsFlashing] = useState(false);
 
   useEffect(() => {
-    const duration = 3500; // Slightly faster for that "chase" feel
+    // Load the font
+    const link = document.createElement('link');
+    link.href = 'https://fonts.cdnfonts.com/css/pricedown';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
+
+  useEffect(() => {
+    const duration = 3000;
     const interval = 20;
     const increment = 100 / (duration / interval);
 
     const timer = setInterval(() => {
       setProgress((prev) => {
-        const randomIncrement = Math.random() * 2.0; // More erratic progress
+        const randomIncrement = Math.random() * 2.5;
         const next = Math.min(prev + increment + randomIncrement, 100);
 
         if (next >= 100) {
           clearInterval(timer);
-          // Short delay at 100% just like when the stars flash before fading
           setTimeout(() => {
-            setIsFadingOut(true);
-            setTimeout(() => {
-              setIsComplete(true);
-              onLoadingComplete?.();
-            }, 500);
-          }, 500);
+            setIsComplete(true);
+            onLoadingComplete?.();
+          }, 800);
           return 100;
         }
         return next;
       });
     }, interval);
 
+    // Flashing effect (Police Sirens visual)
+    const flashTimer = setInterval(() => {
+      setIsFlashing(prev => !prev);
+    }, 400); // Fast flash
+
     return () => {
       clearInterval(timer);
+      clearInterval(flashTimer);
     };
   }, [onLoadingComplete]);
 
@@ -92,50 +109,32 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black overflow-hidden font-anton"
+          className="fixed inset-0 z-[9999] bg-black/95 flex flex-col items-center justify-center overflow-hidden"
+          style={{ fontFamily: "'Pricedown', sans-serif" }}
         >
-          {/* Main Content Container */}
+          {/* Main Container */}
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col items-center gap-6"
+            className="relative flex flex-col items-center gap-2 p-8"
           >
-            {/* WANTED / ESPERANZA Text */}
-            <motion.div
-              className="relative"
-              animate={{
-                scale: isFadingOut ? [1, 1.1, 1] : 1, // Pulse when done
+            {/* WANTED TEXT */}
+            <h1
+              className="text-[80px] md:text-[120px] leading-none tracking-widest text-[#d5d5d5] drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]"
+              style={{
+                textShadow: '0 0 20px rgba(0,0,0,0.5)',
+                transform: 'scaleY(1.1)' // Pricedown looks better slightly stretched
               }}
             >
-              <h1
-                className="text-6xl md:text-8xl lg:text-9xl text-white tracking-wider uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
-                style={{
-                  fontStyle: 'italic', // Mimic the urgency
-                }}
-              >
-                ESPERANZA
-              </h1>
-              {/* Glitch/Shadow effect duplication */}
-              <span className="absolute top-0 left-1 text-6xl md:text-8xl lg:text-9xl text-blue-500/30 tracking-wider uppercase -z-10 mix-blend-screen animate-pulse" style={{ fontStyle: 'italic' }}>
-                ESPERANZA
-              </span>
-              <span className="absolute top-0 -left-1 text-6xl md:text-8xl lg:text-9xl text-red-500/30 tracking-wider uppercase -z-10 mix-blend-screen animate-pulse" style={{ fontStyle: 'italic', animationDelay: '0.1s' }}>
-                ESPERANZA
-              </span>
-            </motion.div>
+              ESPERANZA
+            </h1>
 
-            {/* Stars Container */}
-            <div className="flex items-center justify-center mt-4">
+            {/* Stars Container - HUD Style */}
+            <div className="flex items-center justify-center gap-1 md:gap-2 mt-2 bg-gradient-to-r from-transparent via-black/20 to-transparent px-8 py-2 rounded-full">
               {[0, 1, 2, 3, 4].map((index) => {
-                // Calculate fill for this specific star
-                // Star 0: 0-20%
-                // Star 1: 20-40%
-                // etc.
                 const starStart = index * 20;
                 const starEnd = (index + 1) * 20;
 
-                // Calculate percentage of THIS star that is filled (0 to 100)
                 let starFill = 0;
                 if (progress >= starEnd) {
                   starFill = 100;
@@ -146,28 +145,33 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                 return (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 * index }}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 15,
+                      delay: index * 0.1
+                    }}
                   >
-                    <Star fillPercentage={starFill} />
+                    <Star
+                      fillPercentage={starFill}
+                      isFlashing={isFlashing && starFill < 100 && starFill > 0} // Flash only active/filling stars
+                    />
                   </motion.div>
                 );
               })}
             </div>
 
-            {/* Loading Percentage Text */}
+            {/* Loading Text */}
             <motion.p
-              className="mt-4 text-white/50 text-xl font-mono tracking-widest"
-              animate={{ opacity: [0.5, 1, 0.5] }}
+              className="mt-6 text-white/40 text-sm md:text-lg font-sans uppercase tracking-[0.5em] font-bold"
+              animate={{ opacity: [0.3, 0.7, 0.3] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
             >
-              LOADING STYLES... {Math.round(progress)}%
+              Loading Assets... {Math.round(progress)}%
             </motion.p>
           </motion.div>
-
-          {/* Vignette Effect */}
-          <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]" />
         </motion.div>
       )}
     </AnimatePresence>
