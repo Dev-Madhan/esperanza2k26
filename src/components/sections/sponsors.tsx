@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { InfiniteRibbon } from "../ui/infinite-ribbon";
 
 const marqueeItems = [
   "Opportunity", "Exposure", "Visibility", "Branding", "Engagement",
@@ -27,32 +28,7 @@ const Sponsors = () => {
 
   return (
     <div className="my-8 min-h-screen w-full overflow-hidden bg-background" id="sponsors">
-      <div className="bg-[#29B463] overflow-hidden whitespace-nowrap py-3">
-        <div className="flex animate-marquee">
-          <div className="flex items-center shrink-0">
-            {marqueeItems.concat(marqueeItems).map((item, index) => (
-              <span
-                key={index}
-                className="font-power text-2xl text-black flex items-center"
-              >
-                {item}
-                <span className="mx-4 text-black">•</span>
-              </span>
-            ))}
-          </div>
-          <div className="flex items-center shrink-0">
-            {marqueeItems.concat(marqueeItems).map((item, index) => (
-              <span
-                key={`dup-${index}`}
-                className="font-power text-2xl text-black flex items-center"
-              >
-                {item}
-                <span className="mx-4 text-black">•</span>
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
+      <InfiniteRibbon words={marqueeItems} />
 
       <section ref={sectionRef} className="pb-[1rem] pt-[4rem] md:pt-[7rem] px-4">
         <motion.h2
@@ -60,7 +36,8 @@ const Sponsors = () => {
           initial={{ opacity: 0, y: 60, filter: "blur(10px)" }}
           animate={isTitleInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="footer-gradient flex justify-center text-center font-power text-2xl md:text-4xl lg:text-5xl font-black mb-8 md:mb-12 tracking-tighter"
+          className="bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] flex justify-center text-center font-bricolage text-2xl md:text-4xl lg:text-5xl font-black mb-8 md:mb-12 tracking-tighter"
+          style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
         >
           OUR SPONSORS
         </motion.h2>
