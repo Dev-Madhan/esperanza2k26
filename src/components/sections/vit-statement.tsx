@@ -65,8 +65,9 @@ const VitStatement = () => {
               scale: 1.05,
               boxShadow: "0 0 60px rgba(138, 43, 226, 0.5)",
             }}
-            className="group relative animate-shimmer rounded-full border-2 border-slate-400 bg-[linear-gradient(110deg,#000103,45%,#3B1344,55%,#000103)] bg-[length:200%_100%] px-6 py-3 md:px-16 md:py-6 lg:px-32 lg:py-8 font-power text-2xl md:text-4xl lg:text-6xl font-black text-slate-400 transition-all focus:outline-none"
+            className="group relative animate-shimmer rounded-full border-2 border-slate-400 bg-[linear-gradient(110deg,#000103,45%,#3B1344,55%,#000103)] bg-[length:200%_100%] px-6 py-3 md:px-16 md:py-6 lg:px-32 lg:py-8 font-bricolage text-2xl md:text-4xl lg:text-6xl font-black text-slate-400 transition-all focus:outline-none"
             style={{
+              fontFamily: "var(--font-bricolage)",
               letterSpacing: '-0.05em',
               transformStyle: 'preserve-3d',
               perspective: '1000px'
@@ -95,7 +96,7 @@ const VitStatement = () => {
           {/* Card 1: The Creative Heartbeat */}
           <motion.div
             ref={card1Ref}
-            style={{ y: card1Y }}
+            style={{ y: card1Y, transformStyle: 'preserve-3d' }}
             initial={{ opacity: 0, x: -100, rotateY: -15 }}
             animate={isCard1InView ? {
               opacity: 1,
@@ -114,7 +115,6 @@ const VitStatement = () => {
               transition: { duration: 0.3 }
             }}
             className="group relative"
-            style={{ transformStyle: 'preserve-3d' }}
           >
             <div className="relative h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm px-8 py-10 md:px-12 md:py-16 overflow-hidden transition-all duration-300 group-hover:border-[#29B463]/50 group-hover:shadow-[0_20px_60px_-15px_rgba(41,180,99,0.3)]">
 
@@ -172,7 +172,7 @@ const VitStatement = () => {
           {/* Card 2: Platform to Evolve */}
           <motion.div
             ref={card2Ref}
-            style={{ y: card2Y }}
+            style={{ y: card2Y, transformStyle: 'preserve-3d' }}
             initial={{ opacity: 0, x: 100, rotateY: 15 }}
             animate={isCard2InView ? {
               opacity: 1,
@@ -191,7 +191,6 @@ const VitStatement = () => {
               transition: { duration: 0.3 }
             }}
             className="group relative"
-            style={{ transformStyle: 'preserve-3d' }}
           >
             <div className="relative h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm px-8 py-10 md:px-12 md:py-16 overflow-hidden transition-all duration-300 group-hover:border-[#FFC300]/50 group-hover:shadow-[0_20px_60px_-15px_rgba(255,195,0,0.3)]">
 

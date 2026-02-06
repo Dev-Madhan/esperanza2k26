@@ -143,14 +143,17 @@ const HeroSection: React.FC = () => {
         tl.call(() => {
             // Loop animation for the date text
             if (dateMarchRef.current) {
-                gsap.to(dateMarchRef.current, {
-                    scale: 1.05,
-                    color: "#29B463",
-                    duration: 1.5,
-                    ease: "sine.inOut",
-                    yoyo: true,
-                    repeat: -1,
-                });
+                gsap.fromTo(dateMarchRef.current, 
+                    { color: "#ffffff", scale: 1 },
+                    {
+                        scale: 1.05,
+                        color: "#A855F7",
+                        duration: 1.5,
+                        ease: "sine.inOut",
+                        yoyo: true,
+                        repeat: -1,
+                    }
+                );
             }
         });
 
@@ -390,21 +393,30 @@ const HeroSection: React.FC = () => {
                         <p className="text-white text-xl font-medium leading-none" style={{ fontFamily: "var(--font-bricolage)" }}>
                             This
                         </p>
-                        <h3 className="text-white text-4xl font-black leading-none" style={{ fontFamily: "var(--font-bricolage)" }}>
+                        <h3 className="text-4xl font-black leading-none bg-gradient-to-b from-white via-[#E9D5FF] to-[#A855F7] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(168,85,247,0.15)]" style={{ fontFamily: "var(--font-bricolage)" }}>
                             6TH MARCH
                         </h3>
                     </div>
 
                     {/* Mobile - CTA Buttons Bottom Right */}
                     <div className="sm:hidden absolute bottom-24 right-4 z-40 flex flex-col gap-3 pointer-events-auto">
-                        <Link href="/events">
-                            <button className="px-6 py-2.5 rounded-full border-2 border-white text-white text-xs font-bold uppercase tracking-wider bg-transparent active:scale-95 transition-transform whitespace-nowrap">
-                                EXPLORE EVENTS
+                        <Link href="/events" className="w-full">
+                             <button className="group relative w-full overflow-hidden rounded-full border-2 border-slate-400 bg-[linear-gradient(110deg,#000103,45%,#3B1344,55%,#000103)] bg-[length:200%_100%] px-6 py-3 font-black text-white transition-all duration-300 animate-shimmer focus:outline-none"
+                                 style={{
+                                     fontFamily: "var(--font-bricolage)",
+                                     letterSpacing: '-0.05em',
+                                 }}
+                             >
+                                <span className="relative z-10 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-white">
+                                    EXPLORE EVENTS
+                                </span>
+                                 {/* Glow effect on hover */}
+                                <div
+                                    className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/0 via-purple-500/30 to-purple-500/0 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"
+                                />
                             </button>
                         </Link>
-                        <button className="px-6 py-2.5 rounded-full border-2 border-white text-white text-xs font-bold uppercase tracking-wider bg-transparent active:scale-95 transition-transform whitespace-nowrap">
-                            Register Now
-                        </button>
+
                     </div>
 
 
@@ -412,8 +424,9 @@ const HeroSection: React.FC = () => {
 
                     {/* Mobile - #VISTARA Bottom Right */}
                     <h1
-                        className="sm:hidden absolute bottom-6 right-4 z-40 text-white font-extrabold italic select-none text-xs"
+                        className="sm:hidden absolute bottom-6 right-4 z-40 font-extrabold select-none text-xs font-bricolage bg-gradient-to-b from-white via-[#E9D5FF] to-[#A855F7] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(168,85,247,0.15)]"
                         style={{
+                            fontFamily: "var(--font-bricolage)",
                             letterSpacing: "0.1em",
                             lineHeight: "0.8"
                         }}
@@ -423,8 +436,9 @@ const HeroSection: React.FC = () => {
 
                     {/* Desktop - #VISTARA Bottom Right */}
                     <h1
-                        className="hidden sm:block absolute bottom-6 right-4 sm:bottom-8 sm:right-5 z-40 text-foreground font-extrabold italic select-none text-sm sm:text-base md:text-lg"
+                        className="hidden sm:block absolute bottom-6 right-4 sm:bottom-8 sm:right-5 z-40 font-extrabold select-none text-sm sm:text-base md:text-lg font-bricolage bg-gradient-to-b from-white via-[#E9D5FF] to-[#A855F7] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(168,85,247,0.15)]"
                         style={{
+                            fontFamily: "var(--font-bricolage)",
                             letterSpacing: "-0.05em",
                             lineHeight: "0.8"
                         }}
@@ -497,7 +511,7 @@ const HeroSection: React.FC = () => {
                         <h2
                             ref={dateMarchRef}
                             className="font-extrabold text-[3rem] sm:text-[4.5rem] leading-[0.8] tracking-tighter"
-                            style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontStyle: "normal" }}
+                            style={{ fontFamily: "var(--font-bricolage)", fontWeight: 800, fontStyle: "normal" }}
                         >
                             6TH MARCH
                         </h2>
@@ -537,24 +551,25 @@ const HeroSection: React.FC = () => {
             {/* Desktop - Action Buttons (Bottom Right) */}
             <div className="hidden sm:flex absolute z-30 items-end sm:items-center justify-end sm:justify-center bottom-[140px] sm:bottom-28 md:bottom-12 right-4 sm:right-0 sm:w-full sm:px-6">
                 <div className="flex flex-col gap-3 sm:gap-4 sm:flex-row">
-                    <Link href="/events" className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-black px-5 sm:px-8 py-2.5 sm:py-3.5 text-white transition-all duration-300 border border-white/10"
+                    <Link href="/events" className="group relative inline-flex items-center justify-center overflow-hidden rounded-full border-2 border-slate-400 bg-[linear-gradient(110deg,#000103,45%,#3B1344,55%,#000103)] bg-[length:200%_100%] px-6 sm:px-8 py-3 sm:py-3.5 font-black text-white transition-all duration-300 animate-shimmer focus:outline-none"
                         style={{
-                            boxShadow: "inset 0 -8px 10px rgba(255,255,255,0.12)"
+                            fontFamily: "var(--font-bricolage)",
+                            letterSpacing: '-0.05em',
                         }}>
-                        <div className="absolute inset-0 -z-10 group-hover:animate-shimmer bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%]"></div>
-
-                        <span className="relative flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-secondary">
+                        <span className="relative z-10 flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-white">
                             Explore Events
                         </span>
-
-                        <div className="absolute inset-0 rounded-full shadow-[inset_0_0_15px_rgba(156,24,255,0.2)] group-hover:shadow-[inset_0_0_20px_rgba(156,24,255,0.4)] transition-all"></div>
+                         {/* Glow effect on hover */}
+                        <div
+                            className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/0 via-purple-500/30 to-purple-500/0 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"
+                        />
                     </Link>
 
-                    <button className="bg-black/60 backdrop-blur-md px-5 sm:px-8 py-2.5 sm:py-3.5 rounded-full text-white text-xs sm:text-sm font-bold uppercase tracking-widest border border-white/60 hover:bg-white/10 transition-all duration-300">
-                        Register Now
-                    </button>
+
                 </div>
             </div>
+
+
 
 
 
