@@ -260,7 +260,6 @@
     text-transform: uppercase;
   }
 
-
   .font-bricolage,
   .font-secondary {
     font-family: "Bricolage Grotesque", sans-serif !important;
@@ -522,5 +521,35 @@
 @media (min-width: 768px) {
   .logo {
     height: 4rem;
+  }
+}
+
+@theme inline {
+  --animate-infinite-ribbon: infinite-ribbon var(--ribbon-duration) linear infinite;
+  --animate-infinite-ribbon-reverse: infinite-ribbon-reverse var(--ribbon-duration) linear infinite;
+  @keyframes infinite-ribbon {
+  0% {
+    transform: translateX(0);
+    }
+  100% {
+    transform: translateX(-100%);
+    }
+  }
+  @keyframes infinite-ribbon-reverse {
+  0% {
+    transform: translateX(-100%);
+    }
+  100% {
+    transform: translateX(0);
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

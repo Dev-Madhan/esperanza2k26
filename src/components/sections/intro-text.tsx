@@ -25,6 +25,7 @@ const IntroTextSection: React.FC = () => {
 
   return (
     <section
+      id="intro-section"
       ref={containerRef}
       className="relative bg-[#0A0A0A]"
       style={{ height: `${totalItems * 100}vh` }}
@@ -84,7 +85,7 @@ const IntroTextSection: React.FC = () => {
               const blur = useTransform(
                 scrollYProgress,
                 [itemStart, itemMid, itemEnd],
-                [10, 0, 10]
+                [4, 0, 4]
               );
 
               return (
@@ -97,16 +98,12 @@ const IntroTextSection: React.FC = () => {
                     scale,
                     rotateX,
                     filter: useTransform(blur, (b) => `blur(${b}px)`),
-                    color: item.color,
                     transformStyle: "preserve-3d",
                     willChange: "transform, opacity",
                   }}
                 >
                   <h2
-                    className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl leading-tight font-bricolage"
-                    style={{
-                      textShadow: `0 0 40px ${item.color}60, 0 0 80px ${item.color}30`,
-                    }}
+                    className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl leading-tight font-bricolage bg-gradient-to-b from-white via-[#E9D5FF] to-[#A855F7] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(168,85,247,0.15)]"
                   >
                     {item.text}
                   </h2>
@@ -116,44 +113,9 @@ const IntroTextSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Scroll indicator - only show at start */}
-        <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          style={{
-            opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0])
-          }}
-        >
-          <p className="text-white/60 text-sm uppercase tracking-widest">Scroll to explore</p>
-          <motion.div
-            className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <div className="w-1 h-2 bg-white/60 rounded-full" />
-          </motion.div>
-        </motion.div>
 
-        {/* Progress indicator */}
-        <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3">
-          {textItems.map((_, i) => (
-            <motion.div
-              key={i}
-              className="w-2 h-2 rounded-full"
-              style={{
-                backgroundColor: useTransform(
-                  scrollYProgress,
-                  [i / totalItems, (i + 0.5) / totalItems, (i + 1) / totalItems],
-                  ["rgba(255,255,255,0.2)", "#29B463", "rgba(255,255,255,0.2)"]
-                ),
-                scale: useTransform(
-                  scrollYProgress,
-                  [i / totalItems, (i + 0.5) / totalItems, (i + 1) / totalItems],
-                  [1, 1.5, 1]
-                ),
-              }}
-            />
-          ))}
-        </div>
+
+
       </div>
     </section>
   );

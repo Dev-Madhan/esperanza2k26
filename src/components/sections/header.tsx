@@ -21,13 +21,13 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "/", weight: "font-normal" },
-    { name: "Events", href: "/events", weight: "font-normal", extraClasses: "" },
+    { name: "Home", href: "/", weight: "font-bold" },
+    { name: "Events", href: "/events", weight: "font-bold", extraClasses: "" },
   ];
 
   const navLinksRight = [
-    { name: "gallery", href: "/gallery", weight: "font-normal", extraClasses: "" },
-    { name: "Team", href: "/team", weight: "font-normal", extraClasses: "" },
+    { name: "gallery", href: "/gallery", weight: "font-bold", extraClasses: "" },
+    { name: "Team", href: "/team", weight: "font-bold", extraClasses: "" },
   ];
 
   const logoUrl = "/logo.svg";
@@ -57,7 +57,7 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
               <a
                 key={link.name}
                 href={link.href}
-                className={`px-2 py-2 text-[21px] transition duration-300 ease-in-out hover:scale-[110%] lg:px-3 text-white ${link.weight} ${link.extraClasses || ""}`}
+                className={`px-2 py-2 text-[21px] transition duration-300 ease-in-out hover:scale-[110%] lg:px-3 text-white ${link.weight} ${link.extraClasses || ""} font-bricolage`}
               >
                 {link.name}
               </a>
@@ -84,7 +84,7 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
               <a
                 key={link.name}
                 href={link.href}
-                className={`px-2 py-2 text-[21px] transition duration-300 ease-in-out hover:scale-[110%] lg:px-3 text-white ${link.weight}`}
+                className={`px-2 py-2 text-[21px] transition duration-300 ease-in-out hover:scale-[110%] lg:px-3 text-white ${link.weight} font-bricolage`}
               >
                 {link.name}
               </a>
