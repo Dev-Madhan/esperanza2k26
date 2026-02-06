@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Download } from "lucide-react";
-import Header from '@/components/sections/header';
+import Header from '@/components/sections/HeaderNavigation';
 import Footer from '@/components/sections/footer';
 import GalleryIntro from '@/components/gallery/GalleryIntro';
 import { Skiper34 } from '@/components/ui/skiper-ui/skiper34';
@@ -31,7 +31,7 @@ export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<typeof galleryImages[0] | null>(null);
 
 
-  
+
   const galleryRef = useRef(null);
 
   const filteredImages = activeCategory === "All"
@@ -76,7 +76,7 @@ export default function GalleryPage() {
               >
                 ✕
               </button>
-              
+
               <div className="relative aspect-video w-full bg-zinc-950">
                 <Image
                   src={selectedImage.src}
@@ -85,7 +85,7 @@ export default function GalleryPage() {
                   className="object-contain"
                 />
               </div>
-              
+
               <div className="p-6 md:p-8 bg-[#0c0c0c]">
                 <div className="flex items-center justify-between">
                   <div>
@@ -94,10 +94,10 @@ export default function GalleryPage() {
                     </h3>
                     <p className="text-orange-500 font-medium">{selectedImage.category}</p>
                   </div>
-                  
+
                   {/* Optional: Add a download or share button here if needed */}
                   <a href={selectedImage.src} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full hover:bg-zinc-800 transition-colors">
-                     <Download className="w-5 h-5 text-zinc-400" />
+                    <Download className="w-5 h-5 text-zinc-400" />
                   </a>
                 </div>
               </div>

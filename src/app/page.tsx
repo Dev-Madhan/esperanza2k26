@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Header from "@/components/sections/header";
+import MobileNav from "@/components/sections/MobileNav";
 import HeroSection from "@/components/sections/hero";
 import IntroTextSection from "@/components/sections/intro-text";
 import TeaserVideo from "@/components/sections/teaser-video";
@@ -23,6 +24,7 @@ export default function Home() {
         style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.3s ease' }}
       >
         <div className="grainy-overlay" />
+        <MobileNav />
         <Header />
         <HeroSection />
         <IntroTextSection />

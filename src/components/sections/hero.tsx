@@ -74,7 +74,6 @@ const HeroSection: React.FC = () => {
 
         // Safely check if elements exist before animating
         const elementsToAnimate = [
-            dateThisRef.current,
             dateMarchRef.current,
             dateMarchBgRef.current
         ].filter(el => el !== null);
@@ -84,8 +83,6 @@ const HeroSection: React.FC = () => {
         tl.set(elementsToAnimate, {
             opacity: 0,
         });
-
-        if (dateThisRef.current) tl.set(dateThisRef.current, { color: "#9C18FF" });
 
         if (dateMarchRef.current) {
             tl.set(dateMarchRef.current, {
@@ -101,8 +98,8 @@ const HeroSection: React.FC = () => {
             });
         }
 
-        if (dateThisRef.current && dateMarchBgRef.current) {
-            tl.to([dateThisRef.current, dateMarchBgRef.current], {
+        if (dateMarchBgRef.current) {
+            tl.to(dateMarchBgRef.current, {
                 opacity: 1,
                 duration: 0.15,
                 ease: "power2.out",
@@ -133,13 +130,28 @@ const HeroSection: React.FC = () => {
             }, "+=0.1");
         }
 
-        if (dateThisRef.current) {
-            tl.to(dateThisRef.current, {
+        if (dateMarchRef.current) {
+            tl.to(dateMarchRef.current, {
                 color: "#ffffff",
                 duration: 0.25,
                 ease: "power2.inOut",
             }, "+=0.3");
         }
+
+        // Add looping animation after initial animation
+        tl.call(() => {
+            // Loop animation for the date text
+            if (dateMarchRef.current) {
+                gsap.to(dateMarchRef.current, {
+                    scale: 1.05,
+                    color: "#29B463",
+                    duration: 1.5,
+                    ease: "sine.inOut",
+                    yoyo: true,
+                    repeat: -1,
+                });
+            }
+        });
 
         return () => {
             tl.kill();
@@ -376,7 +388,7 @@ const HeroSection: React.FC = () => {
                             This
                         </p>
                         <h3 className="text-white text-4xl font-black leading-none" style={{ fontFamily: "var(--font-bricolage)" }}>
-                            MARCH 5
+                            6TH MARCH
                         </h3>
                     </div>
 
@@ -469,13 +481,7 @@ const HeroSection: React.FC = () => {
             {/* Desktop - Date Section (Bottom Left) */}
             <div className="hidden sm:block absolute z-20 bottom-[140px] sm:bottom-[120px] md:bottom-[40px] left-[20px] sm:left-[25px] md:left-[50px]">
                 <div className="flex flex-col w-fit h-fit relative">
-                    <p
-                        ref={dateThisRef}
-                        className="font-medium text-[1rem] sm:text-[1.25rem] leading-none mb-1"
-                        style={{ fontFamily: "'Impact', 'Anton', sans-serif" }}
-                    >
-                        This
-                    </p>
+
 
                     <div className="relative">
                         <div
@@ -488,7 +494,7 @@ const HeroSection: React.FC = () => {
                             className="font-extrabold text-[3rem] sm:text-[4.5rem] leading-[0.8] tracking-tighter"
                             style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontStyle: "normal" }}
                         >
-                            5TH MARCH
+                            6TH MARCH
                         </h2>
                     </div>
 
@@ -499,6 +505,17 @@ const HeroSection: React.FC = () => {
                     >
                     </div>
                 </div>
+            </div>
+
+            {/* Desktop - VTMT VG Logo (Top Left) */}
+            <div className="hidden sm:block absolute z-50 top-1 left-1 sm:top-1 sm:left-1">
+                <Image
+                    src="/vtmt.svg"
+                    alt="VTMT VG Logo"
+                    width={300}
+                    height={120}
+                    className="w-24 h-24 sm:w-[300px] sm:h-[120px] object-contain opacity-90 hover:opacity-100 transition-opacity"
+                />
             </div>
 
             {/* Desktop - VSC Logo (Top Right) */}

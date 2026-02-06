@@ -1,131 +1,157 @@
 "use client";
 
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const IntroTextSection: React.FC = () => {
-  const sectionRef = useRef(null);
-  const textRef = useRef(null);
-  const capsulesRef = useRef(null);
-
-  const isTextInView = useInView(textRef, { once: true, amount: 0.3 });
-  const isCapsulesInView = useInView(capsulesRef, { once: true, amount: 0.3 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
+    target: containerRef,
+    offset: ["start start", "end end"]
   });
 
-  const textY = useTransform(scrollYProgress, [0, 1], [50, -50]);
-
-  const capsules = [
-    { text: "Four Days.", color: "#29B463", textColor: "white", rotation: -15, top: "-1rem", right: "2rem" },
-    { text: "Stars", color: "#DAF7A5", textColor: "black", rotation: 10, top: "3.5rem", right: "0" },
-    { text: "Merch", color: "#FF5733", textColor: "white", rotation: -8, top: "7rem", right: "3rem" },
-    { text: "Events", color: "#FFC300", textColor: "black", rotation: 5, top: "11rem", right: "1rem" },
+  // Text items to display sequentially
+  const textItems = [
+    { text: "One Epic Day", color: "#29B463", weight: "font-black" },
+    { text: "Shimmering Talents", color: "#DAF7A5", weight: "font-bold" },
+    { text: "Power-Packed Events", color: "#FFC300", weight: "font-bold" },
+    { text: "Electrifying Performances", color: "#FF5733", weight: "font-bold" },
+    { text: "Unforgettable Moments", color: "#29B463", weight: "font-bold" },
+    { text: "Pure Passion", color: "#FFC300", weight: "font-black" },
   ];
 
+  const totalItems = textItems.length;
+
   return (
-    <section ref={sectionRef} className="overflow-x-hidden bg-[#131313] py-12 sm:py-[5rem]">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between px-6 sm:flex-col sm:justify-center sm:gap-16 sm:px-4 md:flex-row md:px-16 lg:px-[10rem]">
+    <section
+      ref={containerRef}
+      className="relative bg-[#0A0A0A]"
+      style={{ height: `${totalItems * 100}vh` }}
+    >
+      {/* Sticky container */}
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 
-        <motion.div
-          ref={textRef}
-          style={{ y: textY }}
-          className="w-full font-display leading-[1.3] text-white text-center sm:text-left md:w-[70%]"
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#1a1a1a_0%,#000000_100%)] opacity-60" />
+
+        {/* Text Container with 3D perspective */}
+        <div
+          className="relative w-full h-full flex items-center justify-center"
+          style={{ perspective: "1000px" }}
         >
-          <motion.div
-            initial={{ opacity: 0, x: -80, filter: "blur(10px)" }}
-            animate={isTextInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
-            transition={{ duration: 0.8, delay: 0, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mb-2 text-xl font-bold tracking-tight text-[#29B463] sm:text-3xl md:text-4xl lg:text-[2.7rem]"
-          >
-            Four Incredible Days.
-          </motion.div>
+          <div className="relative w-full max-w-6xl px-6">
+            {textItems.map((item, index) => {
+              // Calculate scroll range for this item
+              const itemStart = index / totalItems;
+              const itemEnd = (index + 1) / totalItems;
+              const itemMid = (itemStart + itemEnd) / 2;
 
-          <motion.div
-            initial={{ opacity: 0, x: -80, filter: "blur(10px)" }}
-            animate={isTextInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mb-2 text-xl font-light tracking-tight sm:text-3xl md:text-4xl lg:text-[2.7rem]"
-          >
-            <span className="inline-block font-bold text-[#DAF7A5]">Shimmering Stars</span>
-            {" "}Lighting Up Every Corner.
-          </motion.div>
+              // Opacity: fade in, stay visible, fade out
+              const opacity = useTransform(
+                scrollYProgress,
+                [
+                  Math.max(0, itemStart - 0.05),
+                  itemStart + 0.05,
+                  itemEnd - 0.05,
+                  Math.min(1, itemEnd + 0.05)
+                ],
+                [0, 1, 1, 0]
+              );
 
-          <motion.div
-            initial={{ opacity: 0, x: -80, filter: "blur(10px)" }}
-            animate={isTextInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mb-2 text-xl font-light tracking-tight sm:text-3xl md:text-4xl lg:text-[2.7rem]"
-          >
-            <span className="inline-block font-bold text-[#FFC300]">Epic Events</span>
-            {" "}That Leave You Breathless.
-          </motion.div>
+              // Y position: slide up and out
+              const y = useTransform(
+                scrollYProgress,
+                [itemStart, itemMid, itemEnd],
+                [100, 0, -100]
+              );
 
-          <motion.div
-            initial={{ opacity: 0, x: -80, filter: "blur(10px)" }}
-            animate={isTextInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mb-2 text-xl font-light tracking-tight sm:text-3xl md:text-4xl lg:text-[2.7rem]"
-          >
-            <span className="inline-block font-bold text-[#FF5733]">Celebrities</span>
-            {" "}Bringing Charisma And Flair.
-          </motion.div>
+              // Scale: grow in, shrink out
+              const scale = useTransform(
+                scrollYProgress,
+                [itemStart, itemMid, itemEnd],
+                [0.8, 1, 0.8]
+              );
 
-          <motion.div
-            initial={{ opacity: 0, x: -80, filter: "blur(10px)" }}
-            animate={isTextInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mb-2 text-xl font-light tracking-tight sm:text-3xl md:text-4xl lg:text-[2.7rem]"
-          >
-            This is More Than An Experience.
-          </motion.div>
+              // Rotation X: 3D flip effect
+              const rotateX = useTransform(
+                scrollYProgress,
+                [itemStart, itemMid, itemEnd],
+                [45, 0, -45]
+              );
 
+              // Blur: sharp in center, blurred at edges
+              const blur = useTransform(
+                scrollYProgress,
+                [itemStart, itemMid, itemEnd],
+                [10, 0, 10]
+              );
+
+              return (
+                <motion.div
+                  key={index}
+                  className={`absolute inset-0 flex items-center justify-center text-center font-display ${item.weight}`}
+                  style={{
+                    opacity,
+                    y,
+                    scale,
+                    rotateX,
+                    filter: useTransform(blur, (b) => `blur(${b}px)`),
+                    color: item.color,
+                    transformStyle: "preserve-3d",
+                    willChange: "transform, opacity",
+                  }}
+                >
+                  <h2
+                    className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl leading-tight font-bricolage"
+                    style={{
+                      textShadow: `0 0 40px ${item.color}60, 0 0 80px ${item.color}30`,
+                    }}
+                  >
+                    {item.text}
+                  </h2>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Scroll indicator - only show at start */}
+        <motion.div
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          style={{
+            opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0])
+          }}
+        >
+          <p className="text-white/60 text-sm uppercase tracking-widest">Scroll to explore</p>
           <motion.div
-            initial={{ opacity: 0, x: -80, filter: "blur(10px)" }}
-            animate={isTextInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
-            transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-xl font-light tracking-tight sm:text-3xl md:text-4xl lg:text-[2.7rem]"
+            className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2"
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            A Wave Of&nbsp;
-            <span className="inline-block font-bold text-[#29B463]">Pure,&nbsp;</span>
-            <span className="inline-block font-bold text-[#FFC300]">Unfiltered</span>
-            {" "}
-            <span className="inline-block font-bold text-[#FF5733]">Passion.</span>
+            <div className="w-1 h-2 bg-white/60 rounded-full" />
           </motion.div>
         </motion.div>
 
-        <div ref={capsulesRef} className="relative mt-12 flex h-[220px] w-full items-center justify-center sm:mt-16 sm:h-[250px] md:mt-0 md:w-[30%]">
-          {capsules.map((capsule, index) => (
+        {/* Progress indicator */}
+        <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3">
+          {textItems.map((_, i) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0, rotate: 0 }}
-              animate={isCapsulesInView ? {
-                opacity: 1,
-                scale: 1,
-                rotate: capsule.rotation,
-              } : {}}
-              transition={{
-                duration: 0.6,
-                delay: 0.2 + index * 0.15,
-                type: "spring",
-                stiffness: 200,
-                damping: 20
-              }}
-              whileHover={{ scale: 1.1, rotate: capsule.rotation + 5 }}
-              className="absolute flex items-center justify-center rounded-full border-3 border-white px-4 py-1.5 text-center font-display text-[1.1rem] font-bold shadow-2xl cursor-pointer sm:px-8 sm:text-[1.8rem] lg:px-10 lg:text-[2.2rem] animate-float"
+              key={i}
+              className="w-2 h-2 rounded-full"
               style={{
-                backgroundColor: capsule.color,
-                color: capsule.textColor,
-                zIndex: 40 - index * 10,
-                top: capsule.top,
-                right: capsule.right,
-                animationDelay: `${index * 0.5}s`
+                backgroundColor: useTransform(
+                  scrollYProgress,
+                  [i / totalItems, (i + 0.5) / totalItems, (i + 1) / totalItems],
+                  ["rgba(255,255,255,0.2)", "#29B463", "rgba(255,255,255,0.2)"]
+                ),
+                scale: useTransform(
+                  scrollYProgress,
+                  [i / totalItems, (i + 0.5) / totalItems, (i + 1) / totalItems],
+                  [1, 1.5, 1]
+                ),
               }}
-            >
-              {capsule.text}
-            </motion.div>
+            />
           ))}
         </div>
       </div>

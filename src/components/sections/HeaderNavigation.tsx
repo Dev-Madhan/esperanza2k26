@@ -97,3 +97,5 @@ export function HeaderNavigation() {
         </div>
     );
 }
+
+export default HeaderNavigation;
