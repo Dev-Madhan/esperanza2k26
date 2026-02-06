@@ -26,7 +26,7 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
   ];
 
   const navLinksRight = [
-    { name: "Sponsors", href: "/#sponsors", weight: "font-normal", extraClasses: "" },
+    { name: "gallery", href: "/gallery", weight: "font-normal", extraClasses: "" },
     { name: "Team", href: "/team", weight: "font-normal", extraClasses: "" },
   ];
 

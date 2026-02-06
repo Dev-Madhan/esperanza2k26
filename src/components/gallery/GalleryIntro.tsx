@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function GalleryIntro() {
   return (
-    <section className="relative h-[70vh] flex flex-col items-center justify-center overflow-hidden bg-background w-full">
+    <section className="relative h-[70vh] flex flex-col items-center justify-center overflow-hidden w-full">
       <div className="flex flex-col items-center justify-center z-10 px-4 w-full">
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
@@ -23,7 +23,7 @@ export default function GalleryIntro() {
           className="mt-4 md:mt-6 text-xs sm:text-sm md:text-lg tracking-[0.15em] md:tracking-[0.2em] font-medium uppercase text-muted-foreground/90 font-bricolage text-center max-w-[90%] md:max-w-none"
           style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
         >
-          Essence of Esperanza | Scroll to Discover
+          Where Esperanza Comes Alive in Motion
         </motion.p>
       </div>
 
