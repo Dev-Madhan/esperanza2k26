@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/sections/HeaderNavigation';
+import Header from '@/components/sections/header';
+import MobileNav from '@/components/sections/MobileNav';
 import Footer from '@/components/sections/footer';
 import GalleryIntro from '@/components/gallery/GalleryIntro';
 import { ImageTrail } from '@/components/ui/image-trail';
@@ -45,6 +46,7 @@ export default function GalleryPage() {
 
   return (
     <main className="relative min-h-screen bg-background text-foreground overflow-hidden">
+      <MobileNav />
       <Header />
       <div className="relative w-full h-screen flex items-center justify-center">
         <div className="absolute inset-0 z-0 opacity-40">

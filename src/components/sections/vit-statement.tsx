@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
 const VitStatement = () => {
@@ -115,6 +116,7 @@ const VitStatement = () => {
               transition: { duration: 0.3 }
             }}
             className="group relative"
+
           >
             <div className="relative h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm px-8 py-10 md:px-12 md:py-16 overflow-hidden transition-all duration-300 group-hover:border-[#29B463]/50 group-hover:shadow-[0_20px_60px_-15px_rgba(41,180,99,0.3)]">
 
@@ -191,6 +193,7 @@ const VitStatement = () => {
               transition: { duration: 0.3 }
             }}
             className="group relative"
+
           >
             <div className="relative h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm px-8 py-10 md:px-12 md:py-16 overflow-hidden transition-all duration-300 group-hover:border-[#FFC300]/50 group-hover:shadow-[0_20px_60px_-15px_rgba(255,195,0,0.3)]">
 
@@ -246,6 +249,70 @@ const VitStatement = () => {
           </motion.div>
 
         </div>
+
+        {/* Vizzy Mascot Section */}
+        <div className="mt-32 relative flex flex-col items-center justify-center perspective-1000">
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-center mb-10 z-10"
+          >
+            <h3 className="text-xl md:text-2xl font-bold text-white/60 tracking-[0.2em] mb-2 uppercase">Introducing Our New Mascot</h3>
+            <h2 className="text-6xl md:text-8xl lg:text-9xl font-black font-bricolage text-transparent bg-clip-text bg-gradient-to-r from-[#29B463] via-[#DAF7A5] to-[#29B463] animate-gradient-x drop-shadow-[0_0_15px_rgba(41,180,99,0.5)]">
+              VIZZY
+            </h2>
+          </motion.div>
+
+          {/* 3D Mascot Container */}
+          <motion.div
+            style={{
+              rotateY: useTransform(scrollYProgress, [0.5, 1], [30, -30]),
+              rotateX: useTransform(scrollYProgress, [0.5, 1], [10, -10]),
+              z: useTransform(scrollYProgress, [0.5, 1], [-100, 0]),
+              scale: useTransform(scrollYProgress, [0.5, 1], [0.8, 1.2])
+            }}
+            className="relative w-[400px] h-[600px] md:w-[800px] md:h-[1000px]"
+          >
+            {/* Glowing aura behind mascot */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#29B463]/30 to-[#FFC300]/30 rounded-full blur-[80px] animate-pulse" />
+
+            <motion.div
+              animate={{
+                y: [0, -20, 0],
+                rotateZ: [-2, 2, -2]
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="relative w-full h-full drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)]"
+            >
+              <Image
+                src="/mascot.svg"
+                alt="Vizzy Mascot"
+                fill
+                className="object-contain"
+                priority
+              />
+
+              {/* 3D Reflection Effect */}
+              <div className="absolute -bottom-10 left-[10%] w-[80%] h-4 bg-black/50 blur-xl rounded-[100%]" />
+            </motion.div>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="mt-12 text-center text-white/50 max-w-2xl text-lg md:text-xl"
+          >
+            The spirit of <span className="text-[#29B463] font-bold">Vistara</span> personified. Vizzy brings the energy, creativity, and vibe of our club to life!
+          </motion.p>
+        </div>
+
       </div>
     </section>
   );

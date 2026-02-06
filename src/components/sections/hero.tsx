@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { gsap } from "gsap";
 import { useMenu } from "@/context/MenuContext";
@@ -143,7 +143,7 @@ const HeroSection: React.FC = () => {
         tl.call(() => {
             // Loop animation for the date text
             if (dateMarchRef.current) {
-                gsap.fromTo(dateMarchRef.current, 
+                gsap.fromTo(dateMarchRef.current,
                     { color: "#ffffff", scale: 1 },
                     {
                         scale: 1.05,
@@ -210,7 +210,6 @@ const HeroSection: React.FC = () => {
             duration: MOVE_DUR,
             ease: "power2.out",
             overwrite: "auto",
-            zIndex: 100 // Ensure it stays on top during movement
         });
     }, [isTransitioning]);
 
@@ -226,7 +225,6 @@ const HeroSection: React.FC = () => {
             z: 0,
             duration: LEAVE_DUR,
             ease: "power4.out",
-            zIndex: "auto"
         });
     }, []);
 
@@ -401,22 +399,21 @@ const HeroSection: React.FC = () => {
                     {/* Mobile - CTA Buttons Bottom Right */}
                     <div className="sm:hidden absolute bottom-24 right-4 z-40 flex flex-col gap-3 pointer-events-auto">
                         <Link href="/events" className="w-full">
-                             <button className="group relative w-full overflow-hidden rounded-full border-2 border-slate-400 bg-[linear-gradient(110deg,#000103,45%,#3B1344,55%,#000103)] bg-[length:200%_100%] px-6 py-3 font-black text-white transition-all duration-300 animate-shimmer focus:outline-none"
-                                 style={{
-                                     fontFamily: "var(--font-bricolage)",
-                                     letterSpacing: '-0.05em',
-                                 }}
-                             >
+                            <button className="group relative w-full overflow-hidden rounded-full border-2 border-slate-400 bg-[linear-gradient(110deg,#000103,45%,#3B1344,55%,#000103)] bg-[length:200%_100%] px-6 py-3 font-black text-white transition-all duration-300 animate-shimmer focus:outline-none"
+                                style={{
+                                    fontFamily: "var(--font-bricolage)",
+                                    letterSpacing: '-0.05em',
+                                }}
+                            >
                                 <span className="relative z-10 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-white">
                                     EXPLORE EVENTS
                                 </span>
-                                 {/* Glow effect on hover */}
+                                {/* Glow effect on hover */}
                                 <div
                                     className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/0 via-purple-500/30 to-purple-500/0 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"
                                 />
                             </button>
                         </Link>
-
                     </div>
 
 
@@ -527,13 +524,13 @@ const HeroSection: React.FC = () => {
             </div>
 
             {/* Desktop - VTMT VG Logo (Top Left) */}
-            <div className="hidden sm:block absolute z-50 top-1 left-1 sm:top-1 sm:left-1">
+            <div className="hidden sm:block absolute z-50 top-0 left-0 sm:top-1 sm:left-1">
                 <Image
                     src="/vtmt.svg"
                     alt="VTMT VG Logo"
-                    width={300}
-                    height={120}
-                    className="w-24 h-24 sm:w-[300px] sm:h-[120px] object-contain opacity-90 hover:opacity-100 transition-opacity"
+                    width={320}
+                    height={100}
+                    className="w-24 h-24 sm:w-[320px] sm:h-[100px] object-contain opacity-90 hover:opacity-100 transition-opacity"
                 />
             </div>
 
@@ -559,7 +556,7 @@ const HeroSection: React.FC = () => {
                         <span className="relative z-10 flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-white">
                             Explore Events
                         </span>
-                         {/* Glow effect on hover */}
+                        {/* Glow effect on hover */}
                         <div
                             className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/0 via-purple-500/30 to-purple-500/0 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"
                         />

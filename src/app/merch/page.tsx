@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import Header from '@/components/sections/header';
+import MobileNav from '@/components/sections/MobileNav';
 import Footer from '@/components/sections/footer';
 
 const merchItems = [
@@ -54,6 +55,7 @@ export default function MerchPage() {
   return (
     <main className="relative min-h-screen bg-background text-foreground">
       <div className="grainy-overlay" />
+      <MobileNav />
       <Header />
 
       <section className="pt-32 pb-20 px-4 md:px-10 lg:px-20">

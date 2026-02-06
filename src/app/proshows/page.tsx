@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import Header from '@/components/sections/header';
+import MobileNav from '@/components/sections/MobileNav';
 import Footer from '@/components/sections/footer';
 
 const proshows = [
@@ -68,7 +69,7 @@ function ShowCard({ show, showIndex }: { show: typeof proshows[0]; showIndex: nu
           transition={{ duration: 0.6, delay: 0.2 }}
           className="lg:w-1/4"
         >
-          <div 
+          <div
             className="inline-block px-6 py-2 rounded-full font-bold text-black mb-4"
             style={{ backgroundColor: show.color }}
           >
@@ -124,8 +125,9 @@ export default function ProShowsPage() {
   return (
     <main className="relative min-h-screen bg-background text-foreground">
       <div className="grainy-overlay" />
+      <MobileNav />
       <Header />
-      
+
       <section className="pt-32 pb-20 px-4 md:px-10 lg:px-20">
         <div ref={heroRef} className="mx-auto max-w-7xl">
           <motion.div
@@ -140,7 +142,7 @@ export default function ProShowsPage() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="flex items-center justify-center gap-4 mb-4"
             >
-              <motion.svg 
+              <motion.svg
                 animate={{ rotate: 360 }}
                 transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                 width="40" height="40" viewBox="0 0 24 24" className="text-festival-orange"
@@ -150,7 +152,7 @@ export default function ProShowsPage() {
               <h1 className="font-power text-[12vw] md:text-[10vw] lg:text-[150px] font-black tracking-tighter leading-none text-festival-yellow">
                 PRO SHOWS
               </h1>
-              <motion.svg 
+              <motion.svg
                 animate={{ rotate: -360 }}
                 transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                 width="40" height="40" viewBox="0 0 24 24" className="text-festival-orange"

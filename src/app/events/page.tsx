@@ -4,6 +4,7 @@ import { Star, Music, Film, Camera, Mic, Mic2, ArrowRight, Download, Phone } fro
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Header from "@/components/sections/header";
+import MobileNav from "@/components/sections/MobileNav";
 import Footer from "@/components/sections/footer";
 import CardFlip from "@/components/kokonutui/card-flip";
 
@@ -154,6 +155,7 @@ export default function EventsPage() {
 
   return (
     <main className="relative min-h-screen bg-background text-foreground">
+      <MobileNav />
       <Header />
 
       {/* ---------------- HERO SECTION ---------------- */}
@@ -174,7 +176,7 @@ export default function EventsPage() {
       </section>
 
       {/* ---------------- EVENT CARDS ---------------- */}
-      <section 
+      <section
         className="px-4 md:px-8 pb-12 font-bricolage"
         style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
       >
@@ -205,37 +207,37 @@ export default function EventsPage() {
             rel="noopener noreferrer"
             className="relative px-6 py-3 md:px-12 md:py-5 rounded-full block overflow-hidden transform hover:scale-[1.02] transition-transform duration-300"
           >
-             {/* Animated Gradient Border */}
+            {/* Animated Gradient Border */}
             <span className="absolute inset-0 bg-gradient-to-r from-zinc-700 via-white/50 to-zinc-700 p-[1px] rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300">
-               <span className="absolute inset-0 bg-black rounded-full" />
+              <span className="absolute inset-0 bg-black rounded-full" />
             </span>
 
-             {/* Inner Glass Background */}
+            {/* Inner Glass Background */}
             <span className="absolute inset-[1px] rounded-full bg-zinc-950/90 backdrop-blur-xl group-hover:bg-zinc-900/90 transition-colors duration-300" />
-            
-             {/* Highlight Glow */}
-             <span className="absolute top-0 inset-x-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 rounded-t-full transition-opacity duration-500 blur-sm" />
+
+            {/* Highlight Glow */}
+            <span className="absolute top-0 inset-x-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 rounded-t-full transition-opacity duration-500 blur-sm" />
 
             {/* Content Wrapper */}
             <div className="relative flex items-center justify-center gap-3 md:gap-4 z-10">
-               {/* Icon Container */}
+              {/* Icon Container */}
               <div className="p-1.5 md:p-2 bg-gradient-to-b from-zinc-800 to-black rounded-full border border-zinc-700 shadow-inner group-hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-shadow duration-300">
-                 <Download className="w-4 h-4 md:w-5 md:h-5 text-zinc-300 group-hover:text-white transition-colors duration-300" />
+                <Download className="w-4 h-4 md:w-5 md:h-5 text-zinc-300 group-hover:text-white transition-colors duration-300" />
               </div>
 
-               {/* Text */}
-              <span 
+              {/* Text */}
+              <span
                 className="font-bold text-base md:text-xl tracking-wide text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-200 to-zinc-500 group-hover:from-white group-hover:via-white group-hover:to-zinc-300 transition-all font-bricolage"
                 style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
               >
                 Download Brochure
               </span>
-              
+
               <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-zinc-500 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
             </div>
           </a>
-          
-           {/* Reflection / Floor Glow */}
+
+          {/* Reflection / Floor Glow */}
           <div className="absolute -inset-4 bg-gradient-to-r from-transparent via-white/5 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
         </div>
       </div>
@@ -243,13 +245,13 @@ export default function EventsPage() {
       {/* ---------------- MODAL POPUP ---------------- */}
       <AnimatePresence>
         {selectedEvent && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4"
           >
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -267,13 +269,13 @@ export default function EventsPage() {
 
               {/* Header Content */}
               <div className="pt-10 px-6 sm:px-8 pb-4 text-left">
-                <h2 
+                <h2
                   className="text-2xl lg:text-3xl font-medium text-white mb-2 leading-snug font-bricolage"
                   style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
                 >
                   {selectedEvent.title}
                 </h2>
-                <p 
+                <p
                   className="text-zinc-400 text-base font-bricolage"
                   style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
                 >
@@ -302,12 +304,12 @@ export default function EventsPage() {
               <div className="mt-6">
                 <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mb-4" />
                 <div className="px-6 sm:px-8 pb-6 sm:pb-8 pt-2">
-                  <button 
+                  <button
                     onClick={() => setSelectedEvent(null)}
                     className="w-full group relative flex items-center justify-between rounded-xl p-4 bg-zinc-800 hover:bg-zinc-800/80 transition-all duration-300 overflow-hidden cursor-pointer"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <span 
+                    <span
                       className="font-medium text-white relative z-10 transition-colors group-hover:text-orange-400 font-bricolage"
                       style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
                     >

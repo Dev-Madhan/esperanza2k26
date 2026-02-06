@@ -4,17 +4,18 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useAnimationFrame } from 'framer-motion';
 import Footer from '@/components/sections/footer';
 import Header from '@/components/sections/header';
+import MobileNav from '@/components/sections/MobileNav';
 import TeamHero from '@/components/sections/TeamHero';
-import { 
-  Puzzle, 
-  Trophy, 
-  Smile, 
-  Gamepad2, 
-  DoorOpen, 
-  Box, 
-  LayoutGrid, 
-  Hash, 
-  Gem 
+import {
+  Puzzle,
+  Trophy,
+  Smile,
+  Gamepad2,
+  DoorOpen,
+  Box,
+  LayoutGrid,
+  Hash,
+  Gem
 } from 'lucide-react';
 
 
@@ -124,7 +125,7 @@ const teamSections = {
           { name: "Vishnuvaradhan", role: "IT (1st Year)" },
           { name: "Poojith.P", role: "AIDS (1st Year)" },
           { name: "Nishanth.M", role: "AIDS (1st Year)" },
-          
+
         ]
       },
       {
@@ -186,7 +187,7 @@ const teamSections = {
         members: [
           { name: "Yuvashree M", role: "Secretary" },
           { name: "Kathirvel S", role: "Secretary" },
-          { name: "Santhosh", role: "CSBS (Final Year)" }, 
+          { name: "Santhosh", role: "CSBS (Final Year)" },
           { name: "Jeevith K", role: "CSBS (3rd Year)" },
           { name: "Madhan Kumar V", role: "CSBS (3rd Year)" },
           { name: "Aadhira D", role: "CSE (3rd Year)" },
@@ -198,7 +199,7 @@ const teamSections = {
           { name: "Arjun", role: "ECE (2nd Year)" },
         ]
       },
-       {
+      {
         category: "Fashion Club",
         members: [
           { name: "Silvya", role: "Secretary" },
@@ -233,14 +234,14 @@ export default function TeamPage() {
   useAnimationFrame((time, delta) => {
     const container = scrollContainerRef.current;
     if (!container || !isAutoScrolling) return;
-    
-    const speed = 0.15; 
+
+    const speed = 0.15;
     const moveBy = speed * delta;
-    
+
     if (container.scrollTop + container.clientHeight < container.scrollHeight) {
       container.scrollTop += moveBy;
     } else {
-      setIsAutoScrolling(false); 
+      setIsAutoScrolling(false);
     }
   });
 
@@ -299,13 +300,15 @@ export default function TeamPage() {
 
   return (
     <div className="relative min-h-screen bg-black text-white overflow-hidden caret-transparent">
+      <MobileNav />
+      <Header />
       {/* Background gradients */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div 
-          className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[80px]" 
-          style={{ willChange: 'transform' }} 
+        <div
+          className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[80px]"
+          style={{ willChange: 'transform' }}
         />
-        <div 
+        <div
           className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-green-500/5 rounded-full blur-[80px]"
           style={{ willChange: 'transform' }}
         />
@@ -313,10 +316,6 @@ export default function TeamPage() {
 
 
 
-
-
-      {/* Fixed Header with Section Buttons */}
-      <Header isOpaque={true} />
 
 
       {/* Scrollable Container */}
@@ -335,7 +334,7 @@ export default function TeamPage() {
         {/* Controls Overlay */}
         <AnimatePresence>
           {!isAutoScrolling && !isAtBottom && (
-             <motion.button
+            <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
@@ -349,11 +348,11 @@ export default function TeamPage() {
             </motion.button>
           )}
         </AnimatePresence>
-        
+
         <div className="relative z-40 w-full pt-16 pb-8 flex justify-center">
           <div className="max-w-7xl mx-auto px-4 md:px-6 w-full">
-             <TeamHero />
-             
+            <TeamHero />
+
             <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mt-6 md:mt-10 px-2">
               <SectionButton
                 active={activeSection === 'faculty'}
@@ -396,23 +395,23 @@ export default function TeamPage() {
             >
 
               <div className="px-4 md:px-12 max-w-5xl mx-auto relative pb-32 md:pb-48">
-              
-              {/* Credits Roll */}
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.8 }}
-                className="space-y-24 md:space-y-32 font-bricolage"
-              >
-                {currentSection.groups.map((group, gIndex) => (
-                  <CreditSection key={`${activeSection}-${gIndex}`} group={group} index={gIndex} />
-                ))}
-              </motion.div>
+
+                {/* Credits Roll */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1, delay: 0.8 }}
+                  className="space-y-24 md:space-y-32 font-bricolage"
+                >
+                  {currentSection.groups.map((group, gIndex) => (
+                    <CreditSection key={`${activeSection}-${gIndex}`} group={group} index={gIndex} />
+                  ))}
+                </motion.div>
 
               </div>
 
               {/* Attached Footer */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -429,7 +428,7 @@ export default function TeamPage() {
       </div>
 
       {/* Grainy overlay */}
-      <div 
+      <div
         className="fixed inset-0 z-[100] pointer-events-none opacity-[0.15] mix-blend-overlay"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
@@ -442,13 +441,13 @@ export default function TeamPage() {
 
 
 // Section Button Component
-function SectionButton({ 
-  active, 
-  onClick, 
-  children 
-}: { 
-  active: boolean; 
-  onClick: () => void; 
+function SectionButton({
+  active,
+  onClick,
+  children
+}: {
+  active: boolean;
+  onClick: () => void;
   children: React.ReactNode;
 }) {
   return (
@@ -458,14 +457,14 @@ function SectionButton({
         relative px-6 py-3 md:px-8 md:py-3 rounded-full font-medium text-sm md:text-base tracking-wide font-poppins
         transition-all duration-300
         border-2
-        ${active 
-          ? 'border-white text-white bg-transparent' 
+        ${active
+          ? 'border-white text-white bg-transparent'
           : 'border-white/20 text-white/50 hover:border-white/60 hover:text-white'
         }
       `}
     >
       {children}
-      
+
       {active && (
         <motion.div
           layoutId="activeSection"
@@ -478,10 +477,10 @@ function SectionButton({
 }
 
 // CreditSection Component (Sticky Header Style)
-function CreditSection({ 
-  group, 
-  index 
-}: { 
+function CreditSection({
+  group,
+  index
+}: {
   group: { category: string; members: Array<{ name: string; role?: string }> };
   index: number;
 }) {
@@ -490,7 +489,7 @@ function CreditSection({
   const isLeft = index % 2 === 0;
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: "-100px" }}
@@ -498,7 +497,7 @@ function CreditSection({
       className="relative"
     >
       {/* Background Floating Icon for this section */}
-      <FloatingIcon 
+      <FloatingIcon
         Icon={Icon}
         initialX={isLeft ? -200 : 200}
         initialY={0}
@@ -536,17 +535,17 @@ function CreditSection({
   );
 }
 
-function FloatingIcon({ 
-  Icon, 
-  initialX, 
-  initialY, 
-  delay, 
+function FloatingIcon({
+  Icon,
+  initialX,
+  initialY,
+  delay,
   className,
   size = 96
-}: { 
-  Icon: React.ElementType; 
-  initialX: number; 
-  initialY: number; 
+}: {
+  Icon: React.ElementType;
+  initialX: number;
+  initialY: number;
   delay: number;
   className?: string;
   size?: number;
@@ -554,25 +553,25 @@ function FloatingIcon({
   return (
     <motion.div
       initial={{ x: initialX, y: initialY, opacity: 0, rotate: -20 }}
-      animate={{ 
-        x: 0, 
-        y: 0, 
-        opacity: 1, 
+      animate={{
+        x: 0,
+        y: 0,
+        opacity: 1,
         rotate: 0,
         transition: { duration: 1.5, delay, ease: "easeOut" }
       }}
       className={className}
     >
       <motion.div
-        animate={{ 
+        animate={{
           y: [-10, 10, -10],
           rotate: [-5, 5, -5]
         }}
-        transition={{ 
-          duration: 4, 
-          repeat: Infinity, 
+        transition={{
+          duration: 4,
+          repeat: Infinity,
           ease: "easeInOut",
-          delay: Math.random() * 2 
+          delay: Math.random() * 2
         }}
       >
         <Icon size={size} strokeWidth={1} className="w-12 h-12 md:w-24 md:h-24 opacity-50 md:opacity-100" />
