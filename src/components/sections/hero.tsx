@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
@@ -194,6 +195,7 @@ const HeroSection: React.FC = () => {
             duration: MOVE_DUR,
             ease: "power2.out",
             overwrite: "auto",
+            zIndex: 100 // Ensure it stays on top during movement
         });
     }, [isTransitioning]);
 
@@ -209,6 +211,7 @@ const HeroSection: React.FC = () => {
             z: 0,
             duration: LEAVE_DUR,
             ease: "power4.out",
+            zIndex: "auto"
         });
     }, []);
 
@@ -382,9 +385,11 @@ const HeroSection: React.FC = () => {
 
                     {/* Mobile - CTA Buttons Bottom Right */}
                     <div className="sm:hidden absolute bottom-24 right-4 z-40 flex flex-col gap-3 pointer-events-auto">
-                        <button className="px-6 py-2.5 rounded-full border-2 border-white text-white text-xs font-bold uppercase tracking-wider bg-transparent active:scale-95 transition-transform whitespace-nowrap">
-                            EXPLORE EVENTS
-                        </button>
+                        <Link href="/events">
+                            <button className="px-6 py-2.5 rounded-full border-2 border-white text-white text-xs font-bold uppercase tracking-wider bg-transparent active:scale-95 transition-transform whitespace-nowrap">
+                                EXPLORE EVENTS
+                            </button>
+                        </Link>
                         <button className="px-6 py-2.5 rounded-full border-2 border-white text-white text-xs font-bold uppercase tracking-wider bg-transparent active:scale-95 transition-transform whitespace-nowrap">
                             Register Now
                         </button>
@@ -515,12 +520,10 @@ const HeroSection: React.FC = () => {
             {/* Desktop - Action Buttons (Bottom Right) */}
             <div className="hidden sm:flex absolute z-30 items-end sm:items-center justify-end sm:justify-center bottom-[140px] sm:bottom-28 md:bottom-12 right-4 sm:right-0 sm:w-full sm:px-6">
                 <div className="flex flex-col gap-3 sm:gap-4 sm:flex-row">
-                    <button
-                        className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-black px-5 sm:px-8 py-2.5 sm:py-3.5 text-white transition-all duration-300 border border-white/10"
+                    <Link href="/events" className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-black px-5 sm:px-8 py-2.5 sm:py-3.5 text-white transition-all duration-300 border border-white/10"
                         style={{
                             boxShadow: "inset 0 -8px 10px rgba(255,255,255,0.12)"
-                        }}
-                    >
+                        }}>
                         <div className="absolute inset-0 -z-10 group-hover:animate-shimmer bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%]"></div>
 
                         <span className="relative flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-secondary">
@@ -528,7 +531,7 @@ const HeroSection: React.FC = () => {
                         </span>
 
                         <div className="absolute inset-0 rounded-full shadow-[inset_0_0_15px_rgba(156,24,255,0.2)] group-hover:shadow-[inset_0_0_20px_rgba(156,24,255,0.4)] transition-all"></div>
-                    </button>
+                    </Link>
 
                     <button className="bg-black/60 backdrop-blur-md px-5 sm:px-8 py-2.5 sm:py-3.5 rounded-full text-white text-xs sm:text-sm font-bold uppercase tracking-widest border border-white/60 hover:bg-white/10 transition-all duration-300">
                         Register Now
