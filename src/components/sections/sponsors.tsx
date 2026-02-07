@@ -47,9 +47,9 @@ const Sponsors = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={isTitleInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-          className="flex scale-90 flex-col items-center justify-center py-[1rem] font-power text-white"
+          className="flex scale-90 flex-col items-center justify-center py-[1rem] font-bricolage text-white"
         >
-          <h3 className="text-sm md:text-xl lg:text-3xl font-black tracking-tight mb-4 md:mb-8">TITLE SPONSOR</h3>
+          <h3 className="text-sm md:text-xl lg:text-3xl font-black tracking-tight mb-4 md:mb-8 bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">TITLE SPONSOR</h3>
           <motion.div
             className="fade-image px-4 md:px-8 py-4 md:py-8 flex items-center justify-center"
             whileHover={{ scale: 1.05 }}
@@ -87,9 +87,9 @@ const Sponsors = () => {
               initial={{ opacity: 0, y: 80, filter: "blur(10px)" }}
               animate={isSponsorsInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
               transition={{ duration: 0.7, delay: index * 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-              className="flex flex-col items-center justify-center pb-6 md:pb-8 font-power text-white"
+              className="flex flex-col items-center justify-center pb-6 md:pb-8 font-bricolage text-white"
             >
-              <h4 className="pb-2 md:pb-4 text-xs md:text-lg lg:text-2xl font-black tracking-tight">{sponsor.title}</h4>
+              <h4 className="pb-2 md:pb-4 text-xs md:text-lg lg:text-2xl font-black tracking-tight bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">{sponsor.title}</h4>
               <motion.div
                 className="fade-image h-28 md:h-40 lg:h-52 px-4 md:px-8 py-4 md:py-6 flex items-center"
                 whileHover={{ scale: 1.05 }}
@@ -122,9 +122,9 @@ const Sponsors = () => {
           initial={{ opacity: 0 }}
           animate={isSponsorsInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="flex flex-col items-center justify-center pb-10 md:pb-16 font-power text-white"
+          className="flex flex-col items-center justify-center pb-10 md:pb-16 font-bricolage text-white"
         >
-          <h4 className="text-xs md:text-lg lg:text-2xl font-black tracking-tight opacity-80">OTHER SPONSORS</h4>
+          <h4 className="text-xs md:text-lg lg:text-2xl font-black tracking-tight opacity-80 bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">OTHER SPONSORS</h4>
         </motion.section>
       </section>
     </div>

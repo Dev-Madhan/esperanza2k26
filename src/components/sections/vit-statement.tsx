@@ -1,14 +1,17 @@
 "use client";
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const VitStatement = () => {
   const sectionRef = useRef(null);
   const buttonRef = useRef(null);
-  const card1Ref = useRef(null);
-  const card2Ref = useRef(null);
+  const cardsRef = useRef<HTMLDivElement[]>([]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -16,289 +19,237 @@ const VitStatement = () => {
   });
 
   const isButtonInView = useInView(buttonRef, { once: true, amount: 0.8 });
-  const isCard1InView = useInView(card1Ref, { once: true, amount: 0.3 });
-  const isCard2InView = useInView(card2Ref, { once: true, amount: 0.3 });
+  const buttonY = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-  // Parallax effects
-  const buttonY = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const card1Y = useTransform(scrollYProgress, [0, 1], [150, -50]);
-  const card2Y = useTransform(scrollYProgress, [0, 1], [200, -100]);
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      
+      cardsRef.current.forEach((card) => {
+        if (!card) return;
+
+        // 1. Sleek Card Entrance
+        gsap.fromTo(card,
+          { 
+            clipPath: "inset(50% 0 50% 0)",
+            scale: 0.95,
+            opacity: 0
+          },
+          {
+            clipPath: "inset(0% 0 0% 0)",
+            scale: 1,
+            opacity: 1,
+            duration: 1.2,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+            }
+          }
+        );
+
+        // 2. The "Lyrics Reading" Effect
+        const words = card.querySelectorAll('.read-word');
+        if(words.length > 0) {
+          gsap.fromTo(words, 
+            { opacity: 0.2, y: 5, filter: "blur(4px)" },
+            { 
+              opacity: 1, 
+              y: 0,
+              filter: "blur(0px)",
+              stagger: 0.05,
+              duration: 0.4,
+              ease: "power2.out",
+              color: "#ffffff",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 70%",
+                end: "bottom 70%",
+                scrub: 1,
+              }
+            }
+          );
+        }
+
+        // 3. Mouse "Torch" Spotlight Effect
+        const spotlight = card.querySelector('.card-spotlight');
+        const cardContent = card.querySelector('.card-content');
+        
+        const onMouseMove = (e: MouseEvent) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          gsap.to(spotlight, {
+             background: `radial-gradient(400px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 40%)`,
+             duration: 0.3
+          });
+
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -3;
+          const rotateY = ((x - centerX) / centerX) * 3;
+
+          gsap.to(cardContent, {
+             rotateX: rotateX,
+             rotateY: rotateY,
+             transformPerspective: 1000,
+             duration: 0.5,
+             ease: "power2.out"
+          });
+        };
+        
+        const onMouseLeave = () => {
+           gsap.to(spotlight, { background: `radial-gradient(400px circle at 50% 50%, rgba(255,255,255,0), transparent 40%)`, duration: 0.5 });
+           gsap.to(cardContent, { rotateX: 0, rotateY: 0, duration: 0.7, ease: "elastic.out(1, 0.5)" });
+        };
+
+        card.addEventListener('mousemove', onMouseMove);
+        card.addEventListener('mouseleave', onMouseLeave);
+
+      });
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const addToRefs = (el) => {
+    if (el && !cardsRef.current.includes(el)) {
+      cardsRef.current.push(el);
+    }
+  };
+
+  const SplitText = ({ children, className }) => {
+    return children.split(" ").map((word, i) => (
+      <span key={i} className={`read-word inline-block mr-1.5 ${className}`}>
+        {word}
+      </span>
+    ));
+  };
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-[#050505] py-20 md:py-32">
+    <section ref={sectionRef} className="relative overflow-hidden bg-[#050505] py-16 md:py-24">
 
-      {/* Animated Background */}
+      {/* Background Ambience */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{ y: bgY }}
       >
-        {/* Gradient orbs */}
         <div className="absolute top-[10%] left-[10%] w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute bottom-[20%] right-[15%] w-[600px] h-[600px] bg-green-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
         <div className="absolute top-[50%] left-[50%] w-[400px] h-[400px] bg-yellow-500/5 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
       </motion.div>
 
-      {/* Grid pattern overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8">
 
-        {/* Vistara Student Club Button with Magnetic Effect */}
+        {/* Button */}
         <motion.div
           ref={buttonRef}
           style={{ y: buttonY }}
-          className="flex justify-center mb-16 md:mb-24"
+          className="flex justify-center mb-16 md:mb-20"
         >
           <motion.button
             initial={{ opacity: 0, scale: 0.5, rotateX: 90 }}
-            animate={isButtonInView ? {
-              opacity: 1,
-              scale: 1,
-              rotateX: 0,
-            } : {}}
-            transition={{
-              duration: 1.2,
-              ease: [0.34, 1.56, 0.64, 1],
-              opacity: { duration: 0.6 }
-            }}
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 0 60px rgba(138, 43, 226, 0.5)",
-            }}
-            className="group relative animate-shimmer rounded-full border-2 border-slate-400 bg-[linear-gradient(110deg,#000103,45%,#3B1344,55%,#000103)] bg-[length:200%_100%] px-6 py-3 md:px-16 md:py-6 lg:px-32 lg:py-8 font-bricolage text-2xl md:text-4xl lg:text-6xl font-black text-slate-400 transition-all focus:outline-none"
-            style={{
-              fontFamily: "var(--font-bricolage)",
-              letterSpacing: '-0.05em',
-              transformStyle: 'preserve-3d',
-              perspective: '1000px'
-            }}
+            animate={isButtonInView ? { opacity: 1, scale: 1, rotateX: 0 } : {}}
+            transition={{ duration: 1.2, ease: [0.34, 1.56, 0.64, 1] }}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 60px rgba(138, 43, 226, 0.5)" }}
+            className="group relative animate-shimmer rounded-full border-2 border-slate-400 bg-[linear-gradient(110deg,#000103,45%,#3B1344,55%,#000103)] bg-[length:200%_100%] px-6 py-3 md:px-12 md:py-5 lg:px-24 lg:py-6 font-bricolage text-xl md:text-3xl lg:text-5xl font-black text-slate-400 transition-all focus:outline-none"
+            style={{ fontFamily: "var(--font-bricolage)", letterSpacing: '-0.05em', transformStyle: 'preserve-3d' }}
           >
             <span className="relative z-10">Vistara Student Club</span>
-
-            {/* Glow effect on hover */}
-            <motion.div
-              className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/0 via-purple-500/30 to-purple-500/0 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"
-              animate={{
-                x: ['-100%', '100%'],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-            />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/0 via-purple-500/30 to-purple-500/0 opacity-0 group-hover:opacity-100 blur-xl animate-[spin_3s_linear_infinite]" />
           </motion.button>
         </motion.div>
 
-        {/* Cards Grid with Stagger Animation */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+        {/* 2 Unique GSAP Cards with Optimized Spacing */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10">
 
-          {/* Card 1: The Creative Heartbeat */}
-          <motion.div
-            ref={card1Ref}
-            style={{ y: card1Y, transformStyle: 'preserve-3d' }}
-            initial={{ opacity: 0, x: -100, rotateY: -15 }}
-            animate={isCard1InView ? {
-              opacity: 1,
-              x: 0,
-              rotateY: 0
-            } : {}}
-            transition={{
-              duration: 1,
-              ease: [0.25, 0.1, 0.25, 1],
-              delay: 0.2
-            }}
-            whileHover={{
-              y: -10,
-              rotateX: 5,
-              rotateY: -5,
-              transition: { duration: 0.3 }
-            }}
-            className="group relative"
+          {/* Card 1 */}
+          <div ref={addToRefs} className="relative group cursor-default">
+            {/* Spotlight */}
+            <div className="card-spotlight absolute inset-0 z-20 rounded-[1.5rem] pointer-events-none transition-opacity duration-500" />
+            
+            <div className="card-content relative h-full rounded-[1.5rem] border-2 border-white/10 bg-[#0a0a0a]/90 backdrop-blur-xl p-6 md:p-10 overflow-hidden shadow-2xl transition-all duration-500 group-hover:border-[#29B463]/30">
+              
+              <div className="absolute top-0 right-0 w-48 h-48 bg-[#29B463]/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/2" />
 
-          >
-            <div className="relative h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm px-8 py-10 md:px-12 md:py-16 overflow-hidden transition-all duration-300 group-hover:border-[#29B463]/50 group-hover:shadow-[0_20px_60px_-15px_rgba(41,180,99,0.3)]">
+              <div className="relative z-10 flex flex-col h-full gap-6">
+                 <h3 className="text-3xl md:text-4xl lg:text-5xl font-black font-bricolage leading-[0.95] text-white tracking-tighter text-center">
+                   THE CREATIVE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#29B463] to-[#DAF7A5]">HEARTBEAT</span>
+                 </h3>
 
-              {/* Animated gradient overlay */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-[#29B463]/10 via-transparent to-[#DAF7A5]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                animate={{
-                  backgroundPosition: ['0% 0%', '100% 100%'],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  repeatType: 'reverse',
-                }}
-              />
+                 <div className="h-[1px] w-full bg-gradient-to-r from-[#29B463]/50 to-transparent my-1" />
 
-              {/* Floating particles */}
-              <div className="absolute top-10 right-10 w-2 h-2 bg-[#29B463] rounded-full animate-ping" />
-              <div className="absolute bottom-20 left-10 w-1.5 h-1.5 bg-[#DAF7A5] rounded-full animate-ping" style={{ animationDelay: '1s' }} />
-
-              {/* Corner accent */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#29B463]/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-              <div className="relative z-10">
-                <motion.h3
-                  className="mb-6 text-3xl md:text-4xl font-bold text-white group-hover:text-[#29B463] transition-colors duration-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isCard1InView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.4, duration: 0.6 }}
-                >
-                  The Creative Heartbeat
-                </motion.h3>
-
-                <motion.p
-                  className="text-lg md:text-xl leading-relaxed text-gray-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isCard1InView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.6, duration: 0.6 }}
-                >
-                  Vistara is the <span className="text-[#FF5733] font-bold">creative heartbeat</span> of our college. It's a space where talent meets passion and ideas turn into performances. From the stage to the screen, we bring together students who love expressing themselves through art, music, media, and fashion.
-                </motion.p>
-
-                {/* Decorative line */}
-                <motion.div
-                  className="mt-8 h-1 bg-gradient-to-r from-[#29B463] to-transparent rounded-full"
-                  initial={{ scaleX: 0 }}
-                  animate={isCard1InView ? { scaleX: 1 } : {}}
-                  transition={{ delay: 0.8, duration: 0.8 }}
-                  style={{ transformOrigin: 'left' }}
-                />
+                 <p className="text-lg md:text-xl font-bricolage font-medium leading-relaxed text-gray-500">
+                   <SplitText className="text-[#29B463]">Vistara</SplitText>
+                   <SplitText>is the creative heartbeat of our college. It's a space where talent meets passion and ideas turn into performances.</SplitText>
+                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Card 2: Platform to Evolve */}
-          <motion.div
-            ref={card2Ref}
-            style={{ y: card2Y, transformStyle: 'preserve-3d' }}
-            initial={{ opacity: 0, x: 100, rotateY: 15 }}
-            animate={isCard2InView ? {
-              opacity: 1,
-              x: 0,
-              rotateY: 0
-            } : {}}
-            transition={{
-              duration: 1,
-              ease: [0.25, 0.1, 0.25, 1],
-              delay: 0.4
-            }}
-            whileHover={{
-              y: -10,
-              rotateX: 5,
-              rotateY: 5,
-              transition: { duration: 0.3 }
-            }}
-            className="group relative"
+          {/* Card 2 */}
+          <div ref={addToRefs} className="relative group cursor-default">
+             <div className="card-spotlight absolute inset-0 z-20 rounded-[1.5rem] pointer-events-none transition-opacity duration-500" />
+             
+             <div className="card-content relative h-full rounded-[1.5rem] border-2 border-white/10 bg-[#0a0a0a]/90 backdrop-blur-xl p-6 md:p-10 overflow-hidden shadow-2xl transition-all duration-500 group-hover:border-[#FFC300]/30">
+               
+               <div className="absolute top-0 left-0 w-48 h-48 bg-[#FFC300]/10 rounded-full blur-[60px] -translate-y-1/2 -translate-x-1/2" />
 
-          >
-            <div className="relative h-full rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm px-8 py-10 md:px-12 md:py-16 overflow-hidden transition-all duration-300 group-hover:border-[#FFC300]/50 group-hover:shadow-[0_20px_60px_-15px_rgba(255,195,0,0.3)]">
+               <div className="relative z-10 flex flex-col h-full gap-6">
+                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-black font-bricolage leading-[0.95] text-white tracking-tighter text-center">
+                    PLATFORM TO <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFC300] to-[#FF5733]">EVOLVE</span>
+                  </h3>
 
-              {/* Animated gradient overlay */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-bl from-[#FFC300]/10 via-transparent to-[#FF5733]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                animate={{
-                  backgroundPosition: ['0% 0%', '100% 100%'],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  repeatType: 'reverse',
-                }}
-              />
+                  <div className="h-[1px] w-full bg-gradient-to-r from-[#FFC300]/50 to-transparent my-1" />
 
-              {/* Floating particles */}
-              <div className="absolute top-20 right-20 w-2 h-2 bg-[#FFC300] rounded-full animate-ping" />
-              <div className="absolute bottom-10 left-20 w-1.5 h-1.5 bg-[#FF5733] rounded-full animate-ping" style={{ animationDelay: '1.5s' }} />
-
-              {/* Corner accent */}
-              <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-bl from-[#FFC300]/20 to-transparent rounded-br-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-              <div className="relative z-10">
-                <motion.h3
-                  className="mb-6 text-3xl md:text-4xl font-bold text-white group-hover:text-[#FFC300] transition-colors duration-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isCard2InView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.6, duration: 0.6 }}
-                >
-                  Platform to Evolve
-                </motion.h3>
-
-                <motion.p
-                  className="text-lg md:text-xl leading-relaxed text-gray-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isCard2InView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.8, duration: 0.6 }}
-                >
-                  We celebrate creativity in every form — whether it's a <span className="text-[#DAF7A5] font-bold">powerful dance performance</span>, soulful music, stunning designs, or confident stage presence. Vistara is not just a club, it's a platform to showcase, explore, and evolve your talent.
-                </motion.p>
-
-                {/* Decorative line */}
-                <motion.div
-                  className="mt-8 h-1 bg-gradient-to-r from-[#FFC300] to-transparent rounded-full"
-                  initial={{ scaleX: 0 }}
-                  animate={isCard2InView ? { scaleX: 1 } : {}}
-                  transition={{ delay: 1, duration: 0.8 }}
-                  style={{ transformOrigin: 'left' }}
-                />
-              </div>
-            </div>
-          </motion.div>
+                  <p className="text-lg md:text-xl font-bricolage font-medium leading-relaxed text-gray-500">
+                    <SplitText>We celebrate creativity in every form.</SplitText>
+                    <SplitText>Whether it's a</SplitText>
+                    <SplitText className="text-[#FFC300]">powerful performance</SplitText>
+                    <SplitText>, soulful music, or stunning designs.</SplitText>
+                  </p>
+               </div>
+             </div>
+          </div>
 
         </div>
 
-        {/* Vizzy Mascot Section */}
-        <div className="mt-32 relative flex flex-col items-center justify-center perspective-1000">
+        {/* Mascot Section - Optimized Spacing */}
+        <div className="mt-24 relative flex flex-col items-center justify-center perspective-1000">
           <motion.div
-            initial={{ opacity: 0, y: 100 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center mb-10 z-10"
+            className="text-center mb-8 z-10"
           >
-            <h3 className="text-xl md:text-2xl font-bold text-white/60 tracking-[0.2em] mb-2 uppercase">Introducing Our New Mascot</h3>
-            <h2 className="text-6xl md:text-8xl lg:text-9xl font-black font-bricolage text-transparent bg-clip-text bg-gradient-to-r from-[#29B463] via-[#DAF7A5] to-[#29B463] animate-gradient-x drop-shadow-[0_0_15px_rgba(41,180,99,0.5)]">
+            <h3 className="text-lg md:text-xl font-bold tracking-[0.2em] mb-2 uppercase font-bricolage bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">Introducing Our New Mascot</h3>
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-black font-bricolage text-transparent bg-clip-text bg-gradient-to-r from-[#29B463] via-[#DAF7A5] to-[#29B463] animate-gradient-x drop-shadow-[0_0_15px_rgba(41,180,99,0.5)]">
               VIZZY
             </h2>
           </motion.div>
 
-          {/* 3D Mascot Container */}
+          {/* Optimized Mascot Size */}
           <motion.div
             style={{
               rotateY: useTransform(scrollYProgress, [0.5, 1], [30, -30]),
               rotateX: useTransform(scrollYProgress, [0.5, 1], [10, -10]),
               z: useTransform(scrollYProgress, [0.5, 1], [-100, 0]),
-              scale: useTransform(scrollYProgress, [0.5, 1], [0.8, 1.2])
+              scale: useTransform(scrollYProgress, [0.5, 1], [0.8, 1.1])
             }}
-            className="relative w-[400px] h-[600px] md:w-[800px] md:h-[1000px]"
+            className="relative w-[300px] h-[450px] md:w-[600px] md:h-[800px]"
           >
-            {/* Glowing aura behind mascot */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#29B463]/30 to-[#FFC300]/30 rounded-full blur-[80px] animate-pulse" />
-
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#29B463]/30 to-[#FFC300]/30 rounded-full blur-[60px] animate-pulse" />
             <motion.div
-              animate={{
-                y: [0, -20, 0],
-                rotateZ: [-2, 2, -2]
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="relative w-full h-full drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)]"
+              animate={{ y: [0, -15, 0], rotateZ: [-2, 2, -2] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-full h-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
             >
-              <Image
-                src="/mascot.svg"
-                alt="Vizzy Mascot"
-                fill
-                className="object-contain"
-                priority
-              />
-
-              {/* 3D Reflection Effect */}
+              <Image src="/mascot.svg" alt="Vizzy Mascot" fill className="object-contain" priority />
               <div className="absolute -bottom-10 left-[10%] w-[80%] h-4 bg-black/50 blur-xl rounded-[100%]" />
             </motion.div>
           </motion.div>
@@ -307,7 +258,7 @@ const VitStatement = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="mt-12 text-center text-white/50 max-w-2xl text-lg md:text-xl"
+            className="mt-10 text-center text-white/50 max-w-xl text-base md:text-lg font-bricolage"
           >
             The spirit of <span className="text-[#29B463] font-bold">Vistara</span> personified. Vizzy brings the energy, creativity, and vibe of our club to life!
           </motion.p>

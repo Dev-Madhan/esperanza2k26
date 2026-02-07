@@ -41,7 +41,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Esperanza 2k26 - VTMT Cultural Festival",
-  description: "Experience the energy of VTMT's annual cultural festival - MAR 5",
+  description: "Experience the energy of VTMT's annual cultural festival - MAR 6th",
   viewport: "width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes",
 };
 

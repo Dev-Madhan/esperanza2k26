@@ -52,10 +52,10 @@ const DecryptLink = ({ href, text, onClick, index }: { href: string; text: strin
         <Link
             href={href}
             onClick={onClick}
-            className="group relative flex items-center justify-center w-full py-6 border-b border-white/5 overflow-hidden"
+            className="group relative flex items-center justify-center w-full py-4 border-b border-white/5 overflow-hidden"
         >
             <span
-                className={`text-5xl sm:text-6xl font-black font-bricolage tracking-tighter uppercase text-center transition-all duration-300 ${isScrambling ? 'text-white/50 blur-[1px]' : 'text-white group-hover:text-[#29B463] group-hover:scale-110'}`}
+                className={`text-3xl sm:text-4xl font-black font-bricolage tracking-tighter uppercase text-center transition-all duration-300 ${isScrambling ? 'text-white/50 blur-[1px]' : 'text-white group-hover:text-[#29B463] group-hover:scale-110'}`}
                 style={{ fontFamily: 'var(--font-bricolage), sans-serif' }}
             >
                 {displayText}
@@ -134,7 +134,7 @@ const MobileNav = () => {
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black" />
 
                         {/* Content Container */}
-                        <div className="relative flex flex-col h-full w-full max-w-sm mx-auto px-6 py-20 justify-center items-center">
+                        <div className="relative flex flex-col h-full w-full max-w-sm mx-auto px-6 pt-32 pb-20 justify-center items-center">
 
                             {/* Navigation Links */}
                             <nav className="flex flex-col w-full items-center gap-2 mb-12">
