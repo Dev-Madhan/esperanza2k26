@@ -32,7 +32,7 @@ const JuryReveal = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="text-4xl md:text-6xl lg:text-7xl font-black font-bricolage text-white tracking-widest uppercase mb-16"
+                    className="text-4xl md:text-6xl lg:text-7xl font-black font-bricolage tracking-widest uppercase mb-16 bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"
                 >
                     Event Jury
                 </motion.h2>
@@ -46,13 +46,14 @@ const JuryReveal = () => {
                             transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
                             className="flex flex-col items-center gap-4 group"
                         >
-                            <div className="relative w-60 h-60 md:w-60 md:h-60 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden backdrop-blur-sm group-hover:border-purple-500/50 transition-colors duration-300">
+                            <div className="relative w-48 h-48 md:w-60 md:h-60 rounded-2xl bg-white/5 border-2 border-white/10 flex items-center justify-center overflow-hidden backdrop-blur-sm group-hover:border-purple-500/50 transition-colors duration-300">
                                 <div className="absolute inset-0 bg-black/40 z-10" />
                                 <Image
                                     src="/soon.svg"
                                     alt="Revealing Soon"
                                     fill
-                                    className="object-contain p-1 opacity-100 group-hover:opacity-80 transition-opacity duration-300 animate-glow"
+                                    sizes="(max-width: 768px) 192px, 240px"
+                                    className="object-cover rounded-2xl z-20 opacity-100 group-hover:opacity-80 transition-opacity duration-300 animate-glow"
                                 />
                             </div>
 
@@ -60,7 +61,7 @@ const JuryReveal = () => {
                                 <h3 className="text-lg md:text-xl font-bold font-bricolage text-white uppercase tracking-wide mb-1">
                                     {event.title}
                                 </h3>
-                                <span className="text-sm md:text-base font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#29B463] to-[#DAF7A5] uppercase tracking-wider">
+                                <span className="text-sm md:text-base font-medium font-bricolage text-transparent bg-clip-text bg-gradient-to-r from-[#29B463] to-[#DAF7A5] uppercase tracking-wider">
                                     Revealing Soon
                                 </span>
                             </div>
