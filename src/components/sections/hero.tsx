@@ -327,17 +327,6 @@ const HeroSection: React.FC = () => {
                         <source src={videos[nextVideoIndex]} type="video/mp4" />
                     </video>
 
-                    {/* Mobile - Logo Top Left */}
-                    <div className="sm:hidden absolute top-6 left-4 z-50">
-                        <Image
-                            src="/logo.svg"
-                            alt="Esperanza Logo"
-                            width={120}
-                            height={40}
-                            className="w-[120px] h-auto object-contain"
-                        />
-                    </div>
-
                     {/* Mobile Layout - Text Above and Below Center Video */}
                     <div className="sm:hidden absolute inset-0 z-30 flex flex-col items-center justify-center gap-0 px-4 pointer-events-none">
                         {/* ESPERANZA Text Above Video */}

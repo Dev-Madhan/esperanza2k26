@@ -5,7 +5,6 @@ import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
 import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
 import { MenuProvider } from "@/context/MenuContext";
-import { HeaderNavigation } from "@/components/sections/HeaderNavigation";
 
 
 const inter = Inter({
@@ -55,13 +54,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${bricolage.variable} ${manrope.variable} ${anton.variable} ${poppins.variable} antialiased`}>
         <MenuProvider>
-          <HeaderNavigation />
-          <Script
-            id="orchids-browser-logs"
-            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts/orchids-browser-logs.js"
-            strategy="afterInteractive"
-            data-orchids-project-id="94edbd09-30bd-4628-aeb9-93e9fb6900f8"
-          />
           <ErrorReporter />
           <Script
             src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts//route-messenger.js"

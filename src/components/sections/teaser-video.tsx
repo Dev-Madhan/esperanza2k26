@@ -33,12 +33,12 @@ const TeaserVideo = () => {
             transition={{ duration: 1, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             className="see-you-at-vibrance-effect relative font-bricolage font-black tracking-tight leading-[0.85] text-white text-[12vw] sm:text-[11vw] md:text-[14vw] lg:text-[120px] xl:text-[140px] uppercase text-center sm:text-left"
           >
-            <h1
-              className="text-[12vw] lg:text-[120px] font-black tracking-tight leading-none text-left select-none bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] uppercase font-bricolage px-2"
+            <span
+              className="block text-[12vw] lg:text-[120px] font-black tracking-tight leading-none text-left select-none bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] uppercase font-bricolage px-2"
               style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
             >
               Esperanza&apos;26
-            </h1>
+            </span>
           </motion.h2>
         </div>
 

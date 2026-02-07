@@ -39,17 +39,6 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
         {/* Mobile Logo */}
-        <a className="md:hidden" href="/">
-          <Image
-            src={logoUrl}
-            alt="Vibrance Logo"
-            width={100}
-            height={100}
-            className="-ml-[5px] h-auto w-[150px]"
-            priority
-          />
-        </a>
-
         {/* Desktop Navigation */}
         <nav className="hidden w-full items-center justify-center md:flex lg:flex">
           <div className="flex flex-1 justify-end items-center gap-2 lg:gap-4">

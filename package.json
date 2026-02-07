@@ -1,6 +1,6 @@
 {
-    "name": "app",
-    "version": "0.1.0",
+    "name": "Esperanza",
+    "version": "2k26",
     "private": true,
     "scripts": {
         "dev": "next dev --turbopack",
@@ -108,6 +108,7 @@
         "@types/react-dom": "^19",
         "@types/react-syntax-highlighter": "^15.5.13",
         "@types/three": "^0.178.0",
+        "baseline-browser-mapping": "^2.9.19",
         "eslint": "^9.38.0",
         "eslint-config-next": "^16.1.6",
         "tailwindcss": "^4",
