@@ -526,7 +526,7 @@ const HeroSection: React.FC = () => {
             {/* Desktop - VSC Logo (Top Right) */}
             <div className="hidden sm:block absolute z-50 top-5 right-5 sm:top-1 sm:right-1">
                 <Image
-                    src="/vsc.svg"
+                    src="/VSC.svg"
                     alt="VSC Logo"
                     width={250}
                     height={100}
