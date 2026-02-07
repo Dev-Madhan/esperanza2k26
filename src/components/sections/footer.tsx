@@ -39,25 +39,20 @@ const Footer = ({ onBackToTop }: { onBackToTop?: () => void }) => {
 
   const socialAssets = [
     {
-      name: 'Facebook',
-      url: 'https://www.facebook.com/VibranceVIT/',
-      icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/svgs/fb-colored_5fd5ff7a-13.svg'
+      name: 'vistara',
+      url: 'https://www.instagram.com/vistara_vtmt/',
+      icon: '/vistara.svg'
     },
     {
       name: 'Instagram',
-      url: 'https://www.instagram.com/vibrancevitchennai/',
+      url: 'http://instagram.com/esperanza_2k26_/',
       icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/svgs/insta-colored_b7ce9091-14.svg'
     },
     {
-      name: 'YouTube',
-      url: 'https://www.youtube.com/@VITChennaic',
-      icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/94edbd09-30bd-4628-aeb9-93e9fb6900f8-vitvibrance-com/assets/svgs/yt-colored_c7245b5d-15.svg'
+      name: 'vtmt',
+      url: 'https://www.veltechmultitech.org/',
+      icon: '/vtmt.ico'
     },
-    {
-      name: 'X',
-      url: 'https://x.com/vibrancevit',
-      icon: 'https://vitvibrance.com/_next/static/media/X.8c0fc61f.svg'
-    }
   ];
 
   return (
@@ -139,12 +134,6 @@ const Footer = ({ onBackToTop }: { onBackToTop?: () => void }) => {
               >
                 esperanza@veltechmultitech.org
               </motion.a>
-              <motion.p
-                className="text-base md:text-xl font-light text-white/60 tracking-wide font-bricolage"
-                style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
-              >
-                +91 123456789
-              </motion.p>
             </div>
           </motion.div>
 

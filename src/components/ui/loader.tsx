@@ -17,14 +17,14 @@ const Star = ({ filled }: { filled: boolean }) => {
         className="w-full h-full overflow-visible"
         style={{
           // Subtle bloom peak only when filled
-          filter: filled ? 'drop-shadow(0 0 8px rgba(255,255,255,0.4))' : 'none',
+          filter: filled ? 'drop-shadow(0 0 8px rgba(124,58,237,0.4))' : 'none',
           transition: 'filter 0.12s ease-out'
         }}
       >
         <path
           d="M12 1.5L14.5 9.5H22.5L16 14.5L18.5 22.5L12 17.5L5.5 22.5L8 14.5L1.5 9.5H9.5L12 1.5Z" /* Sharp 5-point star path */
-          fill={filled ? "white" : "transparent"}
-          stroke="white"
+          fill={filled ? "#7c3aed" : "transparent"}
+          stroke="#7c3aed"
           strokeWidth="1.5"
           strokeLinejoin="miter"
           style={{ transition: 'fill 0.22s cubic-bezier(0, 0, 0.2, 1)' }} // Fast start, smooth settle
@@ -79,7 +79,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#101010] overflow-hidden"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black overflow-hidden"
         >
           {/* Very Subtle Vignette & Grain */}
           <div className="absolute inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
@@ -107,6 +107,7 @@ const Loader: React.FC<LoaderProps> = ({ onLoadingComplete }) => {
                 width={300}
                 height={100}
                 className="w-full h-auto object-contain"
+                style={{ filter: 'drop-shadow(0 0 10px rgba(124, 58, 237, 0.7))' }}
                 priority
               />
             </motion.div>

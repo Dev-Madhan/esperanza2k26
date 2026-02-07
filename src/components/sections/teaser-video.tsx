@@ -16,7 +16,7 @@ const TeaserVideo = () => {
   const videoY = useTransform(scrollYProgress, [0, 1], [80, -80]);
 
   return (
-    <section ref={sectionRef} className="bg-[#131313] w-full overflow-hidden">
+    <section ref={sectionRef} className="bg-black w-full overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-12 lg:px-40 py-8 sm:py-12 md:py-16">
         <div className="mb-4 sm:mb-6 md:mb-10">
           <motion.h3

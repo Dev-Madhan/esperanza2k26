@@ -46,7 +46,7 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
               <a
                 key={link.name}
                 href={link.href}
-                className={`px-2 py-2 text-[21px] transition duration-300 ease-in-out hover:scale-[110%] lg:px-3 text-white ${link.weight} ${link.extraClasses || ""} font-bricolage`}
+                className={`px-2 py-2 text-[21px] transition duration-300 ease-in-out hover:scale-[110%] hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] lg:px-3 text-white ${link.weight} ${link.extraClasses || ""} font-bricolage`}
               >
                 {link.name}
               </a>
@@ -73,7 +73,7 @@ const Header = ({ isOpaque = false }: HeaderProps) => {
               <a
                 key={link.name}
                 href={link.href}
-                className={`px-2 py-2 text-[21px] transition duration-300 ease-in-out hover:scale-[110%] lg:px-3 text-white ${link.weight} font-bricolage`}
+                className={`px-2 py-2 text-[21px] transition duration-300 ease-in-out hover:scale-[110%] hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] lg:px-3 text-white ${link.weight} font-bricolage`}
               >
                 {link.name}
               </a>

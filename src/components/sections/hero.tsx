@@ -524,13 +524,13 @@ const HeroSection: React.FC = () => {
             </div>
 
             {/* Desktop - VSC Logo (Top Right) */}
-            <div className="hidden sm:block absolute z-50 top-1 right-1 sm:top-1 sm:right-1">
+            <div className="hidden sm:block absolute z-50 top-5 right-5 sm:top-1 sm:right-1">
                 <Image
                     src="/vsc.svg"
                     alt="VSC Logo"
-                    width={200}
-                    height={85}
-                    className="w-16 h-16 sm:w-[200px] sm:h-[85px] object-contain opacity-90 hover:opacity-100 transition-opacity"
+                    width={250}
+                    height={100}
+                    className="w-20 h-20 sm:w-[250px] sm:h-[100px] object-contain opacity-90 hover:opacity-100 transition-opacity"
                 />
             </div>
 

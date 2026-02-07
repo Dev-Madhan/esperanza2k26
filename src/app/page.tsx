@@ -5,8 +5,9 @@ import Header from "@/components/sections/header";
 import MobileNav from "@/components/sections/MobileNav";
 import HeroSection from "@/components/sections/hero";
 import IntroTextSection from "@/components/sections/intro-text";
+import JuryReveal from "@/components/sections/jury-reveal";
 import TeaserVideo from "@/components/sections/teaser-video";
-import VitStatement from "@/components/sections/vit-statement";
+import Vistara from "@/components/sections/vistara";
 import Sponsors from "@/components/sections/sponsors";
 import Inauguration from "@/components/sections/inauguration";
 import Valedictory from "@/components/sections/valedictory";
@@ -28,8 +29,9 @@ export default function Home() {
         <Header />
         <HeroSection />
         <IntroTextSection />
+        <JuryReveal />
         <TeaserVideo />
-        <VitStatement />
+        <Vistara />
         <Sponsors />
         <Footer />
       </main>

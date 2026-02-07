@@ -1,17 +1,69 @@
 "use client";
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const VitStatement = () => {
+const Vistara = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
+
+  const [currentMascotIndex, setCurrentMascotIndex] = useState(0);
+  const mascotImages = [
+    "/mascot/mascot_normal_shadow.svg",
+    "/mascot/mascot_hi_shadow.svg",
+    "/mascot/mascot_party_shadow.svg"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Increment to cycle normally (0 -> 1 -> 2 -> 0)
+      // This ensures "Party" (index 2) hits center after "Hi" (index 1)
+      setCurrentMascotIndex((prev) => (prev + 1) % mascotImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const getMascotExploreProps = (index: number) => {
+    // Calculate relative position based on current index
+    // 0 = center, 1 = right, 2 = left (in a 3-item array)
+    const position = (index - currentMascotIndex + mascotImages.length) % mascotImages.length;
+
+    if (position === 0) {
+      // Center
+      return {
+        x: '0%',
+        scale: 1,
+        opacity: 1,
+        filter: 'blur(0px)',
+        zIndex: 20
+      };
+    } else if (position === 1) {
+      // Right
+      return {
+        x: '110%',
+        scale: 0.7,
+        opacity: 0.6,
+        filter: 'blur(4px)',
+        zIndex: 10
+      };
+    } else {
+      // Left (position === 2 or -1 equivalent)
+      return {
+        x: '-110%',
+        scale: 0.7,
+        opacity: 0.6,
+        filter: 'blur(4px)',
+        zIndex: 10
+      };
+    }
+  };
+
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -257,39 +309,36 @@ const VitStatement = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-center mb-8 z-10"
           >
-            <h3 className="text-lg md:text-xl font-bold tracking-[0.2em] mb-2 uppercase font-bricolage bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">Introducing Our New Mascot</h3>
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-black font-bricolage text-transparent bg-clip-text bg-gradient-to-r from-[#29B463] via-[#DAF7A5] to-[#29B463] animate-gradient-x drop-shadow-[0_0_15px_rgba(41,180,99,0.5)]">
-              VIZZY
+            <h3 className="text-lg md:text-xl font-bold tracking-[0.2em] mb-2 uppercase font-bricolage bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">Guess Who is Coming?</h3>
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-black font-bricolage text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-300 to-indigo-400 animate-gradient-x drop-shadow-[0_0_15px_rgba(124,58,237,0.5)]">
+              ???
             </h2>
           </motion.div>
 
           {/* Optimized Mascot Size */}
           <motion.div
-            style={{
-              rotateY: useTransform(scrollYProgress, [0.5, 1], [30, -30]),
-              rotateX: useTransform(scrollYProgress, [0.5, 1], [10, -10]),
-              z: useTransform(scrollYProgress, [0.5, 1], [-100, 0]),
-              scale: useTransform(scrollYProgress, [0.5, 1], [0.8, 1.1])
-            }}
             className="relative w-[300px] h-[450px] md:w-[600px] md:h-[800px]"
           >
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#29B463]/30 to-[#FFC300]/30 rounded-full blur-[60px] animate-pulse" />
-            <motion.div
-              animate={{ y: [0, -15, 0], rotateZ: [-2, 2, -2] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="relative w-full h-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
-            >
-              <Image
-                src="/mascot/mascot%20hi.svg"
-                alt="Vizzy Mascot"
-                fill
-                className="object-contain"
-                priority
-              />
-
-              {/* 3D Reflection Effect */}
-              <div className="absolute -bottom-10 left-[10%] w-[80%] h-4 bg-black/50 blur-xl rounded-[100%]" />
-            </motion.div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/30 to-indigo-600/30 rounded-full blur-[60px] animate-pulse" />
+            <div className="relative w-full h-full flex items-center justify-center">
+              {mascotImages.map((src, index) => (
+                <motion.div
+                  key={index}
+                  className="absolute w-full h-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] origin-bottom"
+                  animate={getMascotExploreProps(index)}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                >
+                  <Image
+                    src={src}
+                    alt={`Vizzy Mascot ${index}`}
+                    fill
+                    className="object-contain"
+                    priority={index === currentMascotIndex}
+                  />
+                  <div className="absolute -bottom-10 left-[10%] w-[80%] h-4 bg-black/50 blur-xl rounded-[100%]" />
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
 
           <motion.p
@@ -298,7 +347,7 @@ const VitStatement = () => {
             transition={{ delay: 0.5 }}
             className="mt-10 text-center text-white/50 max-w-xl text-base md:text-lg font-bricolage"
           >
-            The spirit of <span className="text-[#29B463] font-bold">Vistara</span> personified. Vizzy brings the energy, creativity, and vibe of our club to life!
+            Be Awaited...
           </motion.p>
         </div>
 
@@ -307,4 +356,4 @@ const VitStatement = () => {
   );
 };
 
-export default VitStatement;
+export default Vistara;

@@ -27,14 +27,14 @@ const IntroTextSection: React.FC = () => {
     <section
       id="intro-section"
       ref={containerRef}
-      className="relative bg-[#0A0A0A]"
+      className="relative bg-black"
       style={{ height: `${totalItems * 100}vh` }}
     >
       {/* Sticky container */}
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 
         {/* Background gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#1a1a1a_0%,#000000_100%)] opacity-60" />
+        <div className="absolute inset-0 bg-purple-600/10 rounded-full blur-[100px] opacity-100" />
 
         {/* Text Container with 3D perspective */}
         <div
