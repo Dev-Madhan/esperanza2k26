@@ -9,8 +9,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const VitStatement = () => {
-  const sectionRef = useRef(null);
-  const buttonRef = useRef(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
 
   const { scrollYProgress } = useScroll({
@@ -70,43 +70,6 @@ const VitStatement = () => {
             }
           );
         }
-
-        // 3. Mouse "Torch" Spotlight Effect
-        const spotlight = card.querySelector('.card-spotlight');
-        const cardContent = card.querySelector('.card-content');
-        
-        const onMouseMove = (e: MouseEvent) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-
-          gsap.to(spotlight, {
-             background: `radial-gradient(400px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 40%)`,
-             duration: 0.3
-          });
-
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          const rotateX = ((y - centerY) / centerY) * -3;
-          const rotateY = ((x - centerX) / centerX) * 3;
-
-          gsap.to(cardContent, {
-             rotateX: rotateX,
-             rotateY: rotateY,
-             transformPerspective: 1000,
-             duration: 0.5,
-             ease: "power2.out"
-          });
-        };
-        
-        const onMouseLeave = () => {
-           gsap.to(spotlight, { background: `radial-gradient(400px circle at 50% 50%, rgba(255,255,255,0), transparent 40%)`, duration: 0.5 });
-           gsap.to(cardContent, { rotateX: 0, rotateY: 0, duration: 0.7, ease: "elastic.out(1, 0.5)" });
-        };
-
-        card.addEventListener('mousemove', onMouseMove);
-        card.addEventListener('mouseleave', onMouseLeave);
-
       });
 
     }, sectionRef);
@@ -114,18 +77,75 @@ const VitStatement = () => {
     return () => ctx.revert();
   }, []);
 
-  const addToRefs = (el) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const spotlight = card.querySelector('.card-spotlight');
+    const cardContent = card.querySelector('.card-content');
+
+    if (spotlight) {
+      gsap.to(spotlight, {
+        background: `radial-gradient(400px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 40%)`,
+        duration: 0.3
+      });
+    }
+
+    if (cardContent) {
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -3;
+      const rotateY = ((x - centerX) / centerX) * 3;
+
+      gsap.to(cardContent, {
+        rotateX: rotateX,
+        rotateY: rotateY,
+        transformPerspective: 1000,
+        duration: 0.5,
+        ease: "power2.out"
+      });
+    }
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const spotlight = card.querySelector('.card-spotlight');
+    const cardContent = card.querySelector('.card-content');
+
+    if (spotlight) {
+      gsap.to(spotlight, { 
+        background: `radial-gradient(400px circle at 50% 50%, rgba(255,255,255,0), transparent 40%)`, 
+        duration: 0.5 
+      });
+    }
+    if (cardContent) {
+      gsap.to(cardContent, { 
+        rotateX: 0, 
+        rotateY: 0, 
+        duration: 0.7, 
+        ease: "elastic.out(1, 0.5)" 
+      });
+    }
+  };
+
+  const addToRefs = (el: HTMLDivElement | null) => {
     if (el && !cardsRef.current.includes(el)) {
       cardsRef.current.push(el);
     }
   };
 
-  const SplitText = ({ children, className }) => {
-    return children.split(" ").map((word, i) => (
-      <span key={i} className={`read-word inline-block mr-1.5 ${className}`}>
-        {word}
-      </span>
-    ));
+  const SplitText = ({ children, className }: { children: string; className?: string }) => {
+    return (
+      <>
+        {children.split(" ").map((word, i) => (
+          <span key={i} className={`read-word inline-block mr-1.5 ${className || ''}`}>
+            {word}
+          </span>
+        ))}
+      </>
+    );
   };
 
   return (
@@ -168,7 +188,12 @@ const VitStatement = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10">
 
           {/* Card 1 */}
-          <div ref={addToRefs} className="relative group cursor-default">
+          <div 
+            ref={addToRefs} 
+            className="relative group cursor-default"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
             {/* Spotlight */}
             <div className="card-spotlight absolute inset-0 z-20 rounded-[1.5rem] pointer-events-none transition-opacity duration-500" />
             
@@ -192,7 +217,12 @@ const VitStatement = () => {
           </div>
 
           {/* Card 2 */}
-          <div ref={addToRefs} className="relative group cursor-default">
+          <div 
+            ref={addToRefs} 
+            className="relative group cursor-default"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
              <div className="card-spotlight absolute inset-0 z-20 rounded-[1.5rem] pointer-events-none transition-opacity duration-500" />
              
              <div className="card-content relative h-full rounded-[1.5rem] border-2 border-white/10 bg-[#0a0a0a]/90 backdrop-blur-xl p-6 md:p-10 overflow-hidden shadow-2xl transition-all duration-500 group-hover:border-[#FFC300]/30">
@@ -219,7 +249,7 @@ const VitStatement = () => {
         </div>
 
         {/* Mascot Section - Optimized Spacing */}
-        <div className="mt-24 relative flex flex-col items-center justify-center perspective-1000">
+        <div className="mt-24 relative flex flex-col items-center justify-center [perspective:1000px]">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
