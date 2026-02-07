@@ -26,7 +26,7 @@ export default function TeamHero() {
         className="relative z-10 text-center px-4"
       >
         <h1 
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight font-bricolage text-white" 
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight font-bricolage bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]" 
           style={{ 
             fontFamily: '"Bricolage Grotesque", sans-serif' 
           }}
