@@ -291,7 +291,7 @@ const VitStatement = () => {
               className="relative w-full h-full drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)]"
             >
               <Image
-                src="/mascot.svg"
+                src="/mascot/mascot%20hi.svg"
                 alt="Vizzy Mascot"
                 fill
                 className="object-contain"
