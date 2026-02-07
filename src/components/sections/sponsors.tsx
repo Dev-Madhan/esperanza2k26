@@ -30,13 +30,13 @@ const Sponsors = () => {
     <div className="my-8 min-h-screen w-full overflow-hidden bg-background" id="sponsors">
       <InfiniteRibbon words={marqueeItems} />
 
-      <section ref={sectionRef} className="pb-[1rem] pt-[4rem] md:pt-[7rem] px-4">
+      <section ref={sectionRef} className="pb-[1rem] pt-[4rem] md:pt-[7rem] px-2">
         <motion.h2
           ref={titleRef}
           initial={{ opacity: 0, y: 60, filter: "blur(10px)" }}
           animate={isTitleInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] flex justify-center text-center font-bricolage text-2xl md:text-4xl lg:text-5xl font-black mb-8 md:mb-12 tracking-tighter"
+          className="bg-gradient-to-b from-white via-[#C0C0C0] to-[#505050] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] flex justify-center text-center font-bricolage text-2xl md:text-4xl lg:text-5xl font-black mb-8 md:mb-8 tracking-tighter"
           style={{ fontFamily: '"Bricolage Grotesque", sans-serif' }}
         >
           OUR SPONSORS
@@ -55,7 +55,7 @@ const Sponsors = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="w-32 md:w-48 lg:w-72 h-32 md:h-48 lg:h-72 rounded-2xl border-2 border-dashed border-white/30 bg-white/5 backdrop-blur-sm flex flex-col items-center justify-center gap-3 md:gap-4">
+            <div className="w-32 md:w-48 lg:w-72 h-32 md:h-48 lg:h-72 rounded-2xl border-2 border-dashed border-white/30 bg-white/5 backdrop-blur-sm flex flex-col items-center justify-center gap-3 md:gap-4 ">
               <motion.div
                 animate={{
                   scale: [1, 1.1, 1],

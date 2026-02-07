@@ -14,7 +14,7 @@ interface InfiniteRibbonProps {
 const Ribbon = ({ texts, rotation = 0, direction = "left", className = "", backgroundColor = "bg-white" }: InfiniteRibbonProps) => {
     return (
         <div
-            className={`absolute left-0 w-[120%] -ml-[10%] flex overflow-hidden py-3 text-black shadow-lg ${className} ${backgroundColor}`}
+            className={`absolute left-0 w-[150%] -ml-[25%] flex overflow-hidden py-3 text-black shadow-lg ${className} ${backgroundColor}`}
             style={{
                 transform: `rotate(${rotation}deg)`,
                 zIndex: 10,
@@ -64,9 +64,9 @@ interface InfiniteCrossedRibbonsProps {
 
 export const InfiniteRibbon = ({ words }: InfiniteCrossedRibbonsProps) => {
     return (
-        <div className="relative w-full h-[120px] md:h-[200px] overflow-hidden flex items-center justify-center my-6 md:my-10">
-            <Ribbon texts={words} rotation={10} direction="left" backgroundColor="bg-gradient-to-r from-purple-400 to-white" />
-            <Ribbon texts={words} rotation={-10} direction="right" backgroundColor="bg-gradient-to-r from-white to-purple-400" />
+        <div className="relative w-full h-[120px] md:h-[180px] overflow-hidden flex items-center justify-center my-6 md:my-10">
+            <Ribbon texts={words} rotation={5} direction="left" backgroundColor="bg-gradient-to-r from-purple-400 to-white" />
+            <Ribbon texts={words} rotation={-5} direction="right" backgroundColor="bg-gradient-to-r from-white to-purple-400" />
         </div>
     );
 };
