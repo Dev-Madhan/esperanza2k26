@@ -65,8 +65,8 @@ interface InfiniteCrossedRibbonsProps {
 export const InfiniteRibbon = ({ words }: InfiniteCrossedRibbonsProps) => {
     return (
         <div className="relative w-full h-[120px] md:h-[200px] overflow-hidden flex items-center justify-center my-6 md:my-10">
-            <Ribbon texts={words} rotation={3} direction="left" backgroundColor="bg-gradient-to-r from-purple-400 to-white" />
-            <Ribbon texts={words} rotation={-3} direction="right" backgroundColor="bg-gradient-to-r from-white to-purple-400" />
+            <Ribbon texts={words} rotation={10} direction="left" backgroundColor="bg-gradient-to-r from-purple-400 to-white" />
+            <Ribbon texts={words} rotation={-10} direction="right" backgroundColor="bg-gradient-to-r from-white to-purple-400" />
         </div>
     );
 };
