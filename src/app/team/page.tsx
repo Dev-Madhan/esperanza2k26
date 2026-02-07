@@ -25,7 +25,7 @@ const teamSections = {
     title: "Faculty Coordinators",
     groups: [
       {
-        category: "Faculty Coordinators",
+        category: "",
         members: [
           { name: "Dr. Muthukumar"},
           { name: "Dr. Selvam"},
@@ -221,7 +221,6 @@ const teamSections = {
 type SectionKey = 'faculty' | 'students' | 'vistara';
 
 export default function TeamPage() {
-  const [activeSection, setActiveSection] = useState<'faculty' | 'students' | 'vistara'>('faculty');
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
   const [isAtBottom, setIsAtBottom] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -245,20 +244,8 @@ export default function TeamPage() {
     }
   });
 
-  // Start scrolling after delay
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsAutoScrolling(true);
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, [activeSection]);
+  // Reset scroll to top when section changes is no longer needed
 
-  // Reset scroll to top when section changes
-  useEffect(() => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'instant' });
-    }
-  }, [activeSection]);
 
   // Handle manual interaction: Pause, then Auto-Resume
   const handleInteraction = () => {
@@ -296,22 +283,22 @@ export default function TeamPage() {
 
 
 
-  const currentSection = teamSections[activeSection];
+  // Start scrolling after delay (once on mount)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAutoScrolling(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []); // Run only once
+
+  const sections: SectionKey[] = ['faculty', 'students', 'vistara'];
 
   return (
     <div className="relative min-h-screen bg-black text-white overflow-hidden caret-transparent">
       <MobileNav />
       <Header />
-      {/* Background gradients */}
+      {/* Background gradients removed for complete black background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div
-          className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[80px]"
-          style={{ willChange: 'transform' }}
-        />
-        <div
-          className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-green-500/5 rounded-full blur-[80px]"
-          style={{ willChange: 'transform' }}
-        />
       </div>
 
 
@@ -353,26 +340,7 @@ export default function TeamPage() {
           <div className="max-w-7xl mx-auto px-4 md:px-6 w-full">
             <TeamHero />
 
-            <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mt-6 md:mt-10 px-2">
-              <SectionButton
-                active={activeSection === 'faculty'}
-                onClick={() => setActiveSection('faculty')}
-              >
-                Faculty Coordinators
-              </SectionButton>
-              <SectionButton
-                active={activeSection === 'students'}
-                onClick={() => setActiveSection('students')}
-              >
-                Student Coordinators
-              </SectionButton>
-              <SectionButton
-                active={activeSection === 'vistara'}
-                onClick={() => setActiveSection('vistara')}
-              >
-                Vistara Club Members
-              </SectionButton>
-            </div>
+
           </div>
         </div>
 
@@ -384,30 +352,53 @@ export default function TeamPage() {
           ref={contentRef}
           className="relative"
         >
-          <AnimatePresence mode="wait">
             <motion.div
-              key={activeSection}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
               className="w-full relative"
             >
 
               <div className="px-4 md:px-12 max-w-5xl mx-auto relative pb-32 md:pb-48">
 
-                {/* Credits Roll */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 1, delay: 0.8 }}
-                  className="space-y-24 md:space-y-32 font-bricolage"
-                >
-                  {currentSection.groups.map((group, gIndex) => (
-                    <CreditSection key={`${activeSection}-${gIndex}`} group={group} index={gIndex} />
-                  ))}
-                </motion.div>
+                 {/* Credits Roll */}
+                 <motion.div
+                   initial={{ opacity: 0 }}
+                   animate={{ opacity: 1 }}
+                   transition={{ duration: 0.5, delay: 0.2 }}
+                   className="space-y-16 md:space-y-24 font-bricolage"
+                 >
+                  {sections.map((sectionKey, sIndex) => {
+                    const sectionData = teamSections[sectionKey];
+                    return (
 
+                        <div key={sectionKey} className="relative">
+                             {/* Main Section Title */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    className="relative z-20 py-6 mb-12 md:mb-16"
+                                >
+                                    <h2 className="text-3xl md:text-5xl font-black text-center text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 uppercase tracking-widest font-bricolage">
+                                        {sectionData.title}
+                                    </h2>
+                                </motion.div>
+
+                             <div className="space-y-16 md:space-y-24">
+                                {sectionData.groups.map((group, gIndex) => (
+                                    <CreditSection 
+                                        key={`${sectionKey}-${gIndex}`} 
+                                        group={group} 
+                                        // Use a calculated index to keep alternating sides somewhat consistent across sections
+                                        index={(sIndex * 10) + gIndex} 
+                                    />
+                                ))}
+                             </div>
+                        </div>
+                    );
+                  })}
+                </motion.div>
               </div>
 
               {/* Attached Footer */}
@@ -421,7 +412,6 @@ export default function TeamPage() {
                 <Footer onBackToTop={() => scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })} />
               </motion.div>
             </motion.div>
-          </AnimatePresence>
         </motion.div>
 
 
@@ -440,41 +430,7 @@ export default function TeamPage() {
 
 
 
-// Section Button Component
-function SectionButton({
-  active,
-  onClick,
-  children
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={`
-        relative px-6 py-3 md:px-8 md:py-3 rounded-full font-medium text-sm md:text-base tracking-wide font-poppins
-        transition-all duration-300
-        border-2
-        ${active
-          ? 'border-white text-white bg-transparent'
-          : 'border-white/20 text-white/50 hover:border-white/60 hover:text-white'
-        }
-      `}
-    >
-      {children}
 
-      {active && (
-        <motion.div
-          layoutId="activeSection"
-          className="absolute inset-0 rounded-full border border-white -z-10"
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        />
-      )}
-    </button>
-  );
-}
 
 // CreditSection Component (Sticky Header Style)
 function CreditSection({
@@ -506,14 +462,16 @@ function CreditSection({
         size={32}
       />
       {/* Category Header (No longer sticky) */}
-      <div className="relative z-20 py-4 md:py-6 mb-8 md:mb-12 mix-blend-difference">
-        <h3 className="text-2xl md:text-4xl font-bold text-white/90 uppercase tracking-wider text-center">
-          {group.category}
-        </h3>
-      </div>
+      {group.category && (
+        <div className="relative z-20 mb-6 md:mb-10 mix-blend-difference">
+            <h3 className="text-xl md:text-3xl font-bold text-white/90 uppercase tracking-wider text-center">
+            {group.category}
+            </h3>
+        </div>
+      )}
 
       {/* Member Names - Continuous Flow */}
-      <div className="space-y-5 md:space-y-8">
+      <div className="space-y-4 md:space-y-6">
         {group.members.map((member, mIndex) => (
           <motion.div
             key={`${member.name}-${mIndex}`}

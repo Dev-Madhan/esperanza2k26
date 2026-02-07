@@ -103,7 +103,7 @@ const IntroTextSection: React.FC = () => {
                   }}
                 >
                   <h2
-                    className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl leading-tight font-bricolage bg-gradient-to-b from-white via-[#E9D5FF] to-[#A855F7] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(168,85,247,0.15)]"
+                    className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl leading-tight font-bricolage bg-gradient-to-b from-white via-[#E9D5FF] to-[#A855F7] bg-clip-text text-transparent mix-blend-screen drop-shadow-[0_0_30px_rgba(168,85,247,0.15)]"
                   >
                     {item.text}
                   </h2>
