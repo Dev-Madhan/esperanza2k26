@@ -81,6 +81,7 @@ const teamSections = {
         category: "Comparing Club Secretary",
         members: [
           { name: "Shivani A" },
+          { name: "Thilakavathy P" },
         ]
       },
     ]
